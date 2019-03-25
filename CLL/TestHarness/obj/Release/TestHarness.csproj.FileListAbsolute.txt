@@ -1,0 +1,8 @@
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\TestHarness\bin\Release\TestHarness.exe.config
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\TestHarness\obj\Release\TestHarness.csprojResolveAssemblyReference.cache
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\TestHarness\bin\Release\TestHarness.exe
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\TestHarness\bin\Release\TestHarness.pdb
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\TestHarness\bin\Release\CLL.dll
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\TestHarness\bin\Release\CLL.pdb
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\TestHarness\obj\Release\TestHarness.exe
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\TestHarness\obj\Release\TestHarness.pdb

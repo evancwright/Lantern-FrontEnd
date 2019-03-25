@@ -1,0 +1,14 @@
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\Checks.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\Code.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\Expression.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\ExpressionBuilder.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\Form1.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\Form1.Designer.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\Game.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\Program.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\Properties\AssemblyInfo.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\Properties\Resources.Designer.cs
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\Properties\Settings.Designer.cs

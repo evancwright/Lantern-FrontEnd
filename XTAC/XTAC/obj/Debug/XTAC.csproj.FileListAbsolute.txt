@@ -1,0 +1,49 @@
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\Lantern.exe.config
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\Lantern.exe
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\Lantern.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\GameTables.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\IGame.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\PlayerLib.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\XmlToAdv.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\CLL.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\GameTables.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\PlayerLib.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\XmlToAdv.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\IGame.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\bin\Debug\CLL.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\obj\Debug\XTAC.csprojResolveAssemblyReference.cache
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\obj\Debug\XTAC.Lantern.resources
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\obj\Debug\XTAC.TestClient.resources
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\obj\Debug\XTAC.NoGoMessages.resources
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\obj\Debug\XTAC.Properties.Resources.resources
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\obj\Debug\XTAC.RenameEventForm.resources
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\obj\Debug\XTAC.SyntaxHelpForm.resources
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\obj\Debug\XTAC.csproj.GenerateResource.Cache
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\obj\Debug\Lantern.exe
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\obj\Debug\Lantern.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XTAC\obj\Debug\XTAC.ExceptionForm.resources
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.csprojAssemblyReference.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.AboutBox1.resources
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.ExceptionForm.resources
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.Lantern.resources
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.TestClient.resources
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.NoGoMessages.resources
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.Properties.Resources.resources
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.RenameEventForm.resources
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.SyntaxHelpForm.resources
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.csproj.GenerateResource.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.csproj.CoreCompileInputs.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\bin\Debug\Lantern.exe.config
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\bin\Debug\Lantern.exe
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\bin\Debug\Lantern.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\bin\Debug\CLL.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\bin\Debug\GameTables.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\bin\Debug\PlayerLib.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\bin\Debug\XmlToAdv.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\bin\Debug\CLL.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\bin\Debug\GameTables.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\bin\Debug\PlayerLib.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\bin\Debug\XmlToAdv.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\XTAC.csproj.CopyComplete
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\Lantern.exe
+C:\Users\Evan\source\repos\Lantern\XTAC\XTAC\obj\Debug\Lantern.pdb

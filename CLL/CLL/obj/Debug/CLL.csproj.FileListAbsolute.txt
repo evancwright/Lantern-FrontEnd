@@ -1,0 +1,16 @@
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\CLL\bin\Debug\CLL.dll
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\CLL\bin\Debug\CLL.pdb
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\CLL\bin\Debug\IGame.dll
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\CLL\bin\Debug\IGame.pdb
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\CLL\obj\Debug\CLL.dll
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\CLL\obj\Debug\CLL.pdb
+C:\Users\Evan\documents\visual studio 2015\Projects\CLL\CLL\obj\Debug\CLL.csprojResolveAssemblyReference.cache
+C:\Users\Evan\source\repos\Lantern\CLL\CLL\bin\Debug\CLL.dll
+C:\Users\Evan\source\repos\Lantern\CLL\CLL\bin\Debug\CLL.pdb
+C:\Users\Evan\source\repos\Lantern\CLL\CLL\bin\Debug\IGame.dll
+C:\Users\Evan\source\repos\Lantern\CLL\CLL\bin\Debug\IGame.pdb
+C:\Users\Evan\source\repos\Lantern\CLL\CLL\obj\Debug\CLL.csprojAssemblyReference.cache
+C:\Users\Evan\source\repos\Lantern\CLL\CLL\obj\Debug\CLL.csproj.CoreCompileInputs.cache
+C:\Users\Evan\source\repos\Lantern\CLL\CLL\obj\Debug\CLL.csproj.CopyComplete
+C:\Users\Evan\source\repos\Lantern\CLL\CLL\obj\Debug\CLL.dll
+C:\Users\Evan\source\repos\Lantern\CLL\CLL\obj\Debug\CLL.pdb

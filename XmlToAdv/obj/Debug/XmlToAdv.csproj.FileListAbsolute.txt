@@ -1,0 +1,33 @@
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XmlToAdv\bin\Debug\XmlToAdv.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XmlToAdv\bin\Debug\XmlToAdv.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XmlToAdv\bin\Debug\CLL.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XmlToAdv\bin\Debug\GameTables.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XmlToAdv\bin\Debug\IGame.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XmlToAdv\bin\Debug\GameTables.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XmlToAdv\bin\Debug\CLL.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XmlToAdv\bin\Debug\IGame.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XmlToAdv\obj\Debug\XmlToAdv.csprojResolveAssemblyReference.cache
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XmlToAdv\obj\Debug\XmlToAdv.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\XmlToAdv\obj\Debug\XmlToAdv.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\XmlToAdv\bin\Debug\XmlToAdv.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\XmlToAdv\bin\Debug\XmlToAdv.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\XmlToAdv\bin\Debug\GameTables.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\XmlToAdv\bin\Debug\IGame.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\XmlToAdv\bin\Debug\GameTables.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\XmlToAdv\bin\Debug\IGame.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\XmlToAdv\obj\Debug\XmlToAdv.csprojAssemblyReference.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\XmlToAdv\obj\Debug\XmlToAdv.csproj.CoreCompileInputs.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\XmlToAdv\obj\Debug\XmlToAdv.csproj.CopyComplete
+C:\Users\Evan\source\repos\Lantern\XTAC\XmlToAdv\obj\Debug\XmlToAdv.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\XmlToAdv\obj\Debug\XmlToAdv.pdb
+C:\Users\Evan\source\repos\Lantern\XmlToAdv\obj\Debug\XmlToAdv.csprojAssemblyReference.cache
+C:\Users\Evan\source\repos\Lantern\XmlToAdv\obj\Debug\XmlToAdv.csproj.CoreCompileInputs.cache
+C:\Users\Evan\source\repos\Lantern\XmlToAdv\bin\Debug\XmlToAdv.dll
+C:\Users\Evan\source\repos\Lantern\XmlToAdv\bin\Debug\XmlToAdv.pdb
+C:\Users\Evan\source\repos\Lantern\XmlToAdv\bin\Debug\GameTables.dll
+C:\Users\Evan\source\repos\Lantern\XmlToAdv\bin\Debug\IGame.dll
+C:\Users\Evan\source\repos\Lantern\XmlToAdv\bin\Debug\GameTables.pdb
+C:\Users\Evan\source\repos\Lantern\XmlToAdv\bin\Debug\IGame.pdb
+C:\Users\Evan\source\repos\Lantern\XmlToAdv\obj\Debug\XmlToAdv.csproj.CopyComplete
+C:\Users\Evan\source\repos\Lantern\XmlToAdv\obj\Debug\XmlToAdv.dll
+C:\Users\Evan\source\repos\Lantern\XmlToAdv\obj\Debug\XmlToAdv.pdb

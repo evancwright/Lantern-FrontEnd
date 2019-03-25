@@ -1,0 +1,55 @@
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\Player.exe.config
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\Player.exe
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\Player.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\IGame.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\PlayerLib.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\XmlToAdv.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\GameTables.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\CLL.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\PlayerLib.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\XmlToAdv.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\IGame.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\GameTables.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\bin\Debug\CLL.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\obj\Debug\Player.csprojResolveAssemblyReference.cache
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\obj\Debug\Player.Form1.resources
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\obj\Debug\Player.Properties.Resources.resources
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\obj\Debug\Player.csproj.GenerateResource.Cache
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\obj\Debug\Player.exe
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Player\obj\Debug\Player.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\bin\Debug\Player.exe.config
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\bin\Debug\Player.exe
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\bin\Debug\Player.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\bin\Debug\PlayerLib.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\bin\Debug\XmlToAdv.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\bin\Debug\GameTables.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\bin\Debug\CLL.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\bin\Debug\PlayerLib.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\bin\Debug\XmlToAdv.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\bin\Debug\GameTables.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\obj\Debug\Player.csprojAssemblyReference.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\obj\Debug\Player.Form1.resources
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\obj\Debug\Player.Properties.Resources.resources
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\obj\Debug\Player.csproj.GenerateResource.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\obj\Debug\Player.csproj.CoreCompileInputs.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\obj\Debug\Player.csproj.CopyComplete
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\obj\Debug\Player.exe
+C:\Users\Evan\source\repos\Lantern\XTAC\Player\obj\Debug\Player.pdb
+C:\Users\Evan\source\repos\Lantern\Player\obj\Debug\Player.Form1.resources
+C:\Users\Evan\source\repos\Lantern\Player\obj\Debug\Player.Properties.Resources.resources
+C:\Users\Evan\source\repos\Lantern\Player\obj\Debug\Player.csproj.GenerateResource.cache
+C:\Users\Evan\source\repos\Lantern\Player\obj\Debug\Player.csproj.CoreCompileInputs.cache
+C:\Users\Evan\source\repos\Lantern\Player\bin\Debug\Player.exe.config
+C:\Users\Evan\source\repos\Lantern\Player\bin\Debug\Player.exe
+C:\Users\Evan\source\repos\Lantern\Player\bin\Debug\Player.pdb
+C:\Users\Evan\source\repos\Lantern\Player\bin\Debug\PlayerLib.dll
+C:\Users\Evan\source\repos\Lantern\Player\bin\Debug\XmlToAdv.dll
+C:\Users\Evan\source\repos\Lantern\Player\bin\Debug\GameTables.dll
+C:\Users\Evan\source\repos\Lantern\Player\bin\Debug\CLL.dll
+C:\Users\Evan\source\repos\Lantern\Player\bin\Debug\PlayerLib.pdb
+C:\Users\Evan\source\repos\Lantern\Player\bin\Debug\XmlToAdv.pdb
+C:\Users\Evan\source\repos\Lantern\Player\bin\Debug\GameTables.pdb
+C:\Users\Evan\source\repos\Lantern\Player\obj\Debug\Player.csprojAssemblyReference.cache
+C:\Users\Evan\source\repos\Lantern\Player\obj\Debug\Player.csproj.CopyComplete
+C:\Users\Evan\source\repos\Lantern\Player\obj\Debug\Player.exe
+C:\Users\Evan\source\repos\Lantern\Player\obj\Debug\Player.pdb

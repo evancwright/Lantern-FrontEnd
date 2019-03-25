@@ -1,0 +1,15 @@
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\GameTables\bin\Debug\GameTables.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\GameTables\bin\Debug\GameTables.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\GameTables\obj\Debug\GameTables.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\GameTables\obj\Debug\GameTables.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\GameTables\obj\Debug\GameTables.csprojResolveAssemblyReference.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\GameTables\bin\Debug\GameTables.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\GameTables\bin\Debug\GameTables.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\GameTables\obj\Debug\GameTables.csproj.CoreCompileInputs.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\GameTables\obj\Debug\GameTables.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\GameTables\obj\Debug\GameTables.pdb
+C:\Users\Evan\source\repos\Lantern\GameTables\bin\Debug\GameTables.dll
+C:\Users\Evan\source\repos\Lantern\GameTables\bin\Debug\GameTables.pdb
+C:\Users\Evan\source\repos\Lantern\GameTables\obj\Debug\GameTables.csproj.CoreCompileInputs.cache
+C:\Users\Evan\source\repos\Lantern\GameTables\obj\Debug\GameTables.dll
+C:\Users\Evan\source\repos\Lantern\GameTables\obj\Debug\GameTables.pdb

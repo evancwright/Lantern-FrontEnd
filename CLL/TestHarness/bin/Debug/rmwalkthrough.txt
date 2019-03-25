@@ -1,0 +1,1 @@
+n,n,push tree,n,n,enter hut,get lamp,out,light lamp,n,e,ne,w,w,get leaves,w,s,s,flush toilet,get clip,n,open door with clip,e,open safe,get coin,open desk,get lighter,w,n,w,s,w,get gloves,wear gloves,e,n,n,get wrench,s,w,n,open box,put coin in recess,s,w,sw,get crate,ne,nw,drop leaves,burn leaves,u,u,drop crate,d,d,take gold,u,u

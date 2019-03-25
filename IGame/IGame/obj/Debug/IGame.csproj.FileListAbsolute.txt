@@ -1,0 +1,10 @@
+c:\users\evan\documents\visual studio 2013\Projects\IGame\IGame\bin\Debug\IGame.dll
+c:\users\evan\documents\visual studio 2013\Projects\IGame\IGame\bin\Debug\IGame.pdb
+c:\users\evan\documents\visual studio 2013\Projects\IGame\IGame\obj\Debug\IGame.dll
+c:\users\evan\documents\visual studio 2013\Projects\IGame\IGame\obj\Debug\IGame.pdb
+C:\Users\Evan\source\repos\Lantern\IGame\IGame\bin\Debug\IGame.dll
+C:\Users\Evan\source\repos\Lantern\IGame\IGame\bin\Debug\IGame.pdb
+C:\Users\Evan\source\repos\Lantern\IGame\IGame\obj\Debug\IGame.csprojAssemblyReference.cache
+C:\Users\Evan\source\repos\Lantern\IGame\IGame\obj\Debug\IGame.csproj.CoreCompileInputs.cache
+C:\Users\Evan\source\repos\Lantern\IGame\IGame\obj\Debug\IGame.dll
+C:\Users\Evan\source\repos\Lantern\IGame\IGame\obj\Debug\IGame.pdb

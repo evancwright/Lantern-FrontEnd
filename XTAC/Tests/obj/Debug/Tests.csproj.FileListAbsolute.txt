@@ -1,0 +1,33 @@
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\Tests.exe.config
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\Tests.exe
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\Tests.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\PlayerLib.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\XmlToAdv.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\IGame.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\GameTables.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\CLL.dll
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\PlayerLib.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\XmlToAdv.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\IGame.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\GameTables.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\bin\Debug\CLL.pdb
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\obj\Debug\Tests.csprojResolveAssemblyReference.cache
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\obj\Debug\Tests.exe
+C:\Users\Evan\Documents\Visual Studio 2013\Projects\XTAC\Tests\obj\Debug\Tests.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\Tests.exe.config
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\Tests.exe
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\Tests.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\PlayerLib.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\XmlToAdv.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\IGame.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\GameTables.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\CLL.dll
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\PlayerLib.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\XmlToAdv.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\IGame.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\bin\Debug\GameTables.pdb
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\obj\Debug\Tests.csprojAssemblyReference.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\obj\Debug\Tests.csproj.CoreCompileInputs.cache
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\obj\Debug\Tests.csproj.CopyComplete
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\obj\Debug\Tests.exe
+C:\Users\Evan\source\repos\Lantern\XTAC\Tests\obj\Debug\Tests.pdb
