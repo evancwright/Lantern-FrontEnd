@@ -81,6 +81,7 @@ namespace XMLtoAdv
         static XmlToTables()
         {
             skelDirs["_TRS80"] = "z80Skel";
+            skelDirs["_CPM"] = "z80Skel";
             skelDirs["_CoCo"] = "CCommon";
             skelDirs["_Apple2"] = "6502Skel";
             skelDirs["_C64"] = "6502Skel";
@@ -93,6 +94,7 @@ namespace XMLtoAdv
 
             pltfDirs["_Spectrum"] = "spectrum";
             pltfDirs["_TRS80"] = "trs80";
+            pltfDirs["_CPM"] = "cpm";
             pltfDirs["_Apple2"] = "apple2";
             pltfDirs["_C64"] = "c64";
             pltfDirs["_CPC464"] = "cpc464";
@@ -413,6 +415,18 @@ namespace XMLtoAdv
             Environment.CurrentDirectory = oldDir;
         }
 
+
+        public void ConvertCPM(string fileName)
+        {
+            string oldDir = Environment.CurrentDirectory;
+
+            //get the file path 
+            CreateTables(fileName, "_CPM");
+
+            WriteZ80Common();
+
+            Environment.CurrentDirectory = oldDir;
+        }
 
         public void ConvertCPC464(string fileName)
         {
