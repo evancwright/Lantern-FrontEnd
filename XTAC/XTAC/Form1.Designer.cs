@@ -69,6 +69,7 @@
             this.label42 = new System.Windows.Forms.Label();
             this.saveVarValueButton = new System.Windows.Forms.Button();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.ruleCodeTextBox = new XTAC.CodeEditor();
             this.label68 = new System.Windows.Forms.Label();
             this.label67 = new System.Windows.Forms.Label();
             this.label66 = new System.Windows.Forms.Label();
@@ -110,6 +111,7 @@
             this.verbComboBox = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.codeTextBox = new XTAC.CodeEditor();
             this.label86 = new System.Windows.Forms.Label();
             this.checkButton = new System.Windows.Forms.Button();
             this.label50 = new System.Windows.Forms.Label();
@@ -254,8 +256,7 @@
             this.Delete = new System.Windows.Forms.ToolStripMenuItem();
             this.verbContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.codeTextBox = new XTAC.CodeEditor();
-            this.ruleCodeTextBox = new XTAC.CodeEditor();
+            this.cPMZ80ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -380,6 +381,7 @@
             this.bBCMicroToolStripMenuItem,
             this.coCoToolStripMenuItem,
             this.commodore64ToolStripMenuItem,
+            this.cPMZ80ToolStripMenuItem,
             this.iBMPCXTToolStripMenuItem,
             this.tRS80ToolStripMenuItem,
             this.zXSpectrumToolStripMenuItem,
@@ -393,75 +395,75 @@
             // amstradCPC464ToolStripMenuItem
             // 
             this.amstradCPC464ToolStripMenuItem.Name = "amstradCPC464ToolStripMenuItem";
-            this.amstradCPC464ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.amstradCPC464ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.amstradCPC464ToolStripMenuItem.Text = "Amstrad CPC464";
             this.amstradCPC464ToolStripMenuItem.Click += new System.EventHandler(this.amstradCPC464ToolStripMenuItem_Click);
             // 
             // appleToolStripMenuItem
             // 
             this.appleToolStripMenuItem.Name = "appleToolStripMenuItem";
-            this.appleToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.appleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.appleToolStripMenuItem.Text = "Apple ][";
             this.appleToolStripMenuItem.Click += new System.EventHandler(this.appleToolStripMenuItem_Click);
             // 
             // bBCMicroToolStripMenuItem
             // 
             this.bBCMicroToolStripMenuItem.Name = "bBCMicroToolStripMenuItem";
-            this.bBCMicroToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.bBCMicroToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bBCMicroToolStripMenuItem.Text = "BBC Micro";
             this.bBCMicroToolStripMenuItem.Click += new System.EventHandler(this.bBCMicroToolStripMenuItem_Click);
             // 
             // coCoToolStripMenuItem
             // 
             this.coCoToolStripMenuItem.Name = "coCoToolStripMenuItem";
-            this.coCoToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.coCoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.coCoToolStripMenuItem.Text = "CoCo 2,3";
             this.coCoToolStripMenuItem.Click += new System.EventHandler(this.coCoToolStripMenuItem_Click);
             // 
             // commodore64ToolStripMenuItem
             // 
             this.commodore64ToolStripMenuItem.Name = "commodore64ToolStripMenuItem";
-            this.commodore64ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.commodore64ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.commodore64ToolStripMenuItem.Text = "Commodore 64";
             this.commodore64ToolStripMenuItem.Click += new System.EventHandler(this.commodore64ToolStripMenuItem_Click);
             // 
             // iBMPCXTToolStripMenuItem
             // 
             this.iBMPCXTToolStripMenuItem.Name = "iBMPCXTToolStripMenuItem";
-            this.iBMPCXTToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.iBMPCXTToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.iBMPCXTToolStripMenuItem.Text = "IBM PC/XT";
             this.iBMPCXTToolStripMenuItem.Click += new System.EventHandler(this.iBMPCXTToolStripMenuItem_Click);
             // 
             // tRS80ToolStripMenuItem
             // 
             this.tRS80ToolStripMenuItem.Name = "tRS80ToolStripMenuItem";
-            this.tRS80ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.tRS80ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tRS80ToolStripMenuItem.Text = "TRS-80 I, III, IV";
             this.tRS80ToolStripMenuItem.Click += new System.EventHandler(this.tRS80ToolStripMenuItem_Click);
             // 
             // zXSpectrumToolStripMenuItem
             // 
             this.zXSpectrumToolStripMenuItem.Name = "zXSpectrumToolStripMenuItem";
-            this.zXSpectrumToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.zXSpectrumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zXSpectrumToolStripMenuItem.Text = "ZX Spectrum";
             this.zXSpectrumToolStripMenuItem.Click += new System.EventHandler(this.zXSpectrumToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // raspberryPiToolStripMenuItem
             // 
             this.raspberryPiToolStripMenuItem.Name = "raspberryPiToolStripMenuItem";
-            this.raspberryPiToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.raspberryPiToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.raspberryPiToolStripMenuItem.Text = "Raspberry Pi";
             this.raspberryPiToolStripMenuItem.Click += new System.EventHandler(this.raspberryPiToolStripMenuItem_Click);
             // 
             // windowsx64ToolStripMenuItem
             // 
             this.windowsx64ToolStripMenuItem.Name = "windowsx64ToolStripMenuItem";
-            this.windowsx64ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.windowsx64ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.windowsx64ToolStripMenuItem.Text = "Windows (x64)";
             this.windowsx64ToolStripMenuItem.Click += new System.EventHandler(this.windowsx64ToolStripMenuItem_Click);
             // 
@@ -646,6 +648,20 @@
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Events";
             this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // ruleCodeTextBox
+            // 
+            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 46);
+            this.ruleCodeTextBox.Multiline = true;
+            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
+            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.ruleCodeTextBox.Size = new System.Drawing.Size(663, 304);
+            this.ruleCodeTextBox.TabIndex = 30;
+            this.ruleCodeTextBox.WordWrap = false;
+            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
             // 
             // label68
             // 
@@ -1088,6 +1104,20 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Functions";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // codeTextBox
+            // 
+            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
+            this.codeTextBox.Multiline = true;
+            this.codeTextBox.Name = "codeTextBox";
+            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.codeTextBox.Size = new System.Drawing.Size(822, 341);
+            this.codeTextBox.TabIndex = 17;
+            this.codeTextBox.WordWrap = false;
+            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
             // 
             // label86
             // 
@@ -2663,33 +2693,12 @@
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // codeTextBox
+            // cPMZ80ToolStripMenuItem
             // 
-            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
-            this.codeTextBox.Multiline = true;
-            this.codeTextBox.Name = "codeTextBox";
-            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.codeTextBox.Size = new System.Drawing.Size(822, 341);
-            this.codeTextBox.TabIndex = 17;
-            this.codeTextBox.WordWrap = false;
-            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
-            // 
-            // ruleCodeTextBox
-            // 
-            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 46);
-            this.ruleCodeTextBox.Multiline = true;
-            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
-            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ruleCodeTextBox.Size = new System.Drawing.Size(663, 304);
-            this.ruleCodeTextBox.TabIndex = 30;
-            this.ruleCodeTextBox.WordWrap = false;
-            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
+            this.cPMZ80ToolStripMenuItem.Name = "cPMZ80ToolStripMenuItem";
+            this.cPMZ80ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cPMZ80ToolStripMenuItem.Text = "CP/M (Z80)";
+            this.cPMZ80ToolStripMenuItem.Click += new System.EventHandler(this.cPMZ80ToolStripMenuItem_Click);
             // 
             // Lantern
             // 
@@ -2963,6 +2972,7 @@
         private System.Windows.Forms.ToolStripMenuItem windowsx64ToolStripMenuItem;
         private CodeEditor ruleCodeTextBox;
         private CodeEditor codeTextBox;
+        private System.Windows.Forms.ToolStripMenuItem cPMZ80ToolStripMenuItem;
     }
 }
 

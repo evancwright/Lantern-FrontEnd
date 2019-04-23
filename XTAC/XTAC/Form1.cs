@@ -2767,7 +2767,30 @@ namespace XTAC
             }
         }
 
-      
-    
+        private void cPMZ80ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (fileName != "")
+            {
+
+                Save();
+
+                try
+                {
+                    XmlToTables converter = XmlToTables.GetInstance();
+                    converter.ConvertCPM(fileName);  //"f3xml.xml"
+                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+                }
+                catch (Exception ex)
+                {
+                    ReportError(ex);
+                    Directory.SetCurrentDirectory(homeDir);
+                }
+            }
+            else
+            {
+                MessageBox.Show("File name is null.  Please save your project before exporting.");
+            }
+        }
     }
 }
