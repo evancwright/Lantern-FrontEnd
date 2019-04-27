@@ -281,6 +281,7 @@ namespace XTAC
             AddCheck("put", "check_not_self_or_child");
             AddCheck("put", "check_have_dobj");
             AddCheck("put", "check_see_iobj");
+            AddCheck("put", "check_put");
             AddCheck("talk to", "check_dobj_supplied");
             AddCheck("talk to", "check_see_dobj");
             AddCheck("turn on", "check_dobj_supplied");
@@ -442,8 +443,6 @@ namespace XTAC
             AddMissingCheck("unlock", "check_dobj_lockable");
             AddMissingCheck("unlock", "check_dobj_lockable");
             AddMissingCheck("unlock", "check_dobj_lockable");
-            AddMissingCheck("put", "check_have_dobj");
-            AddMissingCheck("put", "check_see_iobj");
         }
 
         /// <summary>

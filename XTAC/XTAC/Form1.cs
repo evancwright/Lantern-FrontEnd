@@ -23,11 +23,12 @@ namespace XTAC
         List<Keys> lastEventKeys = new List<Keys>();
         string homeDir;
 
+        //the list of verbs checks
         string[] allChecks = new string[]
         {
-            "check_see_dobj", "check_have_dobj", "check_dobj_supplied", "check_iobj_supplied","check_dont_have_dobj","check_not_self_or_child",
+            "check_see_dobj", "check_have_dobj", "check_dobj_supplied", "check_iobj_supplied", "check_see_iobj", "check_dont_have_dobj","check_not_self_or_child",
             "check_dobj_open", "check_dobj_closed", "check_dobj_opnable", "check_dobj_portable", "check_dobj_locked","check_dobj_unlocked",
-            "check_iobj_container", "check_light"
+            "check_iobj_container", "check_light","check_put"
         };
 
         static Lantern()
@@ -50,14 +51,8 @@ namespace XTAC
             foreach (String s in allChecks)
             {
                 allChecksListBox.Items.Add(s);
-            }/*
-            allChecksListBox.Items.Add("check_see_dobj");
-            allChecksListBox.Items.Add("check_have_dobj");
-            allChecksListBox.Items.Add("check_dobj_supplied");
-            allChecksListBox.Items.Add("check_iobj_supplied");
-            allChecksListBox.Items.Add("check_dont_have_dobj");
-            allChecksListBox.Items.Add("check_not_self_or_child");
-            */
+            } 
+
             NewProject();
             ShowProject();
         }
@@ -859,7 +854,7 @@ namespace XTAC
             var list =
                 from c in xproject.Project.Checks.Check
                 where c.Verb.Equals(curVerb)
-                orderby c._check ascending
+         //       orderby c._check ascending
                 select c;
 
             verbChecksListBox.Items.Clear();
