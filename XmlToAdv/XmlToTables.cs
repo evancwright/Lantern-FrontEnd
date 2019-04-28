@@ -37,10 +37,11 @@ namespace XMLtoAdv
 
         protected List<GameObject> objects = new List<GameObject>();
         protected static string[] noiseWords = { "OF", "THE", "A", "AN" };
-        protected static string[] asmFlagNames =   { "SCENERY_MASK", "SUPPORTER_MASK", "CONTAINER_MASK", "TRANSPARENT_MASK",
-                               "OPENABLE_MASK","OPEN_MASK", "LOCKABLE_MASK", "LOCKED_MASK", 
-                               "PORTABLE_MASK", "USER3_MASK", "WEARABLE_MASK", "BEINGWORN_MASK", 
-                               "USER1_MASK", "EMITTING_LIGHT_MASK","DOOR_MASK", "USER2_MASK" 
+        protected static string[] asmFlagNames =   {
+                    "SCENERY_MASK", "SUPPORTER_MASK", "CONTAINER_MASK", "TRANSPARENT_MASK",
+                    "OPENABLE_MASK","OPEN_MASK", "LOCKABLE_MASK", "LOCKED_MASK", 
+                    "PORTABLE_MASK", "USER3_MASK", "WEARABLE_MASK", "BEINGWORN_MASK", 
+                    "USER1_MASK", "EMITTING_LIGHT_MASK","DOOR_MASK", "USER2_MASK" 
                            };
 
 
@@ -621,7 +622,7 @@ namespace XMLtoAdv
                     if (t.GetEntry(i).Length > 0) //safety check
                     {
                         sw.WriteLine("\tDB " + t.GetEntry(i).Length);
-                        sw.WriteLine("\tDB \"" + t.GetEntry(i).ToUpper() + "\" ; " + i);
+                        sw.WriteLine("\tDB \"" + t.GetEntry(i) + "\" ; " + i);
                         sw.WriteLine("\tDB 0 ; null terminator");
                     }
                 }
@@ -1421,11 +1422,11 @@ namespace XMLtoAdv
 
                 XmlNodeList list = doc.SelectNodes("//project/welcome");
                 sw.WriteLine("");
-                sw.WriteLine("welcome " + strDelim + "  \"" + list[0].InnerText.ToUpper() + "\"" + nullByte);
+                sw.WriteLine("welcome " + strDelim + "  \"" + list[0].InnerText + "\"" + nullByte);
                 list = doc.SelectNodes("//project/author");
-                sw.WriteLine("author " + strDelim + " \"" + list[0].InnerText.ToUpper() + "\"" + nullByte);
+                sw.WriteLine("author " + strDelim + " \"" + list[0].InnerText + "\"" + nullByte);
                 list = doc.SelectNodes("//project/version");
-                sw.WriteLine("version " + strDelim + " \"" + list[0].InnerText.ToUpper() + "\"" + nullByte);
+                sw.WriteLine("version " + strDelim + " \"" + list[0].InnerText + "\"" + nullByte);
             }
         }
 
