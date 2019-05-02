@@ -11,6 +11,7 @@ using System.Xml;
 using System.IO;
 using System.Xml.Serialization;
 using System.Reflection;
+using System.Diagnostics;
 using XMLtoAdv;
 
 namespace XTAC
@@ -105,6 +106,7 @@ namespace XTAC
                     FixFunctions();
                     FixBlankDescriptions();
                     FixDescriptions();
+                    FixOutputName();
                     FixVerbs();
                     FixEmptyObjects();
                     FixChecks();
@@ -135,6 +137,7 @@ namespace XTAC
             authorTextBox.Text = xproject.Project.Author;
             welcomeTextBox.Text = xproject.Project.Welcome;
             versionTextBox.Text = xproject.Project.Version;
+            outputTextBox.Text = xproject.Project.Output;
             walkThroughTextBox.Text = xproject.Project.walkthrough;
 
             PopulateObjectDropDowns();
@@ -1626,9 +1629,15 @@ namespace XTAC
 
                 try
                 {
+                    File.Delete(xproject.Project.Output + ".cmd");
+                    
                     XmlToTables converter = XmlToTables.GetInstance();
                     converter.ConvertTRS80(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+                    
+                    if (Builder.Build(fileName, "_TRS80", xproject.Project.Output, "cmd"))
+                    {
+                        MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+                    }                
                 }
                 catch (Exception ex)
                 {
@@ -1653,7 +1662,12 @@ namespace XTAC
                 {
                     XmlToTables converter = XmlToTables.GetInstance();
                     converter.Convert6809(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+
+                    if (Builder.CoCoBuild(fileName,  xproject.Project.Output ))
+                    {
+                      MessageBox.Show("Export complete. Open the directory " + xproject.Project.ProjName+"_CoCo and run build.sh");
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -2463,6 +2477,14 @@ namespace XTAC
             return false;
         }
 
+        void FixOutputName()
+        {
+            if (xproject.Project.Output == null)
+            {
+                xproject.Project.Output = "ADVENTUR";
+            }
+        }
+
         private void fixCaseButton_Click(object sender, EventArgs e)
         {
             FixCase();
@@ -2774,7 +2796,11 @@ namespace XTAC
                 {
                     XmlToTables converter = XmlToTables.GetInstance();
                     converter.ConvertCPM(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+
+                    if (Builder.Build(fileName, "_CPM", xproject.Project.Output, "com"))
+                    {
+                        MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -2786,6 +2812,16 @@ namespace XTAC
             {
                 MessageBox.Show("File name is null.  Please save your project before exporting.");
             }
+        }
+
+        private void label91_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void outputTextBox_TextChanged(object sender, EventArgs e)
+        {
+            xproject.Project.Output = outputTextBox.Text.Trim(); 
         }
     }
 }

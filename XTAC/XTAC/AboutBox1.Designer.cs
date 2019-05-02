@@ -97,7 +97,7 @@
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(271, 17);
             this.labelVersion.TabIndex = 0;
-            this.labelVersion.Text = "Version 1.0 (3/1/2019)";
+            this.labelVersion.Text = "Version 1.0 (5/1/2019)";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelCopyright
@@ -137,7 +137,7 @@
             this.textBoxDescription.TabIndex = 23;
             this.textBoxDescription.TabStop = false;
             this.textBoxDescription.Text = "Software for making adventure games for classic computers. Special thanks to Mark" +
-    " Linderg, Trey James, Jim Leonard, Ted Saari, Sean Fahey.";
+    " Linberg, Trey James, Jim Leonard, Ted Saari, Sean Fahey, and Neil Forsythe.";
             this.textBoxDescription.TextChanged += new System.EventHandler(this.textBoxDescription_TextChanged);
             // 
             // okButton

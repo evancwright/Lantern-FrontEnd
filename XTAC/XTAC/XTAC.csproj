@@ -55,6 +55,7 @@
     <Compile Include="AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Builder.cs" />
     <Compile Include="CmdHist.cs" />
     <Compile Include="CodeEditor.cs">
       <SubType>Component</SubType>

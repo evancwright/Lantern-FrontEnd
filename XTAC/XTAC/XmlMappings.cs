@@ -303,6 +303,8 @@
             public string Author { get; set; }
             [XmlElement(ElementName = "version")]
             public string Version { get; set; }
+            [XmlElement(ElementName = "output")]
+            public string Output { get; set; }
             [XmlElement(ElementName = "preps")]
             public Preps Preps { get; set; }
             [XmlElement(ElementName = "verbs")]
@@ -323,10 +325,12 @@
             public string Uservars { get; set; }
             [XmlElement(ElementName = "walkthrough")]
             public string walkthrough { get; set; }
+        [XmlElement(ElementName = "filename")]
+        public string filename { get; set; }
 
-        }
+    }
 
-        [XmlRoot(ElementName = "xml")]
+    [XmlRoot(ElementName = "xml")]
         public class Xml
         {
             [XmlElement(ElementName = "project")]

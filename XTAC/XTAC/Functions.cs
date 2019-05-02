@@ -85,7 +85,7 @@ namespace XTAC
 
             r = new Routine();
             r.Name = "default_drink";
-            r.Text = "println(\"That's not something you can drink.\");";
+            r.Text = "println(\"You can't drink that.\");";
             xproject.Project.Routines.Routine.Add(r);
         }
 
