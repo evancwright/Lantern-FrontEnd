@@ -70,6 +70,7 @@
             this.label42 = new System.Windows.Forms.Label();
             this.saveVarValueButton = new System.Windows.Forms.Button();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.ruleCodeTextBox = new XTAC.CodeEditor();
             this.label68 = new System.Windows.Forms.Label();
             this.label67 = new System.Windows.Forms.Label();
             this.label66 = new System.Windows.Forms.Label();
@@ -111,6 +112,7 @@
             this.verbComboBox = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.codeTextBox = new XTAC.CodeEditor();
             this.label86 = new System.Windows.Forms.Label();
             this.checkButton = new System.Windows.Forms.Button();
             this.label50 = new System.Windows.Forms.Label();
@@ -259,8 +261,6 @@
             this.verbContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.codeTextBox = new XTAC.CodeEditor();
-            this.ruleCodeTextBox = new XTAC.CodeEditor();
             this.menuStrip1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -659,6 +659,19 @@
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Events";
             this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // ruleCodeTextBox
+            // 
+            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 47);
+            this.ruleCodeTextBox.Multiline = true;
+            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
+            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.ruleCodeTextBox.Size = new System.Drawing.Size(663, 303);
+            this.ruleCodeTextBox.TabIndex = 30;
+            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
             // 
             // label68
             // 
@@ -1101,6 +1114,20 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Functions";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // codeTextBox
+            // 
+            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
+            this.codeTextBox.Multiline = true;
+            this.codeTextBox.Name = "codeTextBox";
+            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.codeTextBox.Size = new System.Drawing.Size(822, 341);
+            this.codeTextBox.TabIndex = 17;
+            this.codeTextBox.WordWrap = false;
+            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
             // 
             // label86
             // 
@@ -2261,7 +2288,7 @@
             // label91
             // 
             this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(452, 204);
+            this.label91.Location = new System.Drawing.Point(466, 203);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(58, 13);
             this.label91.TabIndex = 16;
@@ -2360,18 +2387,18 @@
             // 
             // versionTextBox
             // 
-            this.versionTextBox.Location = new System.Drawing.Point(371, 203);
+            this.versionTextBox.Location = new System.Drawing.Point(337, 204);
             this.versionTextBox.Name = "versionTextBox";
-            this.versionTextBox.Size = new System.Drawing.Size(52, 20);
+            this.versionTextBox.Size = new System.Drawing.Size(123, 20);
             this.versionTextBox.TabIndex = 3;
             this.versionTextBox.Text = "1.0";
             this.versionTextBox.TextChanged += new System.EventHandler(this.versionTextBox_TextChanged);
             // 
             // authorTextBox
             // 
-            this.authorTextBox.Location = new System.Drawing.Point(94, 204);
+            this.authorTextBox.Location = new System.Drawing.Point(75, 204);
             this.authorTextBox.Name = "authorTextBox";
-            this.authorTextBox.Size = new System.Drawing.Size(197, 20);
+            this.authorTextBox.Size = new System.Drawing.Size(216, 20);
             this.authorTextBox.TabIndex = 2;
             this.authorTextBox.TextChanged += new System.EventHandler(this.authorTextBox_TextChanged);
             // 
@@ -2389,7 +2416,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(312, 203);
+            this.label20.Location = new System.Drawing.Point(297, 203);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(42, 13);
             this.label20.TabIndex = 5;
@@ -2711,33 +2738,6 @@
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // codeTextBox
-            // 
-            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
-            this.codeTextBox.Multiline = true;
-            this.codeTextBox.Name = "codeTextBox";
-            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.codeTextBox.Size = new System.Drawing.Size(822, 341);
-            this.codeTextBox.TabIndex = 17;
-            this.codeTextBox.WordWrap = false;
-            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
-            // 
-            // ruleCodeTextBox
-            // 
-            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 47);
-            this.ruleCodeTextBox.Multiline = true;
-            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
-            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ruleCodeTextBox.Size = new System.Drawing.Size(663, 303);
-            this.ruleCodeTextBox.TabIndex = 30;
-            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
             // 
             // Lantern
             // 
