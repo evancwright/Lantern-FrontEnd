@@ -30,13 +30,13 @@ namespace CLL
                 string str = operand.Substring(1, operand.Length - 2).Trim();
                 return new Constant(game.GetStringId(str));
             }
-            else if (game.GetObjectId(operand) != -1)
-            {
-                return new Constant(game.GetObjectId(operand));
-            }
             else if (game.IsVariable(operand))
             {
                 return new VariableRVal(operand);
+            }
+            else if (game.GetObjectId(operand) != -1)
+            {
+                return new Constant(game.GetObjectId(operand));
             }
             else if (operand.IndexOf('.') != -1)
             {

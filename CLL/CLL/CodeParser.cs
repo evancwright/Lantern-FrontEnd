@@ -183,7 +183,7 @@ namespace CLL
                         }
                         else if (statement.ToString().StartsWith("call "))
                         {
-                            parent.Append(new Call(statement.ToString()));
+                            throw new Exception("Don't use 'call'.  Use C calling syntax instead.");
                         }
                         else if (StartsWithFunctionName(statement))
                         {
