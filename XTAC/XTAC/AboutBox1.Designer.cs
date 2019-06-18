@@ -137,7 +137,7 @@
             this.textBoxDescription.TabIndex = 23;
             this.textBoxDescription.TabStop = false;
             this.textBoxDescription.Text = "Software for making adventure games for classic computers. Special thanks to Mark" +
-    " Linberg, Trey James, Jim Leonard, Ted Saari, Sean Fahey, and Neil Forsythe.";
+    " Lindberg, Trey James, Jim Leonard, Ted Saari, Sean Fahey, and Neil Forsyth";
             this.textBoxDescription.TextChanged += new System.EventHandler(this.textBoxDescription_TextChanged);
             // 
             // okButton
