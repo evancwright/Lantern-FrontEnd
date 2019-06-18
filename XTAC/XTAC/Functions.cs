@@ -313,7 +313,7 @@ namespace XTAC
 
         void AddPrepositions()
         {
-            string[] defaultPreps = new string[] { "in", "on", "at", "under", "into", "inside", "through", "out", "behind", "off", "up", "with", "to", "off", "north", "south", "east", "west", "northeast", "southeast", "northwest", "southwest", "up", "down", "about" };
+            string[] defaultPreps = new string[] { "in", "on", "at", "under", "into", "inside", "through", "out", "behind", "off", "up", "with", "to", "off", "north", "south", "east", "west", "northeast", "southeast", "northwest", "southwest", "up", "down", "about", "over", "across" };
 
             xproject.Project.Preps.Prep = new List<string>();
             foreach (string s in defaultPreps) { xproject.Project.Preps.Prep.Add(s); }
