@@ -162,6 +162,10 @@ namespace XMLtoAdv
                         //look up the id of each word
 
                         int wordId = dict.GetEntryId(words[i]);
+
+                        if (wordId == -1)
+                            wordId = 255;
+
                         sw.Write("," + wordId);
                     }
                     int blanks = 3 - count;
