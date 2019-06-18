@@ -63,19 +63,25 @@ namespace PlayerLib
         string[] dirs = { "n", "s", "e", "w", "ne", "se", "nw", "sw", "up", "down" };
 
         private Game() {
+
+
+
             articleTable.Add("A");
             articleTable.Add("AN");
             articleTable.Add("THE");
 
-            
+            /*      "in", "on", "at", "under", "into", "inside", "through", "out", "behind", "off", 
+             *      "up", "with", "to", "off", "north", "south", "east", "west", "northeast", "southeast",
+             *      "northwest", "southwest", "up", "down", "about", "over", "across" };
+             */
 
             prepTable.Add("IN");
+        	prepTable.Add("ON");
 	        prepTable.Add("AT");
         	prepTable.Add("TO");
         	prepTable.Add("INSIDE");
         	prepTable.Add("OUT");
         	prepTable.Add("UNDER");
-        	prepTable.Add("ON");
             prepTable.Add("OFF");
             prepTable.Add("UP");
             prepTable.Add("WITH");
@@ -84,7 +90,17 @@ namespace PlayerLib
             prepTable.Add("SOUTH");
             prepTable.Add("EAST");
             prepTable.Add("WEST");
-        }
+            prepTable.Add("NORTHEAST");
+            prepTable.Add("SOUTHEAST");
+            prepTable.Add("NORTHWEST");
+            prepTable.Add("SOUTHWEST");
+            prepTable.Add("UP");
+            prepTable.Add("DOWN");
+            prepTable.Add("ABOUT");
+            prepTable.Add("OVER");
+            prepTable.Add("ACROSS");
+            
+    }
 
 
         public static Game GetInstance()
@@ -755,6 +771,7 @@ namespace PlayerLib
                     PrintStringCr("You don't see that.");
                     return false;
                 }
+                SetVar("dobj", dobj);
             }
 
             if (iobj != -1)
@@ -765,6 +782,7 @@ namespace PlayerLib
                     PrintStringCr("You don't see that.");
                     return false;
                 }
+                SetVar("iobj", iobj);
             } 
             return true;
         }
@@ -1476,7 +1494,8 @@ namespace PlayerLib
             command = command.ToUpper();
             command = command.Trim();
             ClearScores();
-
+            SetVar("dobj", 255);
+            SetVar("iobj", 255);
             if (command.Length == 0)
             {
                 PrintStringCr("Pardon?");
@@ -1561,6 +1580,8 @@ namespace PlayerLib
                     /*What happes if the prep was the last word?*/
                     /*identify to dobj*/
                     dobj = GetMaxScoreObject(GetMaxScore());
+                    SetVar("dobj", dobj);
+
                     /*map the remaing words to the direct object*/
                     ClearScores();
                     i++;
@@ -1592,6 +1613,7 @@ namespace PlayerLib
                     }
 
                     iobj = GetMaxScoreObject(GetMaxScore());
+                    SetVar("iobj", iobj);
                     break;
                 }
                 else
@@ -1612,6 +1634,8 @@ namespace PlayerLib
             if (prepFound==0)
             {
                 dobj = GetMaxScoreObject(GetMaxScore());
+                SetVar("dobj", dobj);
+
                 if (AmbiguousNoun())
                 {
                     if (!NounsVisible())
