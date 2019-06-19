@@ -474,7 +474,8 @@ namespace XTAC
             //replace them back
             foreach (Routine r in xproject.Project.Routines.Routine)
             {
-                r.Text = r.Text.Replace("\n", "\r\n");
+                if (r.Text != null)
+                    r.Text = r.Text.Replace("\n", "\r\n");
             }
 
             //replace any spaces in names
@@ -492,7 +493,8 @@ namespace XTAC
             //replace them back
             foreach (Event r in xproject.Project.Events.Event)
             {
-                r.Text = r.Text.Replace("\n", "\r\n");
+                if (r.Text != null)
+`                r.Text = r.Text.Replace("\n", "\r\n");
             }
 
             foreach (Sentence s in xproject.Project.Sentences.Sentence)
