@@ -1132,6 +1132,17 @@ namespace XTAC
                GetCurObj().PrintedName = objNameTextBox.Text;
                objNameTextBox.SelectionStart = caretPos;
                */
+
+            if (objNameTextBox.Text.Length > 0)
+            {
+                char ch = objNameTextBox.Text[0];
+                if (Char.IsDigit(ch))
+                {
+                    MessageBox.Show("Object names can't start with a number.");
+                    objNameTextBox.SelectionStart = 1;
+                }
+            }
+
         }
 
         private void objDescTextBox_TextChanged(object sender, EventArgs e)
