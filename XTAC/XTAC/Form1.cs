@@ -1138,7 +1138,7 @@ namespace XTAC
                 char ch = objNameTextBox.Text[0];
                 if (Char.IsDigit(ch))
                 {
-                    MessageBox.Show("Object names can't start with a number.");
+                    MessageBox.Show("Object names can't start with digits.");
                     objNameTextBox.SelectionStart = 1;
                 }
             }
