@@ -44,27 +44,34 @@ namespace XMLtoAdv
                     "USER1_MASK", "EMITTING_LIGHT_MASK","DOOR_MASK", "USER2_MASK" 
                            };
 
+         protected string[] preps = new string[] { "IN", "ON", "AT", "UNDER", "INTO", "INSIDE", "THROUGH", "OUT",
+         "BEHIND", "OFF", "UP", "WITH", "TO", "OFF", "NORTH", "SOUTH", "EAST", "WEST", "NORTHEAST", "SOUTHEAST",
+         "NORTHWEST", "SOUTHWEST", "UP",
+         "DOWN", "ABOUT", "OVER", "ACROSS" };
+         
 
-        protected string[] preps = new string[]
-        {            	
-	        "IN",
-	        "AT",
-        	"TO",
-        	"INSIDE",
-        	"OUT",
-        	"UNDER",
-        	"ON",
-            "OFF",
-            "INTO",
-            "UP",
-            "WITH",
-            "NORTH",
-            "SOUTH",
-            "EAST",
-            "WEST",
-            "BEHIND"
-        };
 
+        /*
+       protected string[] preps = new string[]
+       {            	
+           "IN",
+           "AT",
+           "TO",
+           "INSIDE",
+           "OUT",
+           "UNDER",
+           "ON",
+           "OFF",
+           "INTO",
+           "UP",
+           "WITH",
+           "NORTH",
+           "SOUTH",
+           "EAST",
+           "WEST",
+           "BEHIND"
+       };
+       */
 
         protected struct UserVar
         {
@@ -102,7 +109,7 @@ namespace XMLtoAdv
             pltfDirs["_BBCMicro"] = "BBCMicro";
             pltfDirs["_RPi"] = "RPiSkel";
             skelDirs["_8086"] = "8086Skel";
-            pltfDirs["_x64"] = "8086Skel";
+            pltfDirs["_x64"] = "x64Skel";
             pltfDirs["_CoCo"] = "CoCoSkel";
         }
 
@@ -132,6 +139,8 @@ namespace XMLtoAdv
             ParseForStrings(doc, descriptionTable);
 
             ValidateStringLength();
+
+
         }
 
         private void PopulateNameTable(XmlDocument doc)
@@ -426,6 +435,10 @@ namespace XMLtoAdv
 
             WriteZ80Common();
 
+            //try to build
+
+            
+
             Environment.CurrentDirectory = oldDir;
         }
 
@@ -520,7 +533,7 @@ namespace XMLtoAdv
             WriteStringTableC("Strings.h", "StringTable", descriptionTable);
             WriteStringTableC("NogoTable.h", "NogoTable", nogoTable);
             WriteStringTableC("PrepTable.h", "PrepTable", prepTable);
-            WriteStringTableC("Dictionary.h", "Dictionary", dict);
+            WriteStringTableC("Dictionary.c", "Dictionary", dict);
             WriteObjectTableC();
             WriteObjectWordTableC();
             WriteVerbTableC(FOUR_BYTE_POINTERS);
@@ -546,7 +559,7 @@ namespace XMLtoAdv
             WriteStringTableC("Strings.h", "StringTable", descriptionTable);
             WriteStringTableC("NogoTable.h", "NogoTable", nogoTable);
             WriteStringTableC("PrepTable.h", "PrepTable", prepTable);
-            WriteStringTableC("Dictionary.h", "Dictionary", dict);
+            WriteStringTableC("Dictionary.c", "Dictionary", dict);
             WriteObjectTableC();
             WriteObjectWordTableC();
             WriteVerbTableC(EIGHT_BYTE_POINTERS);
@@ -1501,6 +1514,8 @@ namespace XMLtoAdv
                 {
                    sw.WriteLine(v.name + "\t" + delim +  " " + v.initialVal);
                 }
+
+                sw.WriteLine("NumRecs\t" + delim + " " + (((objects.Count * 19 + varTable.Count + userVars.Count) / 128) + 1) + " ; for CP/M save");
 
             }
              

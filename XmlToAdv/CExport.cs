@@ -37,7 +37,7 @@ namespace XMLtoAdv
                 sw.WriteLine("Machine generated string table ");
                 sw.WriteLine("***********************************************/");
                 sw.WriteLine("");
-                sw.WriteLine("const int " + tableName + "Size=" + table.GetNumEntries() + ";\n");
+                sw.WriteLine("extern const int " + tableName + "Size=" + table.GetNumEntries() + ";\n");
                 sw.WriteLine("const char *" + tableName + "[] = { ");
 
                 for (int i = 0; i < table.GetNumEntries(); i++)
@@ -63,7 +63,7 @@ namespace XMLtoAdv
                 sw.WriteLine("Machine generated ojbect table ");
                 sw.WriteLine("***********************************************/");
                 int count = objects.Count();
-                sw.WriteLine("const int NumObjects=" + count + ";");
+                sw.WriteLine("extern const int NumObjects=" + count + ";");
                 sw.WriteLine("unsigned char ObjectData[] = {");
 
                 for (int i = 0; i < count; i++)
@@ -137,7 +137,7 @@ namespace XMLtoAdv
 
                 int total = objects.Count() + CountSynonyms();
                 int c = 0;
-                sw.WriteLine("const int ObjectWordTableSize=" + total + ";");
+                sw.WriteLine("extern const int ObjectWordTableSize=" + total + ";");
                 //                sw.WriteLine("unsigned char ObjectWordTableData[" + total + "][4] = {");
                 sw.WriteLine("unsigned char ObjectWordTableData[] = {");
                 foreach (GameObject o in objects)
@@ -163,6 +163,7 @@ namespace XMLtoAdv
 
                         int wordId = dict.GetEntryId(words[i]);
 
+                        /*make sure -1 is converted to 255*/
                         if (wordId == -1)
                             wordId = 255;
 
@@ -247,7 +248,6 @@ namespace XMLtoAdv
             XmlNodeList subs = doc.SelectNodes("//project/sentences/sentence");
             List<string> subNames = new List<string>();
             
-
             using (StreamWriter sw = File.CreateText(fileName))
             {
                 int c = CountSentences(type);
@@ -259,11 +259,11 @@ namespace XMLtoAdv
                 sw.WriteLine("");
 
                 if (type == "before")
-                    sw.WriteLine("const int BeforeTableSize=" + c + ";");
+                    sw.WriteLine("extern const int BeforeTableSize=" + c + ";");
                 else if (type == "instead")
-                    sw.WriteLine("const int InsteadTableSize=" + c + ";");
+                    sw.WriteLine("extern const int InsteadTableSize=" + c + ";");
                 else
-                    sw.WriteLine("const int AfterTableSize=" + c + ";");
+                    sw.WriteLine("extern const int AfterTableSize=" + c + ";");
                 sw.WriteLine("unsigned char " + tableName + "Data[] = {");
                 int count = 0;
                 
@@ -482,7 +482,7 @@ namespace XMLtoAdv
 
                 sw.WriteLine("}");
 
-                sw.WriteLine("const int NumVerbChecks=" + i + ";");
+                sw.WriteLine("extern const int NumVerbChecks=" + i + ";");
             }//end using
         }
 
