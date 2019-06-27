@@ -104,8 +104,7 @@ namespace XTAC
                     FixVariableNames();
                     FixPrintedNames();
                     FixFunctions();
-                    FixBlankDescriptions();
-                    FixDescriptions();
+                     FixDescriptions();
                     FixOutputName();
                     FixVerbs();
                     FixEmptyObjects();
@@ -1126,12 +1125,8 @@ namespace XTAC
         }
 
         private void objNameTextBox_TextChanged(object sender, EventArgs e)
-        {
-            /*   int caretPos = objNameTextBox.SelectionStart;
-               objNameTextBox.Text = objNameTextBox.Text.Trim().To ();
-               GetCurObj().PrintedName = objNameTextBox.Text;
-               objNameTextBox.SelectionStart = caretPos;
-               */
+        { 
+            /*warn about rooms/objects starting with a digit*/
 
             if (objNameTextBox.Text.Length > 0)
             {
@@ -2745,7 +2740,7 @@ namespace XTAC
                 try
                 {
                     converter.ConvertRPi(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run 'make' (without the quotes)");
                 }
                 catch (Exception ex)
                 {
@@ -2781,7 +2776,7 @@ namespace XTAC
                 try
                 {
                     converter.ConvertX64(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: make");
+                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in a Linux shell (or Cygwin) and run: make (or 'sudo make')");
                 }
                 catch (Exception ex)
                 {
