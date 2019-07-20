@@ -46,6 +46,8 @@ namespace PlayerLib
         string version;
         string walkThrough;
         string prevCommand = "LOOK";
+        string responseStr = "";
+        int answer;
         int verb;
         int dobj;
         int prep;
@@ -59,8 +61,11 @@ namespace PlayerLib
         bool dobjSupplied;
         bool iobjSupplied;
         static Game _game;
+        bool asking;
 
         string[] dirs = { "n", "s", "e", "w", "ne", "se", "nw", "sw", "up", "down" };
+
+        public new bool Asking { get { return asking; } set { asking = value; } }
 
         private Game() {
 
@@ -262,8 +267,26 @@ namespace PlayerLib
 
         }
 
+        public override void Ask()
+        {
+            /* go into a wait loop until a reponse has been provided */
+            PrintStringCr("Waiting for response");
 
-       
+            UserInput ui = new UserInput();
+            ui.ShowDialog();
+            responseStr = ui.text;
+            PrintStringCr("Response = " + responseStr);
+
+            /*responseStr has been set, get the value*/
+            answer = stringTable.GetEntryId(responseStr);
+
+            if (answer == -1)
+                answer = 255;
+
+            SetVar("answer", answer);
+            PrintStringCr("ResponseId = " + answer);
+        }
+
 
         public override void Look()
         {
@@ -337,30 +360,14 @@ namespace PlayerLib
 
             ObjTableEntry curRoom = objTable.GetObj(GetPlayerRoom());
             int newRoom = curRoom.GetObjAttr(dir);
-            if (newRoom < 127)
+            ObjTableEntry newr = objTable.GetObj(newRoom);
+            if (newr.GetObjAttr("DOOR") == 1)
             {
-                ObjTableEntry newr = objTable.GetObj(newRoom);
-                if (newr.GetObjAttr("DOOR") == 1)
-                {
-                    if (newr.GetObjAttr("OPEN") == 0)
-                    {
-                        PrintStringCr("The " + newr.printedName + " is closed.");
-                        return;
-                    }
-                    else
-                    {
-                        newRoom = GetObjectAttr(newRoom, dir);
-                    }
-                }
+                    newRoom = GetObjectAttr(newRoom, dir);
+            }
 
-                objTable.SetObjAttr(PLAYER, "HOLDER", newRoom);
-                Look();
-            }
-            else
-            {
-                newRoom = 255-newRoom;
-                PrintStringCr(nogoTable.GetEntry(newRoom+1));
-            }
+            objTable.SetObjAttr(PLAYER, "HOLDER", newRoom);
+            Look();
         }
 
         public void Get()
@@ -660,6 +667,14 @@ namespace PlayerLib
             Look();
             PrintString(">");
             outputWindow.SelectionLength = 0;
+        }
+
+        public void AcceptResponse(string response)
+        {
+            this.responseStr = response;
+            Asking = false;
+            PrintCr();
+            PrintString(">");
         }
 
         public void AcceptCommand(string command)

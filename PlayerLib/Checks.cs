@@ -21,6 +21,7 @@ namespace PlayerLib
             checkTable.Clear();
 
             //create jump table
+            checkTable.Add("check_move", new VerbCheckDlgt(check_move));
             checkTable.Add("check_dobj_supplied", new VerbCheckDlgt(check_dobj_supplied));
             checkTable.Add("check_iobj_supplied", new VerbCheckDlgt(check_iobj_supplied));
             checkTable.Add("check_prep_supplied", new VerbCheckDlgt(check_prep_supplied));
@@ -41,7 +42,8 @@ namespace PlayerLib
             checkTable.Add("check_weight", new VerbCheckDlgt(check_weight));
             checkTable.Add("check_enter_dobj", new VerbCheckDlgt(check_enterable));
             checkTable.Add("check_not_self_or_child", new VerbCheckDlgt(check_not_self_or_child));
-            
+            checkTable.Add("check_put", new VerbCheckDlgt(check_put));
+
             XmlNodeList checks = doc.SelectNodes("//project/checks/check");
 
             foreach (XmlNode c in checks)
@@ -282,6 +284,11 @@ namespace PlayerLib
                 PrintStringCr("That's not openable.");
                 return false;
             }
+            if (GetObjectAttr(dobj, "LOCKED") == 1)
+            {
+                PrintStringCr("It' locked.");
+                return false;
+            }
             return true;
         }
 
@@ -308,6 +315,29 @@ namespace PlayerLib
             }
         }
 
+        bool check_put()
+        {
+            if (prep == 0)
+            {//in
+                if (!IsContainer(iobj))
+                {
+                    PrintStringCr("You can't put things in that.");
+                    return false;
+                }
+
+                if (GetObjectAttr(iobj,"OPEN")==0)
+                {
+                    PrintStringCr("It's closed.");
+                    return false;
+                }
+            }
+            else if (prep == 6)
+            {//on
+
+            }
+            return true;
+        }
+
         bool check_not_self_or_child()
         {
             if (dobj == iobj || ObjectHas(dobj, iobj))
@@ -316,6 +346,35 @@ namespace PlayerLib
                 return false;
             }
             return true;
+        }
+
+        bool check_move()
+        {
+            string dir = VerbToDir();
+
+            ObjTableEntry curRoom = objTable.GetObj(GetPlayerRoom());
+            int newRoom = curRoom.GetObjAttr(dir);
+            if (newRoom < 127)
+            {
+                ObjTableEntry newr = objTable.GetObj(newRoom);
+                if (newr.GetObjAttr("DOOR") == 1)
+                {
+                    if (newr.GetObjAttr("OPEN") == 0)
+                    {
+                        PrintStringCr("The " + newr.printedName + " is closed.");
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                newRoom = 255 - newRoom;
+                PrintStringCr(nogoTable.GetEntry(newRoom + 1));
+                return false;
+            }
+
         }
 
         bool RunChecks()
@@ -342,6 +401,11 @@ namespace PlayerLib
             
 
             return true;
+        }
+
+        public override bool IsAsking()
+        {
+            return asking;
         }
     }
 }

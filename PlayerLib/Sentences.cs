@@ -12,6 +12,11 @@ namespace PlayerLib
 
         void BuildSentences(XmlDocument doc)
         {
+            //clear lists
+            before.Clear();
+            instead.Clear();
+            after.Clear();
+
             //build before
             XmlNodeList sentences = doc.SelectNodes("//project/sentences/sentence");
             Game g = Game.GetInstance();
