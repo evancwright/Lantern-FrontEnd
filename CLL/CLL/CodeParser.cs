@@ -159,7 +159,16 @@ namespace CLL
                         {
                             parent.Append(new PrintLn(statement));
                         }
-                        else if (statement.ToString().StartsWith("print_name"))
+                        else if (statement.ToString().StartsWith("printvar"))
+                        {
+                            string inner = ReadToParen(statement);
+                            StringBuilder sb = GetCondition(new StringBuilder(inner));
+                            parent.Append(new PrintVar(sb));
+                        }
+                        else if (statement.ToString().StartsWith("print_name") ||
+                            statement.ToString().StartsWith("printname") ||
+                            statement.ToString().StartsWith("printobjname") 
+                            )
                         {
                             string inner = ReadToParen(statement);
                             StringBuilder sb = GetCondition(new StringBuilder(inner));
@@ -177,8 +186,12 @@ namespace CLL
                         {
                             parent.Append(new Move());
                         }
-                        else if (statement.ToString().StartsWith("print"))
+                        else if (statement.ToString().StartsWith("ask"))
                         {
+                            parent.Append(new Ask());
+                         }
+                        else if (statement.ToString().StartsWith("print"))
+                        { //do after all other prints
                             parent.Append(new Print(statement.ToString()));
                         }
                         else if (statement.ToString().StartsWith("call "))
@@ -385,9 +398,10 @@ namespace CLL
             string obj = toks[0].Trim();
             string attr = toks[1].Trim();
 
-            if (game.GetObjectId(obj) == -1)
-                throw new Exception("game has not object named " + obj);
-
+            if (game.GetObjectId(obj) == -1 && !game.IsVariable(obj))
+            {
+                throw new Exception("game has no object or variable named " + obj);
+            }
             IIntResult lhs = ToIIntResult(obj);
             IIntResult rhs = BuildExprTree(new StringBuilder(right));
 
@@ -476,6 +490,7 @@ namespace CLL
             {
                 //trim off else
                 string temp = code.ToString().Substring(4).Trim();
+
 
                 //is there an else
                 if (temp.IndexOf("if") == 0)

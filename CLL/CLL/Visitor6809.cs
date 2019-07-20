@@ -75,6 +75,10 @@ namespace CLL
             sw.WriteLine("\tleas 2,s ; pop param");
         }
 
+        public void Visit(PrintVar pv)
+        {
+            throw new NotImplementedException("6809 Print var not implemented.");
+        }
 
         public void Visit(Rand r)
         {
@@ -465,6 +469,12 @@ namespace CLL
             sw.WriteLine("\t;look statement");
             sw.WriteLine("\tjsr look_sub");
         }
+
+        public void Visit(Ask ask)
+        {
+            sw.WriteLine("\tjsr ask");
+        }
+
 
         public void Visit(Call c)
         {

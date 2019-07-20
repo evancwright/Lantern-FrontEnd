@@ -64,7 +64,7 @@ namespace CLL
                 int prec = op.Precedence;
                 int next_min_prec = prec + 1;
 
-                Console.WriteLine("operator=" + optxt);
+                //Console.WriteLine("operator=" + optxt);
 
                 IIntResult rhs = PrecedenceClimb(toks, next_min_prec);
                 op.Right = rhs;

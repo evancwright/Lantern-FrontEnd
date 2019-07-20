@@ -68,6 +68,10 @@ namespace CLL
             sw.WriteLine("\tadd sp,2  ; pop params");
         }
 
+        public void Visit(PrintVar pv)
+        {
+            throw new NotImplementedException("8086 PrintVar not implemented.");
+        }
 
         public void Visit(Rand r)
         {
@@ -424,6 +428,12 @@ namespace CLL
             sw.WriteLine("\tnop ;look statement");
             sw.WriteLine("\tcall look_sub");
         }
+
+        public void Visit(Ask ask)
+        {
+            sw.WriteLine("\tcall ask");
+        }
+
 
         public void Visit(Call c)
         {

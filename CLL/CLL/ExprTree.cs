@@ -4,15 +4,16 @@ using System.Linq;
 using IGame;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace CLL
-{ 
+{
     public interface IIntResult
     {
         int Eval(IGame.IGame game);
         void Accept(IVisitor v);
     }
-     
+
     public abstract class BinaryOperator : IIntResult
     {
 
@@ -33,7 +34,7 @@ namespace CLL
         public abstract void Accept(IVisitor v);
 
         //public BinaryOperator() { precedence = 0; }
-       public BinaryOperator(int precedence) { this.precedence = precedence; }
+        public BinaryOperator(int precedence) { this.precedence = precedence; }
     }
 
     /// <summary>
@@ -293,7 +294,7 @@ namespace CLL
         public StringLiteral(string str) { this.s = str; }
         public int Eval(IGame.IGame game)
         {
-//            return 0; //look up string in literal table
+            //            return 0; //look up string in literal table
             return game.GetStringId(s);
         }
         public void Accept(IVisitor v) { v.Visit(this); }
@@ -333,7 +334,7 @@ namespace CLL
         public int Eval(IGame.IGame game)
         {
             //look up the variable name and return it
-            
+
             int objId = Left.Eval(game);
             /*
             if (objId == -1)
@@ -371,10 +372,10 @@ namespace CLL
 
             int objId = Left.Eval(game);
 
-//            int objId = game.GetObjectId(objNum);
+            //            int objId = game.GetObjectId(objNum);
 
-  //          if (objId == -1)
-  //              throw new Exception("game doesn't have an object named objName (in GetObjAttr)");
+            //          if (objId == -1)
+            //              throw new Exception("game doesn't have an object named objName (in GetObjAttr)");
 
             return game.GetObjectAttr(objId, AttrName);
 
@@ -433,8 +434,8 @@ namespace CLL
             int value = Right.Eval(game);
 
             //look up the lhs by name and set its value
-//            if (objid == -1)
-//                throw new Exception("game doesn't have an object named objName (in GetObjAttr)");
+            //            if (objid == -1)
+            //                throw new Exception("game doesn't have an object named objName (in GetObjAttr)");
 
             game.SetObjectAttr(objId, attrName, value);
 
@@ -442,7 +443,7 @@ namespace CLL
 
         public override void Accept(IVisitor v)
         {
-            Console.WriteLine("pushing rhs for attr assignment");
+//            Console.WriteLine("pushing rhs for attr assignment");
             Left.Accept(v);
             Right.Accept(v);
 
@@ -461,7 +462,7 @@ namespace CLL
         {
 
         }
-        public PropAssignment(string name, string  attr, IIntResult lhs, IIntResult rhs)
+        public PropAssignment(string name, string attr, IIntResult lhs, IIntResult rhs)
         {
             objName = name;
             propName = attr;
@@ -473,12 +474,12 @@ namespace CLL
         {
             int objId = Left.Eval(game);
             int value = Right.Eval(game);
-            
-            //look up the lhs by name and set its value
-//            int objId = game.GetObjectId(objName);
 
-  //          if (objId == -1)
-  ///              throw new Exception("game doesn't have an object named objName (in PropAssignment)");
+            //look up the lhs by name and set its value
+            //            int objId = game.GetObjectId(objName);
+
+            //          if (objId == -1)
+            ///              throw new Exception("game doesn't have an object named objName (in PropAssignment)");
 
             game.SetObjectAttr(objId, propName, value);
         }
@@ -520,7 +521,7 @@ namespace CLL
 
         public override void Accept(IVisitor v)
         {
-           // text.Accept(v); //push arg onto the stack
+            // text.Accept(v); //push arg onto the stack
             v.Visit(this); //pop and print
         }
 
@@ -565,7 +566,7 @@ namespace CLL
         {
             //write text to console
             game.PrintStringCr(game.GetStringId(text));
-            
+
         }
     }
 
@@ -575,7 +576,7 @@ namespace CLL
     public class PrintObjectName : Statement
     {
         public IIntResult objectId { get; set; }
-        
+
         public PrintObjectName(IIntResult inner)
         {
             objectId = inner;
@@ -594,6 +595,31 @@ namespace CLL
 
             game.PrintObjectName(id);
 
+        }
+    }
+
+
+    /// <summary>
+    /// Represents a print statement
+    /// </summary>
+    public class PrintVar : Statement
+    {
+        public string VarName;
+        
+        public PrintVar(StringBuilder varName)
+        {
+            this.VarName = varName.ToString();
+        }
+
+        public override void Accept(IVisitor v)
+        {
+            v.Visit(this);
+        }
+
+        public override void Execute(IGame.IGame game)
+        {
+            int varVal = game.GetVarVal(VarName);
+            game.PrintString(varVal.ToString());
         }
     }
 
@@ -626,9 +652,9 @@ namespace CLL
 
     public class Has : BinaryOperator
     {
- 
+
         public Has() : base(PRECEDENCE_AND) { }
-         
+
 
         public override void Accept(IVisitor v)
         {
@@ -771,7 +797,7 @@ namespace CLL
         //public IfStatement ElseIf { \get; set; }
         public Body Else { get; set; }
         public Label exitLabel = new Label();
-         
+
         public Jump exitJump = new Jump();
         public Jump skipJump = new Jump();
 
@@ -791,7 +817,7 @@ namespace CLL
             Condition.Accept(v); //write code to compute result of expr
             v.Visit(this); //write the test
             v.Visit(skipJump, Body.endBody.Text);
-            
+
             Body.Accept(v);
 
             //jump out of body
@@ -805,12 +831,19 @@ namespace CLL
             //foreach (IfStatement i in elseifs)
             for (int i = 0; i < this.elseifs.Count; i++)
             {
+                //RPI NEEDS 'else'
+                //Horrible Hack :(
+                if (v is VisitorRPi)
+                {
+                    (v as VisitorRPi).WriteElse ();
+                }
+
                 elseifs[i].Body.endBody.Text = v.GetNextLabel();
-                
+
                 elseifs[i].Condition.Accept(v); //push condition
 
                 v.Visit(elseifs[i]); //write compare
-                 
+
                 v.Visit(skipJump, elseifs[i].Body.endBody.Text);
 
                 elseifs[i].Body.Accept(v);
@@ -818,22 +851,60 @@ namespace CLL
                 //jump out of else-if
                 exitJump.Accept(v, exitLabel.Text);
 
-                elseifs[i].Body.endBody.Accept(v);
-                v.EndBody();
+                if (v as VisitorRPi == null)
+                {
+                    elseifs[i].Body.endBody.Accept(v);
+                    v.EndBody();
+                }
+                //RPi needs }
+
+                //godawful hack
+                if (v is VisitorRPi)
+                {
+                    v.EndBody();
+                }
+
+
+                //horrible hack. else needs to be attached to last else if
+                if (Else != null && (v as VisitorRPi) != null &&
+                    i == this.elseifs.Count -1)
+                {
+                    v.BeginElse();
+                    Else.Accept(v);
+                    v.EndBody();
+                }
+
+
+            } //end loop through else-ifs
+
+            //C code needs to close all nested else ifs
+            if (v is VisitorRPi)
+            {
+                for (int i=0; i < elseifs.Count;i++)
+                {
+                    v.EndBody();
+                }
             }
 
+            //horrible hack
+            //case 1 - not C visitor - write else
+            //case 2 - C visitor write else if not already written
             if (Else != null)
-            {
-                v.BeginElse();
-                Else.Accept(v);
-                v.EndBody();
+            { 
+                if (  ((v as VisitorRPi) == null ) ||
+                    ( (v is VisitorRPi) && elseifs.Count == 0) )
+                {
+                    v.BeginElse();
+                    Else.Accept(v);
+                    v.EndBody();
+                }
             }
 
             //@exit
             exitLabel.Accept(v);
         }
 
-        
+
 
         public override void Execute(IGame.IGame game)
         {
@@ -954,9 +1025,29 @@ namespace CLL
         }
 
 
-        
+
     }
 
+
+    public class Ask : Statement
+    {
+        public override void Accept(IVisitor v)
+        {
+            v.Visit(this);
+        }
+
+        public override void Execute(IGame.IGame game)
+        {
+            game.Ask();
+
+            while (game.IsAsking())
+            {
+                System.Threading.Thread.Sleep(100);
+            }
+
+
+        }
+    }
 
 
     public class Call : Statement

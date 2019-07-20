@@ -52,13 +52,19 @@ namespace CLL
 
         public void Visit(PrintObjectName ps)
         {
-            throw new Exception("PrintObjectName visitor not implemented on Z80!");
+            sw.WriteLine("\tpop af");
+            sw.WriteLine("\tcall print_obj_name");
+        }
+
+        public void Visit(PrintVar ps)
+        {
+            throw new NotImplementedException("Z80 Print var not implemented.");
         }
 
         public void Visit(Rand r)
         {
             sw.WriteLine("\t;rand(x)");
-            sw.WriteLine("\tpull bc ; modulus -> b");
+            sw.WriteLine("\tpop bc ; modulus -> b");
             sw.WriteLine("\tcall rmod");
             sw.WriteLine("\tpush af");
         }
@@ -340,6 +346,18 @@ namespace CLL
             sw.WriteLine("\tcall look_sub ; look command");
         }
 
+        public void Visit(Ask ask)
+        {
+            sw.WriteLine("\t; ask command");
+            sw.WriteLine("\tcall getlin");
+            sw.WriteLine("\tld ix,INBUF");
+            sw.WriteLine("\tld iy,string_table");
+            sw.WriteLine("\tcall get_table_index ; result in b");
+            sw.WriteLine("\tld a,b");
+            sw.WriteLine("\tld (answer),a");
+        }
+
+
         public void Visit(Function f)
         {
             sw.WriteLine(f.name + " ; start subroutine");
@@ -426,6 +444,6 @@ namespace CLL
             sw.WriteLine("\tpop af");
         }
 
-
+        
     }
 }

@@ -15,7 +15,7 @@ namespace CLL
         protected int _label = 0;
         protected int labelId = 97;
         IGame.IGameXml game;
-
+        int tabLevel;
         public VisitorRPi(IGame.IGameXml g)
         {
             game = g;
@@ -28,60 +28,67 @@ namespace CLL
 
         public void Visit(IfStatement ps)
         {
-            Console.WriteLine("\t//if statement");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tif (param1 != 0)");
-            sw.WriteLine("\t{");
+//            Console.WriteLine(Tabs() + "//if statement");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "if (param1 != 0)");
+            sw.WriteLine(Tabs() + "{");
+            tabLevel++;        
 
         }
 
         public void Visit(Print ps)
         {
-            sw.WriteLine("\tprint_string(" + game.GetStringId(ps.text) + "); ");
+            sw.WriteLine(Tabs() + "print_string(" + game.GetStringId(ps.text) + "); /*" + ps.text + "*/");
         
         }
 
         public void Visit(PrintLn ps)
         {
-            sw.WriteLine("\tprint_string(" + game.GetStringId(ps.text) + "); ");
-            sw.WriteLine("print_cr();");
+            sw.WriteLine(Tabs() + "print_string(" + game.GetStringId(ps.text) + "); ");
+            sw.WriteLine(Tabs() + "print_cr();");
         }
 
         public void Visit(PrintObjectName ps)
         {
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tprint_obj_name(param1); ");
-            sw.WriteLine("print_cr();");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "print_obj_name(param1); ");
+            sw.WriteLine(Tabs() + "print_cr();");
+        }
+
+        public void Visit(PrintVar ps)
+        {
+            sw.WriteLine(Tabs() + "sprintf(buffer,\"%d\",ps.VarName);");
+            sw.WriteLine(Tabs() + "printstr(buffer);");
         }
 
 
         public void Visit(Rand r)
         {
-            sw.WriteLine("\t//rand()");
-            sw.WriteLine("\t param1 = param_stack_pop();");
-            sw.WriteLine("\t param1 = rand8(param1)  ; ");
-            sw.WriteLine("\t param_stack_push(param1) ; ");
+            sw.WriteLine(Tabs()+"//rand()");
+            sw.WriteLine(Tabs()+" param1 = param_stack_pop();");
+            sw.WriteLine(Tabs()+" param1 = rand8(param1)  ; ");
+            sw.WriteLine(Tabs()+" param_stack.push(param1) ; ");
 
         }
 
         public void Visit(Has ph)
         {
             //pop child
-            sw.WriteLine("\t; child is on stack");
-            sw.WriteLine("\tparam2 = param_stack_pop()");
+            sw.WriteLine(Tabs()+"; child is on stack");
+            sw.WriteLine(Tabs()+"param2 = param_stack_pop()");
             //pop parent
-            sw.WriteLine("\t; parent is on stack");
-            sw.WriteLine("\tparam1 = param_stack_pop()");
+            sw.WriteLine(Tabs()+"; parent is on stack");
+            sw.WriteLine(Tabs()+"param1 = param_stack_pop()");
             //call ancestor function
-            sw.WriteLine("\tparam1 = is_child_of(param1,param2);");
-            sw.WriteLine("\t param_stack_push(param1) ; ");
+            sw.WriteLine(Tabs()+"param1 = is_child_of(param1,param2);");
+            sw.WriteLine(Tabs()+" param_stack_push(param1) ; ");
         }
 
         public void Visit(VariableRVal v)
         {
-            sw.WriteLine("\t// variable rval");
-            sw.WriteLine("\tparam1 = " + FixVarName(v.VarName) + ";");
-            sw.WriteLine("\tparam_stack.push(param1);");
+            sw.WriteLine(Tabs()+"// variable rval");
+            sw.WriteLine(Tabs()+"param1 = " + FixVarName(v.VarName) + ";");
+            sw.WriteLine(Tabs()+"param_stack.push(param1);");
         }
 
         public void Visit(AttributeRVal v)
@@ -92,14 +99,14 @@ namespace CLL
             ; top param is obj id
             */
 
-            sw.WriteLine("\t// ;getting an attr");
+            sw.WriteLine(Tabs()+"// ;getting an attr");
 
             try
             {
-                sw.WriteLine("\tparam1 = param_stack_pop() ; // get object id");
-                sw.WriteLine("\tparam2 = " + attrIndexes[v.AttrName] + " ; //" + v.AttrName);
-                sw.WriteLine("\tparam1 = get_object_attr(param1, param2) ; ");
-                sw.WriteLine("\tparam_stack.push(param1);");
+                sw.WriteLine(Tabs()+"param1 = param_stack_pop() ; // get object id");
+                sw.WriteLine(Tabs()+"param2 = " + attrIndexes[v.AttrName] + " ; //" + v.AttrName);
+                sw.WriteLine(Tabs()+"param1 = get_object_attr(param1, param2) ; ");
+                sw.WriteLine(Tabs()+"param_stack.push(param1);");
             }
             catch (Exception e)
             {
@@ -117,13 +124,13 @@ namespace CLL
              ; 1-object id (top)
 
              */
-            sw.WriteLine("\t//getting a property");
+            sw.WriteLine(Tabs()+"//getting a property");
             try
             {
-                sw.WriteLine("\tparam1 = param_stack_pop() ; //object id");
-                sw.WriteLine("\tparam2 = " + propIndexes[v.PropName] + " ; //" + v.PropName);
-                sw.WriteLine("\tparam1 =  get_object_prop(param1, param2) ; ");
-                sw.WriteLine("\tparam_stack.push(param1);");
+                sw.WriteLine(Tabs() + "param1 = param_stack_pop() ; //object id");
+                sw.WriteLine(Tabs() + "param2 = " + propIndexes[v.PropName] + " ; //" + v.PropName);
+                sw.WriteLine(Tabs() + "param1 =  get_object_prop(param1, param2) ; ");
+                sw.WriteLine(Tabs() + "param_stack.push(param1);");
             }
             catch (Exception e)
             {
@@ -134,8 +141,8 @@ namespace CLL
 
         public void Visit(Constant Mc)
         {
-            sw.WriteLine("\t//constant");
-            sw.WriteLine("\tparam_stack.push(" + Mc.Value + ");");
+            sw.WriteLine(Tabs() + "//constant");
+            sw.WriteLine(Tabs() + "param_stack.push(" + Mc.Value + ");");
         }
 
         public void Visit(StringLiteral sl)
@@ -145,52 +152,52 @@ namespace CLL
 
         public void Visit(And c)
         {
-            sw.WriteLine("\t//&&");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tparam2 =  param_stack_pop();");
-            sw.WriteLine("\tparam1 = param1 && param2;");
-            sw.WriteLine("\tparam_stack.push(param1);");
+            sw.WriteLine(Tabs() + "//&&");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param2 =  param_stack_pop();");
+            sw.WriteLine(Tabs() + "param1 = param1 && param2;");
+            sw.WriteLine(Tabs() + "param_stack.push(param1);");
         }
         public void Visit(Or c)
         {
-            sw.WriteLine("\t//||");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tparam2 =  param_stack_pop();");
-            sw.WriteLine("\tparam1 = param1 || param2;");
-            sw.WriteLine("\tparam_stack.push(param1);");
+            sw.WriteLine(Tabs() + "//||");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param2 =  param_stack_pop();");
+            sw.WriteLine(Tabs() + "param1 = param1 || param2;");
+            sw.WriteLine(Tabs() + "param_stack.push(param1);");
         }
 
         //   void Visit(Not m);
         public void Visit(Compare c)
         {
-            sw.WriteLine("\t// ==");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tparam2 = param_stack_pop();");
-            sw.WriteLine("\tparam_stack.push( (short) param1 == param2 );");
+            sw.WriteLine(Tabs() + "// ==");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param2 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param_stack.push( (short) param1 == param2 );");
         }
 
         public void Visit(Plus p)
         {
-            sw.WriteLine("\t//plus");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tparam2 =  param_stack_pop();");
-            sw.WriteLine("\tparam_stack.push(param1 + param2);");
+            sw.WriteLine(Tabs() + "//plus");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param2 =  param_stack_pop();");
+            sw.WriteLine(Tabs() + "param_stack.push(param1 + param2);");
         }
 
         public void Visit(Mult p)
         {
-            sw.WriteLine("\t//*");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tparam2 =  param_stack_pop();");
-            sw.WriteLine("\tparam_stack.push(param1 * param2);");
+            sw.WriteLine(Tabs() + "//*");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param2 =  param_stack_pop();");
+            sw.WriteLine(Tabs() + "param_stack.push(param1 * param2);");
         }
 
         public void Visit(Minus m)
         {
-            sw.WriteLine("\t//*");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tparam2 =  param_stack_pop();");
-            sw.WriteLine("\tparam_stack.push(param1 - param2);");
+            sw.WriteLine(Tabs() + "//minus");
+            sw.WriteLine(Tabs() + "param2 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param1 =  param_stack_pop();");
+            sw.WriteLine(Tabs()+"param_stack.push(param1 - param2);");
         }
 
         public void Visit(GreaterThan m)
@@ -202,42 +209,42 @@ namespace CLL
             //10 = a == b
             //push a 1 if zc == 0
 
-            sw.WriteLine("\t// ;a > b");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tparam2 = param_stack_pop();");
-            sw.WriteLine("\tparam_stack.push((short)(param1 > param2));");
+            sw.WriteLine(Tabs() + "// ;a > b");
+            sw.WriteLine(Tabs() + "param2 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param_stack.push((short)(param1 > param2));");
         }
 
         public void Visit(LessThan m)
         {
-            sw.WriteLine("\t//a < b");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tparam2 = param_stack_pop();");
-            sw.WriteLine("\tparam_stack.push((short)(param1 < param2));");
+            sw.WriteLine(Tabs() + "//a < b");
+            sw.WriteLine(Tabs() + "param2 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param_stack.push((short)(param1 < param2));");
         }
 
         public void Visit(GreaterThanEquals m)
         {
             //push a 1 if c == 0
-            sw.WriteLine("\t//a >= b");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tparam2 = param_stack_pop();");
-            sw.WriteLine("\tparam_stack.push(param1 >= param2);");
+            sw.WriteLine(Tabs() + "//a >= b");
+            sw.WriteLine(Tabs() + "param2 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param_stack.push(param1 >= param2);");
         }
 
         public void Visit(LessThanEquals m)
         {
-            sw.WriteLine("\t// <= ");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tparam2 = param_stack_pop();");
-            sw.WriteLine("\tparam_stack.push(param1 <= param2);");
+            sw.WriteLine(Tabs() + "// <= ");
+            sw.WriteLine(Tabs() + "param2 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param_stack.push(param1 <= param2);");
         }
 
         public void Visit(VarAssignment m)
         {
-            sw.WriteLine("\t//writing a set var statement");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\t" + m.VarName + " = param1;");
+            sw.WriteLine(Tabs() + "//writing a set var statement");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + m.VarName + " = param1;");
         }
 
         public void Visit(AttrAssignment asn)
@@ -250,19 +257,19 @@ namespace CLL
             ;next is object
              */
 
-            sw.WriteLine("\t// ;writing a set attribute statement");
+            sw.WriteLine(Tabs()+"// ;writing a set attribute statement");
 
-            //            sw.WriteLine("\tpop bx ; pull value (rhs)");
-            //           sw.WriteLine("\tpop ax ; pull obj # (lhs)");
-            //            sw.WriteLine("\tpshu a ; push obj # param");
+            //            sw.WriteLine(Tabs()+"pop bx ; pull value (rhs)");
+            //           sw.WriteLine(Tabs()+"pop ax ; pull obj # (lhs)");
+            //            sw.WriteLine(Tabs()+"pshu a ; push obj # param");
             
             try
             {
                 //stuff here
-                sw.WriteLine("\tparam3 = param_stack_pop() ; //save value");
-                sw.WriteLine("\tparam1 = param_stack_pop() ; //save obj id");
-                sw.WriteLine("\tparam2 = " + attrIndexes[asn.attrName] + " ; // attr index");
-                sw.WriteLine("\tset_object_attr(param1,param2,param3);");
+                sw.WriteLine(Tabs() + "param3 = param_stack_pop() ; //save value");
+                sw.WriteLine(Tabs() + "param1 = param_stack_pop() ; //save obj id");
+                sw.WriteLine(Tabs() + "param2 = " + attrIndexes[asn.attrName] + " ; // attr index");
+                sw.WriteLine(Tabs() + "set_object_attr(param1,param2,param3);");
             }
             catch (Exception e)
             {
@@ -280,10 +287,10 @@ namespace CLL
 
             try
             {
-                sw.WriteLine("\tparam3 = param_stack_pop() ; //save value");
-                sw.WriteLine("\tparam1 = param_stack_pop() ; //save obj id");
-                sw.WriteLine("\tparam2 = " + propIndexes[m.propName] + " ; //" + m.propName);
-                sw.WriteLine("\tset_object_prop(param1,param2,param3);");
+                sw.WriteLine(Tabs() + "param3 = param_stack_pop() ; //save value");
+                sw.WriteLine(Tabs() + "param1 = param_stack_pop() ; //save obj id");
+                sw.WriteLine(Tabs() + "param2 = " + propIndexes[m.propName] + " ; //" + m.propName);
+                sw.WriteLine(Tabs() + "set_object_prop(param1,param2,param3);");
             }
             catch (Exception e)
             {
@@ -294,10 +301,10 @@ namespace CLL
 
         public void Visit(NotEquals m)
         {
-            sw.WriteLine("\t// !=");
-            sw.WriteLine("\tparam1 = param_stack_pop();");
-            sw.WriteLine("\tparam2 = param_stack_pop();");
-            sw.WriteLine("\tparam_stack.push(param1 != param2);");
+            sw.WriteLine(Tabs() + "// !=");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param2 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "param_stack.push(param1 != param2);");
         }
 
         public void Visit(Label lbl)
@@ -310,15 +317,21 @@ namespace CLL
 
         public void Visit(Move move)
         {
-            sw.WriteLine("\t//move statement");
-            sw.WriteLine("\tmove_sub();");
+            sw.WriteLine(Tabs() + "//move statement");
+            sw.WriteLine(Tabs() + "move_sub();");
         }
 
         public void Visit(Look look)
         {
-            sw.WriteLine("\t//look statement");
-            sw.WriteLine("\tlook_sub();");
+            sw.WriteLine(Tabs() + "//look statement");
+            sw.WriteLine(Tabs() + "look_sub();");
         }
+
+        public void Visit(Ask ask)
+        {
+            sw.WriteLine(Tabs() + "ask();");
+        }
+
 
         public void Visit(Call c)
         {
@@ -328,7 +341,7 @@ namespace CLL
             {
                 name = name.Substring(0, name.IndexOf('(')).Trim();
             }
-            sw.WriteLine("\t" + name + "_sub();");
+            sw.WriteLine(Tabs() + name + "_sub();");
         }
 
         public void Visit(Function f)
@@ -337,8 +350,9 @@ namespace CLL
             sw.WriteLine("");
             sw.WriteLine("void " + f.name + "()");
             sw.WriteLine("{");
+            tabLevel = 2;
             f.body.Accept(this);
-//            sw.WriteLine("\t};");
+//            sw.WriteLine(Tabs()+"};");
             sw.WriteLine("}");
         }
 
@@ -349,6 +363,7 @@ namespace CLL
 
         public void WriteSubName(string text)
         {
+            tabLevel = 1;
             sw.WriteLine("/*" + text + " subroutine  */");
             sw.WriteLine("void " + text + "()");
             sw.WriteLine("{");
@@ -356,7 +371,7 @@ namespace CLL
 
         public void WriteReturn()
         {
-        //    sw.WriteLine("\t};");
+        //    sw.WriteLine(Tabs()+"};");
             sw.WriteLine("}");
         }
 
@@ -369,7 +384,7 @@ namespace CLL
                 name = name.Substring(0, name.IndexOf('(')).Trim();
             }
 
-            sw.WriteLine("\t" + label  + "();");
+            sw.WriteLine(Tabs()+"" + label  + "();");
         }
 
         public string GetNextLabel()
@@ -399,12 +414,29 @@ namespace CLL
         public void RestoreRegs() { }
         public override void BeginElse()
         {
-            sw.WriteLine("\telse\r\n{");
+            sw.WriteLine(Tabs() + "else\r\n" + Tabs() + "{");
+            tabLevel++;
         }
 
         public override void EndBody()
         {
-            sw.WriteLine("\t}");
+            tabLevel--;
+            sw.WriteLine(Tabs() + "} //end body");
+
+        }
+
+        public void WriteElse()
+        {
+            sw.WriteLine(Tabs() + "else\r\n" + Tabs() + "{ ");
+            tabLevel++;
+        }
+
+        string Tabs()
+        {
+            string s = "";
+            for (int i = 0; i < tabLevel; i++)
+                s += "\t";
+            return s;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace CLL
         void Visit(Print ps);
         void Visit(PrintLn ps);
         void Visit(PrintObjectName ps);
+        void Visit(PrintVar pv);
         void Visit(Rand r);
         void Visit(Has ph);
         void Visit(VariableRVal v);
@@ -43,6 +44,7 @@ namespace CLL
         void Visit(Look look);
         void Visit(Function f);
         void Visit(Call c);
+        void Visit(Ask c);
         void WriteLine(string text);
         void WriteSubName(string text);
         void WriteReturn();
@@ -52,5 +54,6 @@ namespace CLL
         string GetNextLabel();
         void SaveRegs();
         void RestoreRegs();
+        
     }
 }

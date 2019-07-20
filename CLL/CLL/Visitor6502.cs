@@ -41,7 +41,7 @@ namespace CLL
 
             sw.WriteLine("\tpla ; pop condition");
             sw.WriteLine("\tcmp #1");
-            sw.WriteLine("\t.db $F0,$03 ; beq 3 ; enter if-body");
+            sw.WriteLine("\tDB $F0,$03 ; beq 3 ; enter if-body");
 //            sw.WriteLine("\tjmp " + ifs.Body.endBody.Text);
 
             //                Console.WriteLine("pop stack into a ");
@@ -57,10 +57,10 @@ namespace CLL
                 Console.WriteLine("call print");
                 sw.WriteLine("\t;building a print statement");
 
-                sw.WriteLine("\tlda #$string_table%256");
-                sw.WriteLine("\tsta $tableAddr");
-                sw.WriteLine("\tlda #$string_table/256");
-                sw.WriteLine("\tsta $tableAddr+1");
+                sw.WriteLine("\tlda #<string_table");
+                sw.WriteLine("\tsta tableAddr");
+                sw.WriteLine("\tlda #>string_table");
+                sw.WriteLine("\tsta tableAddr+1");
                 sw.WriteLine("\tlda #" + game.GetStringId(ps.text) + " ; " + "\"" + ps.text + "\"");
                 sw.WriteLine("\tjsr printix");
             }
@@ -74,14 +74,23 @@ namespace CLL
         {
             sw.WriteLine("\t;building a println statement");
 
-            sw.WriteLine("\tlda #$string_table%256");
-            sw.WriteLine("\tsta $tableAddr");
-            sw.WriteLine("\tlda #$string_table/256");
-            sw.WriteLine("\tsta $tableAddr+1");
+            sw.WriteLine("\tlda #<string_table");
+            sw.WriteLine("\tsta tableAddr");
+            sw.WriteLine("\tlda #>string_table");
+            sw.WriteLine("\tsta tableAddr+1");
             sw.WriteLine("\tlda #" + game.GetStringId(ps.text) + " ; " + "\"" + ps.text + "\"");
             sw.WriteLine("\tjsr printix");
             sw.WriteLine("\tjsr printcr ; print newline");
         }
+
+        public void Visit(PrintVar pv)
+        {
+            sw.WriteLine("\t; printing " + pv.VarName);
+            sw.WriteLine("\tlda " + game.GetVarAddr(pv.VarName));
+            sw.WriteLine("\tsta divisor");
+            sw.WriteLine("\tjsr itoa ; convert and print");
+        }
+
 
         public void Visit(PrintObjectName ps)
         {
@@ -154,7 +163,7 @@ namespace CLL
             sw.WriteLine("\tsta temp");
             sw.WriteLine("\tpla ; pop rhs");
 
-            sw.WriteLine("\tand $temp");
+            sw.WriteLine("\tand temp");
             sw.WriteLine("\tphp ; flags -> a");
             sw.WriteLine("\tpla");
             sw.WriteLine("\tlsr a ; shift z bit in rightmost place");
@@ -170,15 +179,15 @@ namespace CLL
         public void Visit(Or c)
         {
 
-            Console.WriteLine("push 1 if zero flag set, else push 0");
+   //         Console.WriteLine("push 1 if zero flag set, else push 0");
             
-            Console.WriteLine("Pop stack into a");
+  //          Console.WriteLine("Pop stack into a");
             sw.WriteLine("\t; building || statement");
 
             sw.WriteLine("\tpla");
-            sw.WriteLine("\tsta $temp");
+            sw.WriteLine("\tsta temp");
             sw.WriteLine("\tpla");
-            sw.WriteLine("\tora $temp ; set z flag");
+            sw.WriteLine("\tora temp ; set z flag");
             sw.WriteLine("\tphp ; flags -> a");
             sw.WriteLine("\tpla");
             sw.WriteLine("\tlsr a ; put z flag in rightmost place");
@@ -187,7 +196,7 @@ namespace CLL
             sw.WriteLine("\tand #1 ; mask off z bit");
             sw.WriteLine("\tpha ; push result of ||");
 
-            Console.WriteLine("push z flag onto stack");
+//            Console.WriteLine("push z flag onto stack");
 
         }
         /*
@@ -203,16 +212,16 @@ namespace CLL
         {
             sw.WriteLine("\t; building == statement");
 
-            Console.WriteLine("Pop stack into a");
-            Console.WriteLine("Compare a,b");
-            Console.WriteLine("push z flag onto stack");
+     //       Console.WriteLine("Pop stack into a");
+     //       Console.WriteLine("Compare a,b");
+     //       Console.WriteLine("push z flag onto stack");
 
             PopAndCompare();
             
             sw.WriteLine("\tphp ; flags -> a");
             sw.WriteLine("\tpla");
             sw.WriteLine("\tlsr a ; put z bit in rightmost place");
-            sw.WriteLine("\tand #1; mask z bit");
+            sw.WriteLine("\tand #1  ; mask z bit");
             sw.WriteLine("\tpha ; push result of == ");
         }
 
@@ -223,17 +232,17 @@ namespace CLL
         public void Visit(NotEquals m)
         {
             sw.WriteLine("\t    ; building != statement");
-
+            /*
             Console.WriteLine("Pop stack into a");
             Console.WriteLine("Pop stack into b");
             Console.WriteLine("compare a,b");
             Console.WriteLine("push ! zero flag onto stack");
 
             Console.WriteLine("Pop stack into a");
-
+            */
             PopAndCompare();
 
-            Console.WriteLine("Compare a,b");
+//            Console.WriteLine("Compare a,b");
 
             sw.WriteLine("\tphp ; flags -> a");
             sw.WriteLine("\tpla");
@@ -244,31 +253,32 @@ namespace CLL
             sw.WriteLine("\tand #1 ; mask off 0 bit (again)");
             sw.WriteLine("\tpha ; push result of != ");
 
-            Console.WriteLine("push z flag onto stack");
+//            Console.WriteLine("push z flag onto stack");
         }
 
 
         public void Visit(Plus p)
         {
             //operand are both on stack
-            Console.WriteLine("Pop stack into a");
+  //          Console.WriteLine("Pop stack into a");
             sw.WriteLine("\t; building a + operation");
             sw.WriteLine("\tpla");
-            sw.WriteLine("\tsta $temp");
+            sw.WriteLine("\tsta temp");
             sw.WriteLine("\tpla");
             sw.WriteLine("\tclc");
-            sw.WriteLine("\tadc $temp");
+            sw.WriteLine("\tadc temp");
             sw.WriteLine("\tpha");
         }
 
         public void Visit(Mult p)
         {
-            //operand are both on stack
+            //operand are both on stack'
+            /*
             Console.WriteLine("Pop stack into a");
             Console.WriteLine("Pop stack into b");
             Console.WriteLine("mult a, b");
             Console.WriteLine("push result of a * b onto stack");
-
+            */
             throw new Exception("multiplication is not supported.");
         }
 
@@ -277,26 +287,28 @@ namespace CLL
         {
             //operand are both on stack
             sw.WriteLine("\t;building a minus");
+            /*
             Console.WriteLine("Pop stack into a");
             Console.WriteLine("Pop stack into b");
             Console.WriteLine("a sub b");
             Console.WriteLine("push result of a-b onto stack");
             Console.WriteLine("Pop stack into a");
+            */
             sw.WriteLine("\tpla ; get lhs");
             sw.WriteLine("\tsta temp ; save it");
             sw.WriteLine("\tpla ; pull rhs");
             sw.WriteLine("\tsec");
-            sw.WriteLine("\tsbc $temp");
+            sw.WriteLine("\tsbc temp");
             sw.WriteLine("\tpha ; push result of minus");
         }
 
         public void Visit(GreaterThan m)
-        {
+        {/*
             Console.WriteLine("pop stack into a");
             Console.WriteLine("pop stack into b");
             Console.WriteLine("compare a,b");
             Console.WriteLine("push a 1 if carry flag set");
-
+            */
             PopAndCompare();
 
             //carry flag is not set or the 
@@ -322,11 +334,11 @@ namespace CLL
         {
 
             sw.WriteLine("\t    ; building < statement");
-
+            /*
             Console.WriteLine("pop stack into a");
             Console.WriteLine("pop stack into b");
             Console.WriteLine("push 1 if carry set");
-
+            */
             //carry set = less than
             PopAndCompare();
             //carry flag is not set or the 
@@ -340,16 +352,17 @@ namespace CLL
 
             sw.WriteLine("\tphp ; flags -> ");
             sw.WriteLine("\tpla");
+            sw.WriteLine("\teor #$FF ; isolate carry flag");
             sw.WriteLine("\tand #1 ; isolate carry flag");
-            sw.WriteLine("\tpla ; push carry flag");
+            sw.WriteLine("\tpha ; push carry flag");
         }
 
         public void Visit(GreaterThanEquals m)
         {
-            Console.WriteLine("pop stack into a");
+/*            Console.WriteLine("pop stack into a");
             Console.WriteLine("pop stack into b");
             Console.WriteLine("push a 1 if carry flag or z flag set");
-
+            */
             sw.WriteLine("\t;building  a >= operation");
             PopAndCompare();
 
@@ -367,18 +380,19 @@ namespace CLL
             sw.WriteLine("\tcmp #0 ; test");
             sw.WriteLine("\tphp ; flags -> a");
             sw.WriteLine("\tpla");
-            sw.WriteLine("\tand #1; mask it");
+            sw.WriteLine("\tand #1  ; mask it");
             sw.WriteLine("\tpha ; push result of gte (carry == 0)");
         }
 
         public void Visit(LessThanEquals m)
         {
             sw.WriteLine("\t; build <= operation");
+            /*
             Console.WriteLine("pop stack into a");
             Console.WriteLine("pop stack into b");
             Console.WriteLine("compare a,b");
             Console.WriteLine("push a 1 if carry  or z");
-
+            */
             PopAndCompare();
 
             //zero flag is set
@@ -408,8 +422,8 @@ namespace CLL
 
         public void Visit(VarAssignment va)
         {
-            Console.WriteLine("pop stack into a ");
-            Console.WriteLine("sta " + va.VarName + ", a");
+//            Console.WriteLine("pop stack into a ");
+  //          Console.WriteLine("sta " + va.VarName + ", a");
             sw.WriteLine("\t;variable assignment");
             sw.WriteLine("\tpla");
             sw.WriteLine("\tsta " + va.VarName);
@@ -427,7 +441,7 @@ namespace CLL
             sw.WriteLine("\ttax");
             try
             {
-                sw.WriteLine("\tlda #" + attrIndexes[va.attrName] + "; attr # -> y (" + va.attrName + ")");
+                sw.WriteLine("\tlda #" + attrIndexes[va.attrName] + "   ; attr # -> y (" + va.attrName + ")");
                 sw.WriteLine("\ttay ; ");
             }
             catch
@@ -438,7 +452,7 @@ namespace CLL
             sw.WriteLine("\tpla ; pull object # off stack");
            
             sw.WriteLine("\tjsr set_obj_attr");
-            Console.WriteLine("jsr set_obj_attr");
+//            Console.WriteLine("jsr set_obj_attr");
         }
 
         public void Visit(PropAssignment pa)
@@ -460,13 +474,13 @@ namespace CLL
             sw.WriteLine("\tpla ; pull object id");
 //            sw.WriteLine("\tlda #" + game.GetObjectId(pa.objName) + " ; " + pa.objName);
             sw.WriteLine("\tjsr set_obj_prop");
-            Console.WriteLine("call set_obj_prop");
+  //          Console.WriteLine("call set_obj_prop");
             
         }
 
         public void Visit(PropertyRVal prv)
         {
-            Console.WriteLine("call get_obj_prop ; returns val in a");
+    //        Console.WriteLine("call get_obj_prop ; returns val in a");
             //Console.WriteLine("push a onto stack");
             sw.WriteLine("\t; getting a property");
             sw.WriteLine("\tpla ; get object id into A");
@@ -480,7 +494,7 @@ namespace CLL
         public void Visit(AttributeRVal prv)
         {
             sw.WriteLine("\t;getting an attribute");
-            Console.WriteLine("call get_obj_attr ; returns val in a");
+      //      Console.WriteLine("call get_obj_attr ; returns val in a");
             sw.WriteLine("\tpla ; get object id from stack");
             // sw.WriteLine("\tlda #" + game.GetObjectId(prv.ObjName) + " ; " + prv.ObjName);
             sw.WriteLine("\tldy #" + attrIndexes[prv.AttrName] + " ; " + prv.AttrName);
@@ -498,107 +512,122 @@ namespace CLL
             sw.WriteLine("\tjsr look_sub");
         }
 
-        public void Visit(Move move)
+        public void Visit(Ask ask)
         {
-            sw.WriteLine("\tjsr move_player");
-        }
+            /*read a line of input*/
+            sw.WriteLine("\t;writing ask");
+            sw.WriteLine("\tjsr ask");
+//            throw new NotImplementedException("Visitor6502::Visit(Ask) not implemented.");
+}
 
-        public void Visit(Jump j, string lbl)
-        {
-            sw.WriteLine("\tjmp " + lbl);
-        }
+public void Visit(Move move)
+{
+    sw.WriteLine("\tjsr move_player");
+}
 
-
-        public void Visit(Call c)
-        {
-            string name = c.name;
-            if (name.IndexOf('(') !=-1 )
-            {
-                name = name.Substring(0, name.IndexOf('(')).Trim();
-            }
-
-            sw.WriteLine("\tjsr " + name + "_sub");
-        }
-
-        public void Visit(Function f)
-        {
-            try
-            {
-                sw.WriteLine(f.name + " ; start subroutine");
-                f.body.Accept(this);
-                sw.WriteLine("\rrts");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("6502Visitor::Visit(Function) failed", ex);
-            }
-        }
-
-        public string GetNextLabel()
-        {
-            string s = "";
-            int temp = _label; ;
-
-            char c = Convert.ToChar(temp % 26 + 65);
-            s += c;
-            temp /= 26;
-
-            while (temp > 0)
-            {
-                c = Convert.ToChar(temp % 26 + 65);
-                s += c;
-                temp /= 26;
-            }
-
-            _label++;
-
-            return "_" + s;
-        }
+public void Visit(Jump j, string lbl)
+{
+    sw.WriteLine("\tjmp " + lbl);
+}
 
 
-        void PopAndCompare()
-        {
-            sw.WriteLine("\tpla");
-            sw.WriteLine("\ttax ; move operand out of the way");
-            sw.WriteLine("\tpla");
-            sw.WriteLine("\tsta $temp");
-            sw.WriteLine("\ttxa ; move operand back");
-            sw.WriteLine("\tcmp $temp");
-        }
-
-
-        public void WriteLine(String s)
-        {
-            sw.WriteLine(s);
-        }
-
-
-        public void WriteSubName(string text)
-        {
-            sw.WriteLine(text + " ; start subroutine");
-        }
-
-        public void WriteReturn()
-        {
-            sw.WriteLine("\trts");
-        }
-
-        public void WriteEventCall(string label)
-        {
-            sw.WriteLine("\tjsr " + label);
-        }
-
-        public static string TruncateName(string name)
-        {
-            if (name.Length < 20)
-            {
-                return name;
-            }
-            return name.Substring(0, 20);
-        }
-
-        public void SaveRegs() { }
-        public void RestoreRegs() { }
+public void Visit(Call c)
+{
+    string name = c.name;
+    if (name.IndexOf('(') !=-1 )
+    {
+        name = name.Substring(0, name.IndexOf('(')).Trim();
     }
 
+    sw.WriteLine("\tjsr " + name + "_sub");
 }
+
+public void Visit(Function f)
+{
+    try
+    {
+        sw.WriteLine(f.name + " ; start subroutine");
+        f.body.Accept(this);
+        sw.WriteLine("\trts");
+    }
+    catch (Exception ex)
+    {
+        throw new Exception("6502Visitor::Visit(Function) failed", ex);
+    }
+}
+
+public string GetNextLabel()
+{
+    string s = "";
+    int temp = _label; ;
+
+    char c = Convert.ToChar(temp % 26 + 65);
+    s += c;
+    temp /= 26;
+
+    while (temp > 0)
+    {
+        c = Convert.ToChar(temp % 26 + 65);
+        s += c;
+        temp /= 26;
+    }
+
+    _label++;
+
+    return "_" + s;
+}
+
+
+void PopAndCompare()
+{
+    sw.WriteLine("\tpla ; rhs");
+    sw.WriteLine("\tsta temp");
+    sw.WriteLine("\tpla ; lhs");
+    sw.WriteLine("\tcmp temp");
+            /*
+    sw.WriteLine("\tpla");
+    sw.WriteLine("\ttax ; move operand out of the way");
+    sw.WriteLine("\tpla");
+    sw.WriteLine("\tsta temp");
+    sw.WriteLine("\ttxa ; move operand back");
+    sw.WriteLine("\tcmp temp");
+    */
+        }
+
+
+public void WriteLine(String s)
+{
+    sw.WriteLine(s);
+}
+
+
+public void WriteSubName(string text)
+{
+    sw.WriteLine(text + " ; start subroutine");
+}
+
+public void WriteReturn()
+{
+    sw.WriteLine("\trts");
+}
+
+public void WriteEventCall(string label)
+{
+    sw.WriteLine("\tjsr " + label);
+}
+
+public static string TruncateName(string name)
+{
+    if (name.Length < 20)
+    {
+        return name;
+    }
+    return name.Substring(0, 20);
+}
+
+public void SaveRegs() { }
+public void RestoreRegs() { }
+}
+
+}
+ 
