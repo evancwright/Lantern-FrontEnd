@@ -29,7 +29,7 @@ namespace XMLtoAdv
         public const int TWO_BYTE_POINTERS = 2;
         public const int FOUR_BYTE_POINTERS = 4;
         public const int EIGHT_BYTE_POINTERS = 8;
-
+        public const string NO_EXTERN = "";
         const string Trs80SkelDir = "trs80Skel";
         public string buildDir;
         public string info = "x86 Support";
@@ -91,8 +91,8 @@ namespace XMLtoAdv
             skelDirs["_TRS80"] = "z80Skel";
             skelDirs["_CPM"] = "z80Skel";
             skelDirs["_CoCo"] = "CCommon";
-            skelDirs["_Apple2"] = "6502Skel";
-            skelDirs["_C64"] = "6502Skel";
+            skelDirs["_Apple2"] = "6502Merlin";
+            skelDirs["_C64"] = "6502Merlin";
             skelDirs["_CPC464"] = "z80Skel";
             skelDirs["_Spectrum"] = "z80Skel";
             skelDirs["_8086"] = "CCommon";
@@ -103,8 +103,8 @@ namespace XMLtoAdv
             pltfDirs["_Spectrum"] = "spectrum";
             pltfDirs["_TRS80"] = "trs80";
             pltfDirs["_CPM"] = "cpm";
-            pltfDirs["_Apple2"] = "apple2";
-            pltfDirs["_C64"] = "c64";
+            pltfDirs["_Apple2"] = "Apple2Merlin";
+            pltfDirs["_C64"] = "c64Merlin";
             pltfDirs["_CPC464"] = "cpc464";
             pltfDirs["_BBCMicro"] = "BBCMicro";
             pltfDirs["_RPi"] = "RPiSkel";
@@ -390,19 +390,19 @@ namespace XMLtoAdv
 
 
             WriteWelcomeC();
-            WriteStringTableC("StringTable.h", "StringTable", descriptionTable);
-            WriteStringTableC("NogoTable.h", "NogoTable", nogoTable);
-            WriteStringTableC("PrepTable.h", "PrepTable", prepTable);
-            WriteStringTableC("Dictionary.h", "Dictionary", dict);
+            WriteStringTableC("StringTable.h", "StringTable", descriptionTable,NO_EXTERN);
+            WriteStringTableC("NogoTable.h", "NogoTable", nogoTable, NO_EXTERN);
+            WriteStringTableC("PrepTable.h", "PrepTable", prepTable, NO_EXTERN);
+            WriteStringTableC("Dictionary.c", "Dictionary", dict, NO_EXTERN);
 
-            WriteObjectTableC();
-            WriteObjectWordTableC();
+            WriteObjectTableC(NO_EXTERN);
+            WriteObjectWordTableC(NO_EXTERN);
             WriteVerbTableC(TWO_BYTE_POINTERS);
-            WriteCheckTableC(TWO_BYTE_POINTERS);
+            WriteCheckTableC(TWO_BYTE_POINTERS, "");
 
-            WriteSentenceTableC("BeforeTable.c", "BeforeTable", "before", TWO_BYTE_POINTERS);
-            WriteSentenceTableC("AfterTable.c", "AfterTable", "after", TWO_BYTE_POINTERS);
-            WriteSentenceTableC("InsteadTable.c", "InsteadTable", "instead", TWO_BYTE_POINTERS);
+            WriteSentenceTableC("BeforeTable.c", "BeforeTable", "before", TWO_BYTE_POINTERS,NO_EXTERN);
+            WriteSentenceTableC("AfterTable.c", "AfterTable", "after", TWO_BYTE_POINTERS, NO_EXTERN);
+            WriteSentenceTableC("InsteadTable.c", "InsteadTable", "instead", TWO_BYTE_POINTERS, NO_EXTERN);
 
             /* events are still assembly language */
             WriteEvents(doc, "6809", new CLL.Visitor6809(this));
@@ -594,10 +594,10 @@ namespace XMLtoAdv
                 sw.WriteLine("\t.db 0");
 
             }
-
+             
         }
 
-        private void WriteStringTable6502(string fileName, string header, Table t)
+        private void WriteStringTable6502(string fileName, string header, Table t, bool ucase=true)
         {
             using (StreamWriter sw = File.CreateText(fileName))
             {
@@ -610,12 +610,17 @@ namespace XMLtoAdv
                 {
                     if (t.GetEntry(i).Length > 0) //safety check
                     {
-                        sw.WriteLine(".byte " + t.GetEntry(i).Length);
-                        sw.WriteLine(".text \"" + t.GetEntry(i).ToUpper() + "\" ; " + i);
-                        sw.WriteLine(".byte 0 ; null terminator");
+                        sw.WriteLine("\tDB " + t.GetEntry(i).Length);
+                        string s = t.GetEntry(i);
+                        s = s.Replace("'", "',27,'");  //fix single quotes
+                        if (ucase)
+                            s = s.ToUpper();
+                        
+                        sw.WriteLine("\tASC '" + s + "' ; " + i);
+                        sw.WriteLine("\tDB 0 ; null terminator");
                     }
                 }
-                sw.WriteLine("\t.byte 0");
+                sw.WriteLine("\tDB 0");
 
             }
 
@@ -655,7 +660,7 @@ namespace XMLtoAdv
 
         private void WriteObjectTable6502(string fileName)
         {
-            WriteObjectTable(fileName, ".byte", "|");
+            WriteObjectTable(fileName, "DB", "+");
         }
 
         //orsym is either | or +
@@ -978,7 +983,8 @@ namespace XMLtoAdv
                     string verb = verbs.GetEntry(i);
                     string[] toks = verb.Split(seps);
                     string verb_id = toks[0].ToLower().Replace(' ', '_') + "_verb_id";
-                    sw.WriteLine("#define " + verb_id + " " + i);
+                    //       sw.WriteLine("#define " + verb_id + " " + i);
+                    sw.WriteLine(verb_id + " EQU " + i);
                 }
 
                 sw.WriteLine("");
@@ -996,18 +1002,18 @@ namespace XMLtoAdv
 
                     for (int j = 0; j < toks.Length; j++)
                     {
-                        sw.WriteLine(".byte " + i);
-                        sw.WriteLine(".byte " + toks[j].Length);
-                        sw.WriteLine(".text \"" + toks[j].ToUpper() + "\"");
-                        sw.WriteLine(".byte 0 ; null");
+                        sw.WriteLine("\tDB " + i);
+                        sw.WriteLine("\tDB " + toks[j].Length);
+                        sw.WriteLine("\tASC '" + toks[j].ToUpper() + "'");
+                        sw.WriteLine("\tDB 0 ; null");
                     }
                 }
 
-                sw.WriteLine(".byte 255");
+                sw.WriteLine("\tDB 255");
             }
         }
         /*Write each event to a separate file,
-         * then write out one file that includes all of them
+         * then writes out one file that includes all of them
          */
         private void WriteEvents(XmlDocument doc, string processor, CLL.IVisitor asm)
         {
@@ -1016,6 +1022,8 @@ namespace XMLtoAdv
             string extension = ".asm";
             if (processor == "8086" || processor == "6809")
                 extension = ".c";
+            else if (processor == "6502")
+                extension = ".s";
 
             string sep="_";
             string processr = processor;
@@ -1323,8 +1331,11 @@ namespace XMLtoAdv
         private void WriteSentenceTable(string processorType, string type, string byteDef, string wordDef)
         {
             XmlNodeList subs = doc.SelectNodes("//project/sentences/sentence");
+            string suffix = ".asm";
+            if (processorType == "6502")
+                suffix = ".s";
 
-            using (StreamWriter sw = File.CreateText(type + "_table_" + processorType + ".asm"))
+            using (StreamWriter sw = File.CreateText(type + "_table_" + processorType + suffix))
             {
                 sw.WriteLine(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
                 sw.WriteLine("; " + type + "_table_" + processorType + ".asm");
@@ -1493,7 +1504,11 @@ namespace XMLtoAdv
 
         void WriteUserVarTable(XmlDocument doc, string processor)
         {
-            using (StreamWriter sw = File.CreateText("UserVars" + processor+ ".asm"))
+            string suffix = ".asm";
+            if (processor == "6502")
+                suffix = ".s";
+
+            using (StreamWriter sw = File.CreateText("UserVars" + processor+ suffix))
             {
 
                 sw.WriteLine(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
@@ -1505,7 +1520,7 @@ namespace XMLtoAdv
                 if (processor.Equals("6809"))
                     delim = ".db";
                 else if (processor.Equals("6502"))
-                    delim = ".byte";
+                    delim = "DB";
 
 
                 sw.WriteLine("NumUserVars\t" + delim + " " + userVars.Count);
@@ -1587,22 +1602,27 @@ namespace XMLtoAdv
             
                 //get the file path 
                 CreateTables(fileName, "_Apple2");
-
-                WriteWelcomeMessage("Welcome6502.asm", ".text", "\n.byte 0\n");
-                WriteStringTable6502("StringTable6502.asm", "string_table", descriptionTable);
-                WriteStringTable6502("Dictionary6502.asm", "dictionary", dict);
-                WriteStringTable6502("NogoTable6502.asm", "nogo_table", nogoTable);
-                WriteStringTable6502("PrepTable6502.asm", "prep_table", prepTable);
-                WriteObjectTable6502("ObjectTable6502.asm");
-                WriteObjectWordTable("ObjectWordTable6502.asm", ".byte");
-                WriteVerbTable6502("VerbTable6502.asm");
-                WriteCheckTable("CheckRules6502.asm", ".byte", ".word");
-                WriteSentenceTable("6502", "before", ".byte", ".word");
-                WriteSentenceTable("6502", "instead", ".byte", ".word");
-                WriteSentenceTable("6502", "after", ".byte", ".word");
+                /*
+                WriteWelcomeMessage("Welcome6502.s", "\tASC", "\n\tDB 0\n");
+                WriteStringTable6502("StringTable6502.s", "string_table", descriptionTable, false);
+                WriteStringTable6502("Dictionary6502.s", "dictionary", dict,false);
+                WriteStringTable6502("NogoTable6502.s", "nogo_table", nogoTable, false);
+                WriteStringTable6502("PrepTable6502.s", "prep_table", prepTable);
+                WriteObjectTable6502("ObjectTable6502.s");
+                WriteObjectWordTable("ObjectWordTable6502.s", "\tDB");
+                WriteVerbTable6502("VerbTable6502.s");
+                WriteCheckTable("CheckRules6502.s", "\tDB", "\tDW");
+                WriteSentenceTable("6502", "before", "DB", "DW");
+                WriteSentenceTable("6502", "instead", "DB", "DW");
+                WriteSentenceTable("6502", "after", "DB", "DW");
                 WriteUserVarTable(doc, "6502");           // WriteEvents(doc, "6502", new AsmWriter6809());
-
+                *
                 WriteEvents(doc, "6502", new CLL.Visitor6502(this));
+                InsertEvents6502(doc);
+                InsertEventJumps6502(doc);
+                */
+                Common6502Export();
+                FixBuildScript(doc);
             }
             finally
             {
@@ -1655,7 +1675,7 @@ namespace XMLtoAdv
 
                 //get the file path 
                 CreateTables(fileName, "_C64");
-
+                /*
                 WriteWelcomeMessage("Welcome6502.asm", ".text", "\n.byte 0\n");
                 WriteStringTable6502("StringTable6502.asm", "string_table", descriptionTable);
                 WriteStringTable6502("Dictionary6502.asm", "dictionary", dict);
@@ -1669,10 +1689,11 @@ namespace XMLtoAdv
                 WriteSentenceTable("6502", "instead", ".byte", ".word");
                 WriteSentenceTable("6502", "after", ".byte", ".word");
                 WriteUserVarTable(doc, "6502");           // WriteEvents(doc, "6502", new AsmWriter6809());
-
+                */
                // WriteBackdropTable(doc, "BackDropTable6502.asm", ".db");
-                //WriteEvents(doc, "6502", new AsmWriter6502());
-                WriteEvents(doc, "6502", new CLL.Visitor6502(this) );
+                 
+                //WriteEvents(doc, "6502", new CLL.Visitor6502(this) );
+                Common6502Export();
             }
             finally
             {
@@ -1754,6 +1775,104 @@ namespace XMLtoAdv
                 File.Copy(fromDir + Path.AltDirectorySeparatorChar + f, toDir + Path.AltDirectorySeparatorChar + noPath, true); 
             }
             
+        }
+
+        /// <summary>
+        /// replaces the text __EVENTS__ with a list of the files to include
+        /// This needs to be done because Merlin does not like multiple levels
+        /// of include files
+        /// </summary>
+        void InsertEvents6502(XmlDocument xmlDoc)
+        {
+            string includedFiles = "";
+
+            XmlNodeList events = doc.SelectNodes("//project/events/event");
+             
+            foreach (XmlNode n  in events)
+            {
+                string s = n.Attributes.GetNamedItem("name").Value;
+                includedFiles += "\tput " + s + "_event_6502\r\n";
+            }
+
+            events = doc.SelectNodes("//project/routines/routine");
+
+            foreach (XmlNode n in events)
+            {
+                string s = n.Attributes.GetNamedItem("name").Value;
+                includedFiles += "\tput " + s + "_sub_6502\r\n";
+            }
+
+            includedFiles += "\r\n";
+
+
+            //now open main, read it into a buffer, then replace ___INCLUDES__ with the put statements
+
+            string main = File.ReadAllText("main.asm");
+
+            StringBuilder sb = new StringBuilder(main);
+            sb.Replace("__INCLUDES__", includedFiles);
+            File.WriteAllText("main.s", sb.ToString());
+        }
+
+        /*
+         * Inserts jsr statements in the do_events
+         * This is because Merlin doesn't handle
+         */
+
+        void InsertEventJumps6502(XmlDocument xmlDoc)
+        {
+            string jumps = "";
+
+            XmlNodeList events = doc.SelectNodes("//project/events/event");
+
+            foreach (XmlNode n in events)
+            {
+                string s = n.Attributes.GetNamedItem("name").Value;
+                jumps += "\tjsr " + s + "_event\r\n";
+            }
+
+            events = doc.SelectNodes("//project/routines/routine");
+            
+            //now insert the jump statements
+            string main = File.ReadAllText("doevents6502.asm");
+            main = main.Replace("__EVENT_JUMPS__", jumps);
+            File.WriteAllText("doevents6502.s", main);
+        }
+
+
+        /// <summary>
+        /// Writes out tables for a 6502 based computers
+        /// </summary>
+        void Common6502Export()
+        {
+            WriteWelcomeMessage("Welcome6502.s", "\tASC", "\n\tDB 0\n");
+            WriteStringTable6502("StringTable6502.s", "string_table", descriptionTable, false);
+            WriteStringTable6502("Dictionary6502.s", "dictionary", dict, false);
+            WriteStringTable6502("NogoTable6502.s", "nogo_table", nogoTable, false);
+            WriteStringTable6502("PrepTable6502.s", "prep_table", prepTable);
+            WriteObjectTable6502("ObjectTable6502.s");
+            WriteObjectWordTable("ObjectWordTable6502.s", "\tDB");
+            WriteVerbTable6502("VerbTable6502.s");
+            WriteCheckTable("CheckRules6502.s", "\tDB", "\tDW");
+            WriteSentenceTable("6502", "before", "DB", "DW");
+            WriteSentenceTable("6502", "instead", "DB", "DW");
+            WriteSentenceTable("6502", "after", "DB", "DW");
+            WriteUserVarTable(doc, "6502");           // WriteEvents(doc, "6502", new AsmWriter6809());
+
+            WriteEvents(doc, "6502", new CLL.Visitor6502(this));
+            InsertEvents6502(doc);
+            InsertEventJumps6502(doc);
+        }
+
+        void FixBuildScript(XmlDocument doc)
+        {
+            string dskName = doc.SelectNodes("//project/output")[0].InnerText;
+            if (dskName == "")
+                dskName = "adventure";
+
+            string s = File.ReadAllText("build.sh");
+            s = s.Replace("__DISK_NAME__", dskName);
+            File.WriteAllText("build.sh", s);
         }
 
     }//end class
