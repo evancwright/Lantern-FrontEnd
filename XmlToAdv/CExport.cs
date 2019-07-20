@@ -29,7 +29,7 @@ namespace XMLtoAdv
             }
         }
 
-        void WriteStringTableC(string fileName, string tableName, Table table)
+        void WriteStringTableC(string fileName, string tableName, Table table, string externFlag="extern ")
         {
             using (StreamWriter sw = File.CreateText(fileName))
             {
@@ -37,7 +37,7 @@ namespace XMLtoAdv
                 sw.WriteLine("Machine generated string table ");
                 sw.WriteLine("***********************************************/");
                 sw.WriteLine("");
-                sw.WriteLine("extern const int " + tableName + "Size=" + table.GetNumEntries() + ";\n");
+                sw.WriteLine(externFlag + "const int " + tableName + "Size=" + table.GetNumEntries() + ";\n");
                 sw.WriteLine("const char *" + tableName + "[] = { ");
 
                 for (int i = 0; i < table.GetNumEntries(); i++)
@@ -55,7 +55,7 @@ namespace XMLtoAdv
             }
         }
 
-        void WriteObjectTableC()
+        void WriteObjectTableC(string externFlag="extern ")
         {
             using (StreamWriter sw = File.CreateText("ObjectTable.c"))
             {
@@ -63,7 +63,7 @@ namespace XMLtoAdv
                 sw.WriteLine("Machine generated ojbect table ");
                 sw.WriteLine("***********************************************/");
                 int count = objects.Count();
-                sw.WriteLine("extern const int NumObjects=" + count + ";");
+                sw.WriteLine(externFlag + "const int NumObjects=" + count + ";");
                 sw.WriteLine("unsigned char ObjectData[] = {");
 
                 for (int i = 0; i < count; i++)
@@ -126,7 +126,7 @@ namespace XMLtoAdv
             }
         }
 
-        void WriteObjectWordTableC()
+        void WriteObjectWordTableC(string externFlag="extern ")
         {
             using (StreamWriter sw = File.CreateText("ObjectWordTable.c"))
             {
@@ -137,7 +137,7 @@ namespace XMLtoAdv
 
                 int total = objects.Count() + CountSynonyms();
                 int c = 0;
-                sw.WriteLine("extern const int ObjectWordTableSize=" + total + ";");
+                sw.WriteLine(externFlag + "const int ObjectWordTableSize=" + total + ";");
                 //                sw.WriteLine("unsigned char ObjectWordTableData[" + total + "][4] = {");
                 sw.WriteLine("unsigned char ObjectWordTableData[] = {");
                 foreach (GameObject o in objects)
@@ -243,11 +243,11 @@ namespace XMLtoAdv
             return count;
         }
 
-        void WriteSentenceTableC(string fileName, string tableName, string type, int ptrSize=2)
+        void WriteSentenceTableC(string fileName, string tableName, string type, int ptrSize = 2, string externFlag="extern ")
         {
             XmlNodeList subs = doc.SelectNodes("//project/sentences/sentence");
             List<string> subNames = new List<string>();
-            
+             
             using (StreamWriter sw = File.CreateText(fileName))
             {
                 int c = CountSentences(type);
@@ -259,11 +259,11 @@ namespace XMLtoAdv
                 sw.WriteLine("");
 
                 if (type == "before")
-                    sw.WriteLine("extern const int BeforeTableSize=" + c + ";");
+                    sw.WriteLine(externFlag + "const int BeforeTableSize=" + c + ";");
                 else if (type == "instead")
-                    sw.WriteLine("extern const int InsteadTableSize=" + c + ";");
+                    sw.WriteLine(externFlag + "const int InsteadTableSize=" + c + ";");
                 else
-                    sw.WriteLine("extern const int AfterTableSize=" + c + ";");
+                    sw.WriteLine(externFlag + " const int AfterTableSize=" + c + ";");
                 sw.WriteLine("unsigned char " + tableName + "Data[] = {");
                 int count = 0;
                 
@@ -424,7 +424,7 @@ namespace XMLtoAdv
         }
 
 
-        void WriteCheckTableC(int ptrSize=2)
+        void WriteCheckTableC(int ptrSize = 2, string externFlag = "extern ")
         {
             using (StreamWriter sw = File.CreateText("CheckTable.h"))
             {
@@ -482,7 +482,7 @@ namespace XMLtoAdv
 
                 sw.WriteLine("}");
 
-                sw.WriteLine("extern const int NumVerbChecks=" + i + ";");
+                sw.WriteLine(externFlag + "const int NumVerbChecks=" + i + ";");
             }//end using
         }
 
