@@ -529,6 +529,9 @@ namespace XTAC
                 string name = funcNameTextBox.Text;
                 name = name.Replace(' ', '_');
 
+                if (!ValidateName(name))
+                    return;
+
                 foreach (Routine rt in xproject.Project.Routines.Routine)
                 {
                     if (rt.Name == name)
@@ -565,6 +568,10 @@ namespace XTAC
             else
             {
                 string name = ruleNameTextBox.Text.Trim().Replace(' ', '_');
+
+                if (!ValidateName(name))
+                    return;
+
                 //check for dupes!
 
                 foreach (string s in this.rulesListBox.Items)
@@ -786,6 +793,11 @@ namespace XTAC
             }
 
             varName = varName.Replace("$", string.Empty);
+
+            if (!ValidateName(varName))
+                return;
+                
+
             //varNameTextBox.Text = varNameTextBox.Text.Trim().Replace(' ', '_');
             varNameTextBox.Text = varName;
 
@@ -1021,7 +1033,7 @@ namespace XTAC
             xproject.Project.Events.Event = new List<Event>();
             xproject.Project.Sentences = new Sentences();
             xproject.Project.Sentences.Sentence = new List<Sentence>();
-
+            xproject.Project.Output = "adventure";
             AddDefaultObjects();
             AddDefaultVerbs(); 
             AddDefaultVerbChecks();
@@ -1268,7 +1280,15 @@ namespace XTAC
 
         private void builtinVarsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            try
+            {
+                varNameTextBox.Text = xproject.Project.Variables.Builtin.Var[builtinVarsListBox.SelectedIndex].Name;
+                valueTextBox.Text = xproject.Project.Variables.Builtin.Var[builtinVarsListBox.SelectedIndex].Value;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1707,6 +1727,7 @@ namespace XTAC
                 {
                     Save();
                     converter.ConvertApple2(fileName);  //"f3xml.xml"
+                    
                     MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
                 }
                 catch (Exception ex)
@@ -2740,7 +2761,7 @@ namespace XTAC
                 try
                 {
                     converter.ConvertRPi(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run 'make' (without the quotes)");
+                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in shell and run 'make' or 'sudo make'");
                 }
                 catch (Exception ex)
                 {
@@ -2828,6 +2849,28 @@ namespace XTAC
         private void outputTextBox_TextChanged(object sender, EventArgs e)
         {
             xproject.Project.Output = outputTextBox.Text.Trim(); 
+        }
+
+        bool ValidateName(string s)
+        {
+            if (Char.IsDigit(s[0]))
+            {
+                MessageBox.Show("Names can't start with a digit.");
+                return false;
+            }
+
+
+            foreach (char ch in s)
+            {
+                if (!Char.IsLetterOrDigit(ch) &&
+                    ch != '_')
+                {
+                    MessageBox.Show("Names can only contain letter, digits, and underscores.");
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

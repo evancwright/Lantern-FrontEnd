@@ -100,7 +100,7 @@ namespace XTAC
             CreateDefaultVar("health", "health", "100");
             CreateDefaultVar("turnsWithoutLight", "turnsWithoutLight", "0");
             CreateDefaultVar("gameOver", "gameOver", "0");
-
+            CreateDefaultVar("answer", "answer", "0");
 
         }
 
@@ -251,6 +251,17 @@ namespace XTAC
 
         void AddDefaultVerbChecks()
         {
+            AddCheck("n", "check_move");
+            AddCheck("s", "check_move");
+            AddCheck("e", "check_move");
+            AddCheck("w", "check_move");
+            AddCheck("u", "check_move");
+            AddCheck("d", "check_move");
+            AddCheck("ne", "check_move");
+            AddCheck("nw", "check_move");
+            AddCheck("se", "check_move");
+            AddCheck("sw", "check_move");
+            AddCheck("enter", "check_move");
             AddCheck("close", "check_dobj_supplied");
             AddCheck("drink", "check_dobj_supplied");
             AddCheck("drink", "check_have_dobj");
@@ -296,9 +307,14 @@ namespace XTAC
             AddCheck("look in", "check_dobj_supplied");
             AddCheck("look in", "check_see_dobj");
             AddCheck("wear", "check_see_dobj");
+            AddCheck("use", "check_have_dobj");
             AddCheck("wear", "check_have_dobj");
             AddCheck("wear", "check_dobj_wearable");
-            AddCheck("use", "check_have_dobj");
+            AddCheck("give", "check_dobj_supplied");
+            AddCheck("give", "check_have_dobj");
+            AddCheck("give", "check_iobj_supplied");
+            AddCheck("give", "check_see_iobj");
+            AddCheck("wear", "check_dobj_wearable");
         }
 
 
@@ -494,7 +510,7 @@ namespace XTAC
             foreach (Event r in xproject.Project.Events.Event)
             {
                 if (r.Text != null)
-`                r.Text = r.Text.Replace("\n", "\r\n");
+                r.Text = r.Text.Replace("\n", "\r\n");
             }
 
             foreach (Sentence s in xproject.Project.Sentences.Sentence)

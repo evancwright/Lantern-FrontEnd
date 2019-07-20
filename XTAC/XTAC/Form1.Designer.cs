@@ -70,6 +70,8 @@
             this.label42 = new System.Windows.Forms.Label();
             this.saveVarValueButton = new System.Windows.Forms.Button();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.label94 = new System.Windows.Forms.Label();
+            this.label93 = new System.Windows.Forms.Label();
             this.ruleCodeTextBox = new XTAC.CodeEditor();
             this.label68 = new System.Windows.Forms.Label();
             this.label67 = new System.Windows.Forms.Label();
@@ -473,6 +475,7 @@
             // 
             // windowsx64ToolStripMenuItem
             // 
+            this.windowsx64ToolStripMenuItem.Enabled = false;
             this.windowsx64ToolStripMenuItem.Name = "windowsx64ToolStripMenuItem";
             this.windowsx64ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.windowsx64ToolStripMenuItem.Text = "Windows (x64)";
@@ -631,6 +634,8 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.label94);
+            this.tabPage6.Controls.Add(this.label93);
             this.tabPage6.Controls.Add(this.ruleCodeTextBox);
             this.tabPage6.Controls.Add(this.label68);
             this.tabPage6.Controls.Add(this.label67);
@@ -659,6 +664,26 @@
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Events";
             this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // label94
+            // 
+            this.label94.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label94.AutoSize = true;
+            this.label94.Location = new System.Drawing.Point(560, 427);
+            this.label94.Name = "label94";
+            this.label94.Size = new System.Drawing.Size(255, 13);
+            this.label94.TabIndex = 32;
+            this.label94.Text = "printvar(variableName);  prints the value of a variable";
+            // 
+            // label93
+            // 
+            this.label93.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label93.AutoSize = true;
+            this.label93.Location = new System.Drawing.Point(560, 412);
+            this.label93.Name = "label93";
+            this.label93.Size = new System.Drawing.Size(240, 13);
+            this.label93.TabIndex = 31;
+            this.label93.Text = "printname(objectId);  prints the name of the object";
             // 
             // ruleCodeTextBox
             // 
@@ -789,7 +814,7 @@
             // 
             this.label56.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(560, 411);
+            this.label56.Location = new System.Drawing.Point(870, 412);
             this.label56.Name = "label56";
             this.label56.Size = new System.Drawing.Size(215, 13);
             this.label56.TabIndex = 17;
@@ -832,7 +857,7 @@
             // ruleNameTextBox
             // 
             this.ruleNameTextBox.Location = new System.Drawing.Point(15, 47);
-            this.ruleNameTextBox.MaxLength = 12;
+            this.ruleNameTextBox.MaxLength = 15;
             this.ruleNameTextBox.Name = "ruleNameTextBox";
             this.ruleNameTextBox.Size = new System.Drawing.Size(195, 20);
             this.ruleNameTextBox.TabIndex = 7;
@@ -1137,7 +1162,7 @@
             this.label86.Name = "label86";
             this.label86.Size = new System.Drawing.Size(195, 13);
             this.label86.TabIndex = 16;
-            this.label86.Text = "Note: names must be 12 chars or fewer.";
+            this.label86.Text = "Note: names must be 15 chars or fewer.";
             // 
             // checkButton
             // 
@@ -1249,7 +1274,7 @@
             // 
             this.funcNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.funcNameTextBox.Location = new System.Drawing.Point(82, 320);
-            this.funcNameTextBox.MaxLength = 12;
+            this.funcNameTextBox.MaxLength = 15;
             this.funcNameTextBox.Name = "funcNameTextBox";
             this.funcNameTextBox.Size = new System.Drawing.Size(157, 20);
             this.funcNameTextBox.TabIndex = 3;
@@ -2288,20 +2313,21 @@
             // label91
             // 
             this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(466, 203);
+            this.label91.Location = new System.Drawing.Point(466, 207);
             this.label91.Name = "label91";
-            this.label91.Size = new System.Drawing.Size(58, 13);
+            this.label91.Size = new System.Drawing.Size(67, 13);
             this.label91.TabIndex = 16;
-            this.label91.Text = "Output File";
+            this.label91.Text = "Image Name";
             this.label91.Click += new System.EventHandler(this.label91_Click);
             // 
             // outputTextBox
             // 
-            this.outputTextBox.Location = new System.Drawing.Point(530, 204);
-            this.outputTextBox.MaxLength = 8;
+            this.outputTextBox.Location = new System.Drawing.Point(533, 204);
+            this.outputTextBox.MaxLength = 12;
             this.outputTextBox.Name = "outputTextBox";
-            this.outputTextBox.Size = new System.Drawing.Size(100, 20);
+            this.outputTextBox.Size = new System.Drawing.Size(97, 20);
             this.outputTextBox.TabIndex = 15;
+            this.outputTextBox.Text = "adventure";
             this.outputTextBox.TextChanged += new System.EventHandler(this.outputTextBox_TextChanged);
             // 
             // label82
@@ -3017,6 +3043,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Label label92;
         private CodeEditor ruleCodeTextBox;
+        private System.Windows.Forms.Label label94;
+        private System.Windows.Forms.Label label93;
     }
 }
 

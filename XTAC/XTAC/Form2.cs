@@ -107,11 +107,10 @@ namespace XTAC
                 string command = outputWindow.Text.Substring(start + 1);
                 try
                 {
-
-                    game.AcceptCommand(command);
-
-                    commandHist.Add(command);
-                    historyIndex = commandHist.Count - 1;
+                        game.AcceptCommand(command);
+                        commandHist.Add(command);
+                        historyIndex = commandHist.Count - 1;
+                 
                 } 
                 catch (Exception ex)
                 {
