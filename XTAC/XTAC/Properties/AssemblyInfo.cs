@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Lantern")]
-[assembly: AssemblyDescription("Adventure game software for classic computers.\r\nSpecial thanks to Sean Fahey, Gregory (Trey) James, Jim Leonard, and Ted Saari.")]
+[assembly: AssemblyDescription("Software for making adventure games for classic computers. Special thanks to Mark Lindberg, Trey James, Jim Leonard, Ted Saari, Sean Fahey, Neil Forsyth, and Charlie Letizia.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Evan C. Wright")]
 [assembly: AssemblyProduct("Lantern")]
