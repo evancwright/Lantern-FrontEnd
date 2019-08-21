@@ -194,6 +194,7 @@ namespace PlayerLib
         public override void PrintString(string s)
         {
             outputWindow.Text += s;
+            outputWindow.Refresh();
         }
 
         public override void PrintStringCr(string s)
@@ -269,13 +270,16 @@ namespace PlayerLib
 
         public override void Ask()
         {
+            /*flush all text*/
+            outputWindow.SelectionStart = outputWindow.TextLength;
+            outputWindow.ScrollToCaret();
+
             /* go into a wait loop until a reponse has been provided */
-            PrintStringCr("Waiting for response");
 
             UserInput ui = new UserInput();
             ui.ShowDialog();
             responseStr = ui.text;
-            PrintStringCr("Response = " + responseStr);
+           // PrintStringCr("Response = " + responseStr);
 
             /*responseStr has been set, get the value*/
             answer = stringTable.GetEntryId(responseStr);
@@ -284,7 +288,7 @@ namespace PlayerLib
                 answer = 255;
 
             SetVar("answer", answer);
-            PrintStringCr("ResponseId = " + answer);
+         //   PrintStringCr("ResponseId = " + answer);
         }
 
 
@@ -1259,10 +1263,7 @@ namespace PlayerLib
             //check if player can see
             try
             {
-                if (vars["moves"].val < 255)
-                {
-                    vars["moves"].val++;
-                }
+              
 
                 if (PlayerCanSee())
                 {
@@ -1302,7 +1303,10 @@ namespace PlayerLib
                 }
             }
 
-
+            if (vars["moves"].val < 255)
+            {
+                vars["moves"].val++;
+            }
 
             Unwear();
         }
