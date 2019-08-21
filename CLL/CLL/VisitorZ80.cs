@@ -35,6 +35,16 @@ namespace CLL
             sw.WriteLine("\tdb 3; 2");
         }
 
+        /*Same as visit If!*/
+        public void Visit(WhileLoop wh)
+        {
+            sw.WriteLine("\tpop af ; pop condition");
+            sw.WriteLine("\tcp 0");
+            sw.WriteLine("\t;jr nz,3 ; enter if-body");
+            sw.WriteLine("\tdb 20h; jrnz");
+            sw.WriteLine("\tdb 3; 2");
+        }
+
         public void Visit(Print ps)
         {
             sw.WriteLine("\tld b,"+ game.GetStringId(ps.text)+" ; sub wants arg in b");

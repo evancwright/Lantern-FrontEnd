@@ -49,12 +49,29 @@ namespace CLL
             //                Console.WriteLine("jump on zero to label?");
         }
 
+        /*This is the same as an IfStatement
+         */
+        public void Visit(WhileLoop wh)
+        {
+            //arg has been left on stack
+            sw.WriteLine("\t; while loop jump");
+
+            sw.WriteLine("\tpla ; pop condition");
+            sw.WriteLine("\tcmp #1");
+            sw.WriteLine("\tDB $F0,$03 ; beq 3 ; enter if-body");
+            //            sw.WriteLine("\tjmp " + ifs.Body.endBody.Text);
+
+            //                Console.WriteLine("pop stack into a ");
+            //                Console.WriteLine("compare to 0");
+            //                Console.WriteLine("jump on zero to label?");
+        }
+
         public void Visit(Print ps)
         {
             try
             {
                 //arg has been left on stack
-                Console.WriteLine("call print");
+                sw.WriteLine("\t;call print");
                 sw.WriteLine("\t;building a print statement");
 
                 sw.WriteLine("\tlda #<string_table");

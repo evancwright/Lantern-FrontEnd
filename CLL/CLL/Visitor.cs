@@ -11,6 +11,7 @@ namespace CLL
     {
         void SetStreamWriter(StreamWriter sw);
         void Visit(IfStatement ps);
+        void Visit(WhileLoop ps);
         void Visit(Print ps);
         void Visit(PrintLn ps);
         void Visit(PrintObjectName ps);

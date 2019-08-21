@@ -25,6 +25,11 @@ namespace CLL
             this.sw = sw;
         }
 
+        public void Visit(WhileLoop wh)
+        {
+            throw new Exception("Visit 6809 while loop not implemented.");
+        }
+
         public void Visit(IfStatement ps)
         {
             Console.WriteLine("; if statement");

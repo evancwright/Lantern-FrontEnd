@@ -809,6 +809,7 @@ namespace CLL
             elseifs = new List<IfStatement>();
         }
 
+
         public override void Accept(IVisitor v)
         {
             exitLabel.Text = v.GetNextLabel();
@@ -932,6 +933,52 @@ namespace CLL
 
     }
 
+    public class WhileLoop : Statement
+    {
+        public Label topLabel;
+        
+        public IIntResult Condition { get; set; }
+        public Body Body { get; set; }
+        //public IfStatement ElseIf { \get; set; }
+        public Label exitLabel = new Label(); 
+        public Jump exitJump = new Jump();
+
+        public WhileLoop() : base()
+        {
+            Body = new Body();
+        }
+
+        public override void Accept(IVisitor v)
+        {
+            topLabel.Text = v.GetNextLabel();
+            exitLabel.Text = v.GetNextLabel();
+
+            topLabel.Accept(v);
+
+            Condition.Accept(v); //write code to compute result of expr
+            v.Visit(this); //write the test
+
+            Body.Append(new Jump(topLabel.Text));
+            Body.Accept(v);
+            
+            v.EndBody();
+            Body.endBody.Accept(v);
+            
+ //           body.endBody.Text = v.GetNextLabel();
+        }
+
+        public override void Execute(IGame.IGame game)
+        {
+            while (Condition.Eval(game) != 0)
+            {
+                Body.Execute(game);
+            }
+
+        }
+
+    }
+
+
     public class Label : Statement
     {
         public string Text = "not set";
@@ -950,6 +997,15 @@ namespace CLL
 
     public class Jump : Statement
     {
+        String label;
+
+        public Jump() { }
+
+        public Jump(String label)
+        {
+            this.label = label;
+        }
+
         public void Accept(IVisitor v, string lbl)
         {
             v.Visit(this, lbl);
@@ -1040,12 +1096,7 @@ namespace CLL
         {
             game.Ask();
 
-            while (game.IsAsking())
-            {
-                System.Threading.Thread.Sleep(100);
-            }
-
-
+             
         }
     }
 

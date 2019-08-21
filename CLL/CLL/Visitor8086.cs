@@ -36,6 +36,19 @@ namespace CLL
             sw.WriteLine("\tdb 0x74, 0x3 ;jz 3 ; jmp = relative");
         }
 
+        /*
+         * Same as if statement.
+         */
+        public void Visit(WhileLoop ps)
+        {
+            Console.WriteLine("\tnop ; if statement");
+
+            sw.WriteLine("\tpop ax; pop condition");
+            sw.WriteLine("\tcmp ax,1");
+            sw.WriteLine("\tdb 0x74, 0x3 ;jz 3 ; jmp = relative");
+        }
+
+
         public void Visit(Print ps)
         {
             sw.WriteLine("\tnop ;print statement");

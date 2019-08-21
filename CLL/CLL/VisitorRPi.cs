@@ -34,6 +34,18 @@ namespace CLL
             sw.WriteLine(Tabs() + "{");
             tabLevel++;        
 
+        } 
+
+        /*Same as if statement
+         */
+        public void Visit(WhileLoop wh)
+        {
+            //            Console.WriteLine(Tabs() + "//if statement");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop();");
+            sw.WriteLine(Tabs() + "if (param1 != 0)");
+            sw.WriteLine(Tabs() + "{");
+            tabLevel++;
+
         }
 
         public void Visit(Print ps)

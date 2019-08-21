@@ -121,6 +121,15 @@ namespace CLL
                         ParseCode(elseBody, body);
                         parent.AppendElse(elseBody);
                     }
+                    else if (StartsWithWhile(code))
+                    {
+                        StringBuilder condition = GetCondition(code);
+                        StringBuilder body = GetBody(code);
+                        WhileLoop lp = new WhileLoop();
+                        lp.Condition = BuildExprTree(condition);
+                        ParseCode(lp.Body, body);
+                        parent.Append(lp);
+                    }
                     else
                     { //must be a statement 
 
@@ -290,7 +299,24 @@ namespace CLL
             return false;
         }
 
-
+        bool StartsWithWhile(StringBuilder code)
+        {
+            string s = code.ToString().Trim();
+            s = s.Replace("" + Convert.ToChar(8301), "");
+            int index = s.IndexOf("while");
+            char ch = s[0];
+            if (s.IndexOf("while") == 0)
+            {
+                s = s.Substring(5).Trim(); //5 = len(while)
+                if (s.IndexOf('(') == 0)
+                {
+                    code.Clear();
+                    code.Insert(0, s);
+                    return true;
+                }
+            }
+            return false;
+        }
 
         /// <summary>
         /// Returns the body enclosed in { }
