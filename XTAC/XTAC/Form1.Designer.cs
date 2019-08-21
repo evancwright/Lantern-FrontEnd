@@ -72,7 +72,6 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.label94 = new System.Windows.Forms.Label();
             this.label93 = new System.Windows.Forms.Label();
-            this.ruleCodeTextBox = new XTAC.CodeEditor();
             this.label68 = new System.Windows.Forms.Label();
             this.label67 = new System.Windows.Forms.Label();
             this.label66 = new System.Windows.Forms.Label();
@@ -114,7 +113,6 @@
             this.verbComboBox = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.codeTextBox = new XTAC.CodeEditor();
             this.label86 = new System.Windows.Forms.Label();
             this.checkButton = new System.Windows.Forms.Button();
             this.label50 = new System.Windows.Forms.Label();
@@ -219,7 +217,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label92 = new System.Windows.Forms.Label();
             this.label91 = new System.Windows.Forms.Label();
             this.outputTextBox = new System.Windows.Forms.TextBox();
             this.label82 = new System.Windows.Forms.Label();
@@ -263,6 +260,16 @@
             this.verbContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.codeContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.codeTextBox = new XTAC.CodeEditor();
+            this.ruleCodeTextBox = new XTAC.CodeEditor();
+            this.killAnEnemywithBodyLeftBehindToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -279,6 +286,7 @@
             this.tabPage10.SuspendLayout();
             this.eventContextMenuStrip.SuspendLayout();
             this.verbContextMenuStrip.SuspendLayout();
+            this.codeContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -475,7 +483,6 @@
             // 
             // windowsx64ToolStripMenuItem
             // 
-            this.windowsx64ToolStripMenuItem.Enabled = false;
             this.windowsx64ToolStripMenuItem.Name = "windowsx64ToolStripMenuItem";
             this.windowsx64ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.windowsx64ToolStripMenuItem.Text = "Windows (x64)";
@@ -636,7 +643,6 @@
             // 
             this.tabPage6.Controls.Add(this.label94);
             this.tabPage6.Controls.Add(this.label93);
-            this.tabPage6.Controls.Add(this.ruleCodeTextBox);
             this.tabPage6.Controls.Add(this.label68);
             this.tabPage6.Controls.Add(this.label67);
             this.tabPage6.Controls.Add(this.label66);
@@ -656,6 +662,7 @@
             this.tabPage6.Controls.Add(this.label40);
             this.tabPage6.Controls.Add(this.label39);
             this.tabPage6.Controls.Add(this.label38);
+            this.tabPage6.Controls.Add(this.ruleCodeTextBox);
             this.tabPage6.Controls.Add(this.rulesListBox);
             this.tabPage6.Controls.Add(this.addRuleButton);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
@@ -684,19 +691,6 @@
             this.label93.Size = new System.Drawing.Size(240, 13);
             this.label93.TabIndex = 31;
             this.label93.Text = "printname(objectId);  prints the name of the object";
-            // 
-            // ruleCodeTextBox
-            // 
-            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 47);
-            this.ruleCodeTextBox.Multiline = true;
-            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
-            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ruleCodeTextBox.Size = new System.Drawing.Size(663, 303);
-            this.ruleCodeTextBox.TabIndex = 30;
-            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
             // 
             // label68
             // 
@@ -1139,20 +1133,6 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Functions";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // codeTextBox
-            // 
-            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
-            this.codeTextBox.Multiline = true;
-            this.codeTextBox.Name = "codeTextBox";
-            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.codeTextBox.Size = new System.Drawing.Size(822, 341);
-            this.codeTextBox.TabIndex = 17;
-            this.codeTextBox.WordWrap = false;
-            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
             // 
             // label86
             // 
@@ -2274,7 +2254,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.label92);
             this.tabPage1.Controls.Add(this.label91);
             this.tabPage1.Controls.Add(this.outputTextBox);
             this.tabPage1.Controls.Add(this.label82);
@@ -2300,15 +2279,6 @@
             this.tabPage1.Text = " Welcome";
             this.tabPage1.UseVisualStyleBackColor = true;
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
-            // 
-            // label92
-            // 
-            this.label92.AutoSize = true;
-            this.label92.Location = new System.Drawing.Point(530, 231);
-            this.label92.Name = "label92";
-            this.label92.Size = new System.Drawing.Size(73, 13);
-            this.label92.TabIndex = 17;
-            this.label92.Text = "(8 Characters)";
             // 
             // label91
             // 
@@ -2764,6 +2734,96 @@
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening_1);
+            // 
+            // codeContextMenuStrip
+            // 
+            this.codeContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem4,
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3,
+            this.toolStripMenuItem5,
+            this.killAnEnemywithBodyLeftBehindToolStripMenuItem,
+            this.toolStripMenuItem6});
+            this.codeContextMenuStrip.Name = "codeContextMenuStrip";
+            this.codeContextMenuStrip.Size = new System.Drawing.Size(298, 180);
+            this.codeContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.codeContextMenuStrip_Opening);
+            this.codeContextMenuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.codeContextMenuStrip_ItemClicked);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(297, 22);
+            this.toolStripMenuItem1.Text = "Unlocking a door";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(297, 22);
+            this.toolStripMenuItem2.Text = "Switching on a light source";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(297, 22);
+            this.toolStripMenuItem3.Text = "Switching off a light source";
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Enabled = false;
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(297, 22);
+            this.toolStripMenuItem4.Text = "Add code snippet to...";
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(297, 22);
+            this.toolStripMenuItem5.Text = "Move an object to expose a secret passage";
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(297, 22);
+            this.toolStripMenuItem6.Text = "Kill an enemy (with body and item drop)";
+            // 
+            // codeTextBox
+            // 
+            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.codeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
+            this.codeTextBox.Multiline = true;
+            this.codeTextBox.Name = "codeTextBox";
+            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.codeTextBox.Size = new System.Drawing.Size(822, 341);
+            this.codeTextBox.TabIndex = 17;
+            this.codeTextBox.WordWrap = false;
+            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
+            this.codeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.codeTextBox_MouseDown);
+            // 
+            // ruleCodeTextBox
+            // 
+            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ruleCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 47);
+            this.ruleCodeTextBox.Multiline = true;
+            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
+            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.ruleCodeTextBox.Size = new System.Drawing.Size(663, 303);
+            this.ruleCodeTextBox.TabIndex = 30;
+            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
+            // 
+            // killAnEnemywithBodyLeftBehindToolStripMenuItem
+            // 
+            this.killAnEnemywithBodyLeftBehindToolStripMenuItem.Name = "killAnEnemywithBodyLeftBehindToolStripMenuItem";
+            this.killAnEnemywithBodyLeftBehindToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
+            this.killAnEnemywithBodyLeftBehindToolStripMenuItem.Text = "Kill an enemy (with body left behind)";
+            this.killAnEnemywithBodyLeftBehindToolStripMenuItem.Click += new System.EventHandler(this.killAnEnemywithBodyLeftBehindToolStripMenuItem_Click);
             // 
             // Lantern
             // 
@@ -2804,6 +2864,7 @@
             this.tabPage10.PerformLayout();
             this.eventContextMenuStrip.ResumeLayout(false);
             this.verbContextMenuStrip.ResumeLayout(false);
+            this.codeContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3041,10 +3102,17 @@
         private System.Windows.Forms.Label label91;
         private System.Windows.Forms.TextBox outputTextBox;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.Label label92;
         private CodeEditor ruleCodeTextBox;
         private System.Windows.Forms.Label label94;
         private System.Windows.Forms.Label label93;
+        private System.Windows.Forms.ContextMenuStrip codeContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+        private System.Windows.Forms.ToolStripMenuItem killAnEnemywithBodyLeftBehindToolStripMenuItem;
     }
 }
 

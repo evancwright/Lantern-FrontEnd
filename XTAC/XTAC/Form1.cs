@@ -41,7 +41,7 @@ namespace XTAC
         {
             InitializeComponent();
 
-            homeDir = Directory.GetCurrentDirectory();    
+            homeDir = Directory.GetCurrentDirectory();
 
             //add fixed menu items
             sentenceTypeComboBox.Items.Add("before");
@@ -52,7 +52,7 @@ namespace XTAC
             foreach (String s in allChecks)
             {
                 allChecksListBox.Items.Add(s);
-            } 
+            }
 
             NewProject();
             ShowProject();
@@ -104,7 +104,7 @@ namespace XTAC
                     FixVariableNames();
                     FixPrintedNames();
                     FixFunctions();
-                     FixDescriptions();
+                    FixDescriptions();
                     FixOutputName();
                     FixVerbs();
                     FixEmptyObjects();
@@ -796,7 +796,7 @@ namespace XTAC
 
             if (!ValidateName(varName))
                 return;
-                
+
 
             //varNameTextBox.Text = varNameTextBox.Text.Trim().Replace(' ', '_');
             varNameTextBox.Text = varName;
@@ -868,7 +868,7 @@ namespace XTAC
             var list =
                 from c in xproject.Project.Checks.Check
                 where c.Verb.Equals(curVerb)
-         //       orderby c._check ascending
+                //       orderby c._check ascending
                 select c;
 
             verbChecksListBox.Items.Clear();
@@ -1035,7 +1035,7 @@ namespace XTAC
             xproject.Project.Sentences.Sentence = new List<Sentence>();
             xproject.Project.Output = "adventure";
             AddDefaultObjects();
-            AddDefaultVerbs(); 
+            AddDefaultVerbs();
             AddDefaultVerbChecks();
             AddPrepositions();
             AddDefaultVars();
@@ -1137,7 +1137,7 @@ namespace XTAC
         }
 
         private void objNameTextBox_TextChanged(object sender, EventArgs e)
-        { 
+        {
             /*warn about rooms/objects starting with a digit*/
 
             if (objNameTextBox.Text.Length > 0)
@@ -1594,12 +1594,12 @@ namespace XTAC
                 }
             }
         }
-        
+
         private void ruleCodeTextBox_TextChanged(object sender, EventArgs e)
         {
             //save event
             try
-          {
+            {
                 string code = ruleCodeTextBox.Text;
 
                 Event evnt = FindEventRuleByName(rulesListBox.SelectedItem.ToString());
@@ -1656,14 +1656,14 @@ namespace XTAC
                 try
                 {
                     File.Delete(xproject.Project.Output + ".cmd");
-                    
+
                     XmlToTables converter = XmlToTables.GetInstance();
                     converter.ConvertTRS80(fileName);  //"f3xml.xml"
-                    
+
                     if (Builder.Build(fileName, "_TRS80", xproject.Project.Output, "cmd"))
                     {
                         MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
-                    }                
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -1689,9 +1689,9 @@ namespace XTAC
                     XmlToTables converter = XmlToTables.GetInstance();
                     converter.Convert6809(fileName);  //"f3xml.xml"
 
-                    if (Builder.CoCoBuild(fileName,  xproject.Project.Output ))
+                    if (Builder.CoCoBuild(fileName, xproject.Project.Output))
                     {
-                      MessageBox.Show("Export complete. Open the directory " + xproject.Project.ProjName+"_CoCo and run build.sh");
+                        MessageBox.Show("Export complete. Open the directory " + xproject.Project.ProjName + "_CoCo and run build.sh");
                     }
 
                 }
@@ -1727,7 +1727,7 @@ namespace XTAC
                 {
                     Save();
                     converter.ConvertApple2(fileName);  //"f3xml.xml"
-                    
+
                     MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
                 }
                 catch (Exception ex)
@@ -1989,9 +1989,9 @@ namespace XTAC
             }
         }
 
-      
 
-        
+
+
 
         private void FromTrizbort()
         {
@@ -2848,7 +2848,7 @@ namespace XTAC
 
         private void outputTextBox_TextChanged(object sender, EventArgs e)
         {
-            xproject.Project.Output = outputTextBox.Text.Trim(); 
+            xproject.Project.Output = outputTextBox.Text.Trim();
         }
 
         bool ValidateName(string s)
@@ -2871,6 +2871,142 @@ namespace XTAC
             }
 
             return true;
+        }
+
+        private void codeContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void codeTextBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (functionsListBox.SelectedIndex != -1)
+            {
+                codeTextBox.ContextMenuStrip = codeContextMenuStrip;
+            }
+
+        }
+
+        private void contextMenuStrip1_Opening_1(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void codeContextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+            if (e.ClickedItem == toolStripMenuItem1)
+            {//unlock door
+                StringBuilder text = new StringBuilder(codeTextBox.Text);
+                int caret = codeTextBox.SelectionStart;
+                text.Insert(caret, "if (key.holder == player)\r\n" +
+                "{\r\n" +
+                "\tprintln(\"After a few tries, you manage to unlock the door.\");\r\n" +
+                "\tdoor.open = 1;\r\n" +
+                "\tdoor.locked = 0;\r\n" +
+                "}\r\n" +
+                "else\r\n" +
+                "{\r\n" +
+                "\tprintln(\"You need the key.\");\r\n" +
+                "}\r\n"
+                );
+                codeTextBox.Text = text.ToString();
+
+            }
+            else if (e.ClickedItem == toolStripMenuItem2)
+            {//light on 
+                StringBuilder text = new StringBuilder(codeTextBox.Text);
+                int caret = codeTextBox.SelectionStart;
+                text.Insert(caret, "if (flashlight.lit==1)\r\n{\r\n" +
+                    "\tprintln(\"It's already on.\");\r\n}\r\nelse\r\n{\r\n\tprintln(\"Click.\");\r\n" +
+                    "\tflashlight.lit = 1;\r\n" +
+                    "\tlook();\r\n" +
+                "}\r\n"
+                );
+                codeTextBox.Text = text.ToString();
+            }
+            else if (e.ClickedItem == toolStripMenuItem3)
+            {//light off
+                StringBuilder text = new StringBuilder(codeTextBox.Text);
+                int caret = codeTextBox.SelectionStart;
+                text.Insert(caret, "if (flashlight.lit==0)\r\n" +
+                "{\r\n" +
+                "\tprintln(\"It's already off.\");\r\n" +
+                "\tflashlight.lit = 0;\r\n" +
+                "\tlook();\r\n" +
+                "}\r\n" +
+                "else\r\n" +
+                "{\r\n" +
+                "\tprintln(\"Click.\");\r\n" +
+                "\tflashlight.lit = 0;\r\n" +
+                "\tlook();\r\n" +
+                "}\r\n"
+                );
+
+                codeTextBox.Text = text.ToString();
+            }
+            else if (e.ClickedItem == toolStripMenuItem5)
+            {//move object
+                StringBuilder text = new StringBuilder(codeTextBox.Text);
+                int caret = codeTextBox.SelectionStart;
+                text.Insert(caret,
+                 "if (bookcase.user1 == 0) //change name of object\r\n" +
+                 "{\r\n" +
+                    "\tbookcase.user1 = 1;\r\n" +
+                    "\tprintln(\"You push the bookcase aside revealing a passage leading east.\"); //change this!\r\n" +
+                "\tanswer = player.holder;\r\n" +
+                    "\tanswer.e = room_2;  //change the direction and new room! \r\n" +
+                "\tanswer.description = \"This is a study.  A passage leads east.\"; //change this description!\r\n" +
+            "}\r\n" +
+            "else\r\n" +
+            "{\r\n" +
+             "\tprintln(\"You've already moved it.\");\r\n" +
+             "}\r\n"
+                    );
+                codeTextBox.Text = text.ToString();
+            }
+            else if (e.ClickedItem == toolStripMenuItem6)
+            {//kill with monster drop
+                StringBuilder text = new StringBuilder(codeTextBox.Text);
+                int caret = codeTextBox.SelectionStart;
+                text.Insert(caret,
+                "if (weapon.holder == player)\r\n" +
+                "{\r\n" +
+                    "\tprintln(\"***ZAP***\");\r\n" +
+                    "\tprintln(\"The alien slumps over dead.\");\r\n" +
+                    "\talien.holder = offscreen; //move alien offscreen \r\n" +
+                "\tdead_alien.holder = player.holder; //move body to player location\r\n" +
+                "\tprintln(\"As the alien falls, it drops a thingy.\");\r\n" +
+                    "\tdropped_item.holder = player.holder; //move dropped item to player location\r\n" +
+                "}\r\n" +
+                "else\r\n" +
+                "{\r\n" +
+                    "\tprintln(\"You don't have a weapon.\");\r\n" +
+                "}\r\n"
+                );
+                codeTextBox.Text = text.ToString();
+            }
+        }
+
+        private void killAnEnemywithBodyLeftBehindToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //kill with monster drop
+            StringBuilder text = new StringBuilder(codeTextBox.Text);
+            int caret = codeTextBox.SelectionStart;
+            text.Insert(caret,
+            "if (weapon.holder == player)\r\n" +
+            "{\r\n" +
+                "\tprintln(\"***ZAP***\");\r\n" +
+                "\tprintln(\"The alien slumps over dead.\");\r\n" +
+                "\talien.holder = offscreen; //move alien offscreen \r\n" +
+            "\tdead_alien.holder = player.holder; //move body to player location\r\n" +
+            "}\r\n" +
+            "else\r\n" +
+            "{\r\n" +
+                "\tprintln(\"You don't have a weapon.\");\r\n" +
+            "}\r\n"
+            );
+            codeTextBox.Text = text.ToString();
         }
     }
 }
