@@ -300,6 +300,7 @@ namespace CLL
         public void Accept(IVisitor v) { v.Visit(this); }
     }
 
+
     public class VariableRVal : IIntResult
     {
         public string VarName;
@@ -569,6 +570,30 @@ namespace CLL
 
         }
     }
+
+    /// <summary>
+    /// Represents a print statement
+    /// </summary>
+    public class NewLn : Statement
+    {
+        public string text;
+
+        public NewLn()
+        {
+        }
+
+        public override void Accept(IVisitor v)
+        {
+            v.Visit(this); //pop and print
+        }
+
+        public override void Execute(IGame.IGame game)
+        {
+            //write text to console
+            game.PrintCr();
+        }
+    }
+
 
     /// <summary>
     /// Represents a print statement

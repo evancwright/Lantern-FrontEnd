@@ -57,6 +57,11 @@ namespace CLL
             sw.WriteLine("\tleas 2,s ; pop params");
         }
 
+        public void Visit(NewLn nl)
+        {
+            sw.WriteLine("\tjsr printcr");
+        }
+
         public void Visit(PrintLn ps)
         {
             sw.WriteLine("\t;print statement");

@@ -14,6 +14,7 @@ namespace CLL
         void Visit(WhileLoop ps);
         void Visit(Print ps);
         void Visit(PrintLn ps);
+        void Visit(NewLn ps);
         void Visit(PrintObjectName ps);
         void Visit(PrintVar pv);
         void Visit(Rand r);

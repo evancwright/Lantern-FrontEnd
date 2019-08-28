@@ -52,6 +52,12 @@ namespace CLL
             sw.WriteLine("\tcall print_table_entry");
         }
 
+        public void Visit(NewLn nl)
+        {
+            sw.WriteLine("\tcall printcr ; blank line");
+        }
+
+
         public void Visit(PrintLn ps)
         {
             sw.WriteLine("\tld b," + game.GetStringId(ps.text) + " ; sub wants arg in b");
@@ -68,6 +74,7 @@ namespace CLL
 
         public void Visit(PrintVar ps)
         {
+            //TODO - add z80 printvar
             throw new NotImplementedException("Z80 Print var not implemented.");
         }
 

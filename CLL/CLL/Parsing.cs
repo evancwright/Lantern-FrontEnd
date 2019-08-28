@@ -157,11 +157,12 @@ namespace CLL
                 return new StringBuilder(s);
             }
             else
-            {//comment
+            {//trailing comment
                 int index = s.IndexOf('\n');
 
                 if (index == -1)
                     throw new Exception("Expected ; near " + code);
+                    
 
                 //remove the leading comment from 'code'
                 string remainder = s.Substring(index + 1).Trim();

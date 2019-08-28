@@ -50,7 +50,7 @@ namespace CLL
             propIndexes.Add("scenery", 1);
             propIndexes.Add("supporter", 2);
             propIndexes.Add("container", 3);
-            propIndexes.Add("transparent", 4);
+            propIndexes.Add("user3", 4);
             propIndexes.Add("openable", 5);
             propIndexes.Add("open", 6);
             propIndexes.Add("lockable", 7);

@@ -61,6 +61,11 @@ namespace CLL
             sw.WriteLine("\tadd sp,2  ; pop 2 params");
         }
 
+        public void Visit(NewLn nl)
+        {
+            sw.WriteLine("\tcall print_cr");
+        }
+
         public void Visit(PrintLn ps)
         {
             sw.WriteLine("\tnop ;print statement");
@@ -481,6 +486,7 @@ namespace CLL
         {
             throw new NotImplementedException();
         }
+
 
         public void WriteSubName(string text)
         {

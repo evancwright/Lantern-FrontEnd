@@ -54,6 +54,11 @@ namespace CLL
         
         }
 
+        public void Visit(NewLn ps)
+        {
+            sw.WriteLine(Tabs() + "print_cr();");
+        }
+
         public void Visit(PrintLn ps)
         {
             sw.WriteLine(Tabs() + "print_string(" + game.GetStringId(ps.text) + "); ");

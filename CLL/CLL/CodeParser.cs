@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using IGame;
+using System.Text.RegularExpressions;
 
 namespace CLL
 {
@@ -66,6 +67,7 @@ namespace CLL
             properties.Add("emittinglight");
             properties.Add("door");
             properties.Add("user2");
+            properties.Add("user3");
         }
 
         /// <summary>
@@ -76,6 +78,15 @@ namespace CLL
         public Body ParseFunction(StringBuilder code)
         {
             Body b = new Body();
+
+            //remove comments
+            string noComments = Preprocess(code.ToString());
+          //  string noComments = Regex.Replace(code.ToString(), "//.*\r\n", "");
+
+            noComments = PreprocessFailStrings(noComments);
+
+            code.Clear();
+            code.Append(noComments);
 
             //check if string is empty
             if (code.ToString().Trim().Length > 0)
@@ -167,6 +178,10 @@ namespace CLL
                         else if (statement.ToString().StartsWith("println"))
                         {
                             parent.Append(new PrintLn(statement));
+                        }
+                        else if(statement.ToString().StartsWith("newline"))
+                        {
+                            parent.Append(new NewLn());
                         }
                         else if (statement.ToString().StartsWith("printvar"))
                         {
@@ -718,6 +733,42 @@ namespace CLL
 
             return result;
         }
-    
+
+        string PreprocessFailStrings(string code)
+        {
+            string regex = "fail(\\s)*\\((\\s)*\"[^\"]*[\"](\\s)*\\)";
+
+            MatchCollection matches = Regex.Matches(code, regex);
+
+            foreach (Match m in matches)
+            {
+                string s = m.Value;
+                //trim off the function call
+                s = s.Substring(s.IndexOf("\"")+1);
+                s = s.Substring(0, s.IndexOf("\""));
+                int id = game.GetFailStringId(s);
+
+                code = Regex.Replace(code, m.Value, id.ToString());
+
+            }
+            return code;
+        }
+
+        /// <summary>
+        //Removes comments and replaces fail string with the string ids
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        string Preprocess(string code)
+        {
+            string noComments = Regex.Replace(code.ToString(), "//.*\r\n", "");
+
+            noComments = PreprocessFailStrings(noComments);
+
+            noComments = Regex.Replace(noComments, "println(\\s)*\\(\"(\\s)*\"\\)", "newline()");
+
+            return noComments;
+        }
+
     }
 }

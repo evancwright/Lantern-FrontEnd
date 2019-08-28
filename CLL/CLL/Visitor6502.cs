@@ -87,6 +87,11 @@ namespace CLL
             }
         }
 
+        public void Visit(NewLn nl)
+        {
+            sw.WriteLine("\tjsr printcr ; newline");
+        }
+
         public void Visit(PrintLn ps)
         {
             sw.WriteLine("\t;building a println statement");
