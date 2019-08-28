@@ -261,7 +261,6 @@ namespace XTAC
             AddCheck("nw", "check_move");
             AddCheck("se", "check_move");
             AddCheck("sw", "check_move");
-            AddCheck("enter", "check_move");
             AddCheck("close", "check_dobj_supplied");
             AddCheck("drink", "check_dobj_supplied");
             AddCheck("drink", "check_have_dobj");
@@ -340,7 +339,7 @@ namespace XTAC
 
             string[] defaultVerbs = new string[] {
                 "n,go north,north","s,go south,south","e,go east,east","w,go west,west","ne,go northeast,northeast","se,go southeast,southeast","sw,go southwest,southwest","nw,go northwest,northwest",
-"up,go up,u","down,go down,d","enter,go in,go inside,get in","out","go","get,take,grab,pick up","give","inventory,i","kill,attack","drop","light","look,l","examine,x,look at,inspect","look in,search","open","lock","unlock","close,shut","eat","drink","put,place","quit","smell,sniff","listen","wait","climb",
+"up,go up,u","down,go down,d","enter,go in,go inside,get in","out","go","get,take,grab,pick up","give","inventory,i","kill,attack","drop","light","look,l","examine,x,look at","look in","search","open","lock","unlock","close,shut","eat","drink","put,place","quit","smell,sniff","listen","wait","climb",
 "yell,scream,shout", "jump", "talk to", "turn on","turn off", "wear", "save", "restore", "push,press","read","use", "again"
             };
 

@@ -92,6 +92,8 @@ namespace XTAC
                 System.Xml.Serialization.XmlSerializer reader = new XmlSerializer(typeof(Xml));
                 userVerbListView.Clear();
                 builtinVarsListBox.Items.Clear();
+                verbChecksListBox.Items.Clear();
+
                 // Read the XML file.
                 StreamReader file = new StreamReader(openFileDialog1.FileName);
                 fileName = openFileDialog1.FileName;
@@ -307,16 +309,18 @@ namespace XTAC
 
         void PopulateVerbs()
         {
+            verbCheckListBox.Items.Clear();
+
             builtInVerbsTextBox.Text = "";
 
+            //add builtin verbs
             foreach (string v in xproject.Project.Verbs.Builtinverbs.Verb)
             {
-
                 builtInVerbsTextBox.Text += v + "\r\n";
                 verbCheckListBox.Items.Add(v);
             }
 
-
+            //now add the user verbs
             foreach (String s in xproject.Project.Verbs.Userverbs.Verb)
             {
                 userVerbListView.Items.Add(s);
@@ -494,10 +498,43 @@ namespace XTAC
             }
             else
             {
-                //check for dupes!
+                
+
+
+               
 
 
                 string v = newVerbTextBox.Text.Trim();
+
+                //check for verb,nouns
+                string[] toks = v.Split(' ');
+                if (toks.Length >= 3)
+                {
+                    MessageBox.Show("Verb can only be one or two words (i.e. 'throw' or 'throw out').  Do not included nouns!");
+                    return;
+                }
+
+                if (toks.Length == 2)
+                {
+                    bool found = false;
+                    foreach (string p in prepositionsComboBox.Items)
+                    {
+                        if (p == toks[1])
+                        {
+                            found = true;
+                        }
+                    }
+
+                    if (!found)
+                    { 
+                        MessageBox.Show("For two word verbs, the second word must be a preposition (i.e. 'throw out')");
+                        return;
+                    }
+                }
+
+
+                //check for dupes!
+
 
                 if (!IsDupeVerb(v))
                 {
@@ -1110,6 +1147,8 @@ namespace XTAC
 
             Object room1 = CreateObject("Room 1");
             room1.Holder = "0";
+            room1.Name = "room_1";
+            room1.PrintedName = "Room 1";
             room1.Description = "This is the end of a dirt room.";
             room1.Flags.Emittinglight = "1";
             xproject.Project.Objects.Object.Add(room1);
@@ -1120,6 +1159,7 @@ namespace XTAC
         {
             if (MessageBox.Show("This will delete your current project.  Proceed?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
+                verbCheckListBox.Items.Clear();
                 userVerbListView.Clear();
                 ruleCodeTextBox.Clear();
                 NewProject();
@@ -2715,6 +2755,12 @@ namespace XTAC
 
             string verb = verbCheckListBox.Items[verbCheckListBox.SelectedIndex].ToString();
 
+            //if verb has synonyms, just grab the 1st one
+            if (verb.IndexOf(",") != -1)
+            {
+                verb = verb.Split(',')[0];
+            }
+
             //remove the check from the project and the verb
             if (verbChecksListBox.SelectedIndex != -1)
             {
@@ -2895,81 +2941,9 @@ namespace XTAC
         private void codeContextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
-            if (e.ClickedItem == toolStripMenuItem1)
-            {//unlock door
-                StringBuilder text = new StringBuilder(codeTextBox.Text);
-                int caret = codeTextBox.SelectionStart;
-                text.Insert(caret, "if (key.holder == player)\r\n" +
-                "{\r\n" +
-                "\tprintln(\"After a few tries, you manage to unlock the door.\");\r\n" +
-                "\tdoor.open = 1;\r\n" +
-                "\tdoor.locked = 0;\r\n" +
-                "}\r\n" +
-                "else\r\n" +
-                "{\r\n" +
-                "\tprintln(\"You need the key.\");\r\n" +
-                "}\r\n"
-                );
-                codeTextBox.Text = text.ToString();
-
-            }
-            else if (e.ClickedItem == toolStripMenuItem2)
-            {//light on 
-                StringBuilder text = new StringBuilder(codeTextBox.Text);
-                int caret = codeTextBox.SelectionStart;
-                text.Insert(caret, "if (flashlight.lit==1)\r\n{\r\n" +
-                    "\tprintln(\"It's already on.\");\r\n}\r\nelse\r\n{\r\n\tprintln(\"Click.\");\r\n" +
-                    "\tflashlight.lit = 1;\r\n" +
-                    "\tlook();\r\n" +
-                "}\r\n"
-                );
-                codeTextBox.Text = text.ToString();
-            }
-            else if (e.ClickedItem == toolStripMenuItem3)
-            {//light off
-                StringBuilder text = new StringBuilder(codeTextBox.Text);
-                int caret = codeTextBox.SelectionStart;
-                text.Insert(caret, "if (flashlight.lit==0)\r\n" +
-                "{\r\n" +
-                "\tprintln(\"It's already off.\");\r\n" +
-                "\tflashlight.lit = 0;\r\n" +
-                "\tlook();\r\n" +
-                "}\r\n" +
-                "else\r\n" +
-                "{\r\n" +
-                "\tprintln(\"Click.\");\r\n" +
-                "\tflashlight.lit = 0;\r\n" +
-                "\tlook();\r\n" +
-                "}\r\n"
-                );
-
-                codeTextBox.Text = text.ToString();
-            }
-            else if (e.ClickedItem == toolStripMenuItem5)
-            {//move object
-                StringBuilder text = new StringBuilder(codeTextBox.Text);
-                int caret = codeTextBox.SelectionStart;
-                text.Insert(caret,
-                 "if (bookcase.user1 == 0) //change name of object\r\n" +
-                 "{\r\n" +
-                    "\tbookcase.user1 = 1;\r\n" +
-                    "\tprintln(\"You push the bookcase aside revealing a passage leading east.\"); //change this!\r\n" +
-                "\tanswer = player.holder;\r\n" +
-                    "\tanswer.e = room_2;  //change the direction and new room! \r\n" +
-                "\tanswer.description = \"This is a study.  A passage leads east.\"; //change this description!\r\n" +
-            "}\r\n" +
-            "else\r\n" +
-            "{\r\n" +
-             "\tprintln(\"You've already moved it.\");\r\n" +
-             "}\r\n"
-                    );
-                codeTextBox.Text = text.ToString();
-            }
-            else if (e.ClickedItem == toolStripMenuItem6)
+            if (e.ClickedItem == toolStripMenuItem6)
             {//kill with monster drop
-                StringBuilder text = new StringBuilder(codeTextBox.Text);
-                int caret = codeTextBox.SelectionStart;
-                text.Insert(caret,
+                InsertCode(
                 "if (weapon.holder == player)\r\n" +
                 "{\r\n" +
                     "\tprintln(\"***ZAP***\");\r\n" +
@@ -2982,18 +2956,17 @@ namespace XTAC
                 "else\r\n" +
                 "{\r\n" +
                     "\tprintln(\"You don't have a weapon.\");\r\n" +
-                "}\r\n"
+                "}\r\n",
+                codeTextBox
                 );
-                codeTextBox.Text = text.ToString();
+
             }
         }
 
         private void killAnEnemywithBodyLeftBehindToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //kill with monster drop
-            StringBuilder text = new StringBuilder(codeTextBox.Text);
-            int caret = codeTextBox.SelectionStart;
-            text.Insert(caret,
+            InsertCode(
             "if (weapon.holder == player)\r\n" +
             "{\r\n" +
                 "\tprintln(\"***ZAP***\");\r\n" +
@@ -3004,9 +2977,359 @@ namespace XTAC
             "else\r\n" +
             "{\r\n" +
                 "\tprintln(\"You don't have a weapon.\");\r\n" +
-            "}\r\n"
+            "}\r\n",
+            codeTextBox
             );
-            codeTextBox.Text = text.ToString();
+
+        }
+
+        private void findAndItemBySearchingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+            "if (item.holder == offscreen)\r\n" +
+            "{\r\n" +
+                "\tprint(\"You find a \");\r\n" +
+                "\tprint_obj_name(item);\r\n" +
+                "\titem.holder = player; //move item to player\r\n" +
+            "}\r\n" +
+            "else\r\n" +
+            "{\r\n" +
+                "\tprintln(\"You find nothing.\");\r\n" +
+            "}\r\n",
+            codeTextBox
+            );
+
+        }
+
+        private void requireAKeycardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+            "if ( player.holder == room ) \r\n" +
+            "{\r\n" +
+            "\tif (keycard.holder == player)\r\n" +
+            "\t{\r\n" +
+            "\t\tprintln(\"You swipe the keycard.\");\r\n" +
+            "\t\tmove();\r\n" + 
+            "\t}\r\n" +
+            "\telse\r\n" +
+            "\t{\r\n" +
+                "\t\tprintln(\"***BEEP***.\");\r\n" +
+                "\t\tprintln(\"Keycard required.\");\r\n" +
+            "\t}\r\n" +
+            "}\r\n" +
+            "else\r\n" +
+            "{\r\n" +
+            "\tmove();\r\n" +
+            "}",
+            codeTextBox
+            );
+
+        }
+
+        private void blockAnExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {//block an exit
+            InsertCode(
+            "if ( player.holder == monster.holder ) \r\n" +
+            "{\r\n" +
+                "\tprintln(\"The monster blocks that exit!\");\r\n" +
+            "}\r\n" +
+            "else\r\n" +
+            "{\r\n" +
+            "\tmove();\r\n" +
+            "}",
+            codeTextBox
+            );
+ 
+        }
+
+        private void haveAnEnemyAttackThePlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {//event attack player
+            InsertCode(
+            "//change enemy to the appropriate object\r\n"+
+            "//change text as needed\r\n" +
+            "if (player.holder == enemy.holder)\r\n" +
+"{\r\n" +
+"\tif(enemy.user3 == 0)\r\n" +
+"\t{\r\n" +
+"\t\tprintln(\"The enemy draws his weapon!\");\r\n" +
+"\t\tenemy.user3 = 1;\r\n" +
+"\t}\r\n" +
+"\telse\r\n" +
+"\t{\r\n" +
+"\t\tprintln(\"The enemy fires his thingy at you!\");\r\n" +
+"\t\thealth -= 25; //change this number as needed\r\n"+
+"\t\tif(health == 0 || health > 100)\r\n" +
+"\t\t{\r\n" +
+"\t\t\tprintln(\"***YOU HAVE DIED***\");\r\n" +
+"\t\t\t//reset game or call function to reset game\r\n" +
+"\t\t\tplayer.holder = 2; //player back to start room\r\n"+
+"\t\t\thealth = 100;\r\n" +
+"\t\t\tenemy.user3 = 0; //wait to fire\r\n" +
+"\t\t\tlook();\r\n" +
+"\t\t}\r\n" +
+"\t}\r\n" +
+"}\r\n",
+            ruleCodeTextBox
+            );
+        }
+
+        private void ruleCodeTextBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (rulesListBox.SelectedIndex != -1)
+            {
+                ruleCodeTextBox.ContextMenuStrip = eventCodeContextMenuStrip;
+            }
+        }
+
+        private void requireDisguiseOrClothingToMoveToolStripMenuItem_Click(object sender, EventArgs e)
+        {//require a disguise
+            InsertCode(
+            "//change room and item names as need\r\n"+
+            "if (player.holder == location && uniform.beingworn == 0 )\r\n" +
+            "{\r\n" +
+                "\t//change as needed. You could move/kill player as well\r\n" +
+                "\tprintln(\"You're not getting past the guard dressed like a prisoner!\");\r\n" +
+            "}\r\n" +
+            "else\r\n" +
+            "{\r\n" +
+            "\tmove();\r\n" +
+            "}",
+            codeTextBox
+            );
+        }
+
+        private void killAnEnemynoBodyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //kill with monster drop
+            InsertCode(
+            "if (weapon.holder == player)\r\n" +
+            "{\r\n" +
+                "\tprintln(\"***ZAP***\");\r\n" +
+                "\tprintln(\"Your ray gun vaporizes the alien!\");\r\n" +
+                "\talien.holder = offscreen; //move alien offscreen \r\n" +
+            "}\r\n" +
+            "else\r\n" +
+            "{\r\n" +
+                "\tprintln(\"You don't have a weapon.\");\r\n" +
+            "}\r\n",
+            codeTextBox
+            );
+
+        }
+
+        private void switchOnAnObjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+                "\tobject.user3 = 1; //change object name\r\n" +     
+                "\tobject.description = \"The machine is on.\"; //make more elaborate if needed\r\n"
+           ,
+            ruleCodeTextBox
+            );
+
+        }
+
+        private void switchOffAnObjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+                "\tobject.user3 = 0; //change object name\r\n" +
+                "\tobject.description = \"The machine is off.\"; //make more elaborate if needed\r\n" 
+           ,
+            ruleCodeTextBox
+            );
+        }
+
+        private void openADoorUsingAKeycodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void unlockADoorUsingAKeycodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //unlock door
+            InsertCode(
+            "println(\"Enter keycode:\");\r\n" +
+            "ask();\r\n" +
+            "if (answer == \"12345\")\r\n" +
+            "{\r\n" +
+            "\tprintln(\"The door swings open.\");\r\n" +
+            "\tdoor.open = 1;\r\n" +
+            "\tdoor.locked = 0;\r\n" +
+            "}\r\n" +
+            "else\r\n" +
+            "{\r\n" +
+            "\tprintln(\"Invalid code.\");\r\n" +
+            "}\r\n",
+            codeTextBox
+            );
+
+        }
+
+        private void moveAnObjectIntoTheWorldToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+            "//change item to the name of object to move;\r\n" +
+            "//change new_room to the name of object's new location;\r\n" +
+            "item.holder = new_room;\r\n",
+            codeTextBox
+            );
+
+        }
+
+        private void moveAnObjectOutOfTheWorldToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode("//change item to the name of object to move;\r\n" +
+            "item.holder = offscreen;\r\n",
+            codeTextBox
+            );
+        }
+
+        private void printALineOfTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode("println(\"Change me!\");\r\n", codeTextBox);
+        }
+
+        private void printBlankLineMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode("\tprintln(\"\")\r\n", ruleCodeTextBox);
+        }
+
+        private void switchOnALightSourceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode( "object.lit = 1; //change object\r\n", ruleCodeTextBox);
+        }
+
+        void InsertCode( string code, TextBox control)
+        {
+            StringBuilder text = new StringBuilder(control.Text);
+            int caret = control.SelectionStart;
+            text.Insert(caret,code);
+            control.Text = text.ToString();
+        }
+
+        private void printLineMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode("println(\"change me!\");\r\n", ruleCodeTextBox);
+        }
+
+        private void printObjectNameMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode("printname(object); //change object\r\n", ruleCodeTextBox);
+        }
+
+        private void moveAnObjectIntoTheWorldMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+            "//change item to the name of object to move;\r\n" +
+            "//change new_room to the name of object's new location;\r\n" +
+            "item.holder = new_room;\r\n",
+            ruleCodeTextBox
+            );
+
+        }
+
+        private void switchOffALightSourceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+            "//change item to the turn off;\r\n" +
+            "object.lit = 0;\r\n",
+            ruleCodeTextBox
+            );
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+                "if (key.holder == player)\r\n" +
+            "{\r\n" +
+            "\tprintln(\"After a few tries, you manage to unlock the door.\");\r\n" +
+            "\tdoor.open = 1;\r\n" +
+            "\tdoor.locked = 0;\r\n" +
+            "}\r\n" +
+            "else\r\n" +
+            "{\r\n" +
+            "\tprintln(\"You need the key.\");\r\n" +
+            "}\r\n",
+                codeTextBox
+            );
+
+        }
+
+        private void blockAnExitToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+         "room.n = fail(\"The way is blocked.\"); //change room, direction, and message\r\n",
+         ruleCodeTextBox
+         );
+        }
+
+        private void changeAConnectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+         "room.n = room2; //change room1,direction, and room2\r\n",
+      ruleCodeTextBox
+      );
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            InsertCode("if (flashlight.lit==1)\r\n{\r\n" +
+                "\tprintln(\"It's already on.\");\r\n}\r\nelse\r\n{\r\n\tprintln(\"Click.\");\r\n" +
+                "\tflashlight.lit = 1;\r\n" +
+                "\tlook();\r\n" +
+            "}\r\n",
+            codeTextBox
+            );
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            InsertCode("if (flashlight.lit==0)\r\n" +
+            "{\r\n" +
+            "\tprintln(\"It's already off.\");\r\n" +
+            "\tflashlight.lit = 0;\r\n" +
+            "\tlook();\r\n" +
+            "}\r\n" +
+            "else\r\n" +
+            "{\r\n" +
+            "\tprintln(\"Click.\");\r\n" +
+            "\tflashlight.lit = 0;\r\n" +
+            "\tlook();\r\n" +
+            "}\r\n",
+            codeTextBox
+            );
+        }
+
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+                         "if (bookcase.user1 == 0) //change name of object\r\n" +
+                         "{\r\n" +
+                            "\tbookcase.user1 = 1;\r\n" +
+                            "\tprintln(\"You push the bookcase aside revealing a passage leading east.\"); //change this!\r\n" +
+                        "\tanswer = player.holder;\r\n" +
+                            "\tanswer.e = room_2;  //change the direction and new room! \r\n" +
+                        "\tanswer.description = \"This is a study.  A passage leads east.\"; //change this description!\r\n" +
+                    "}\r\n" +
+                    "else\r\n" +
+                    "{\r\n" +
+                     "\tprintln(\"You've already moved it.\");\r\n" +
+                     "}\r\n",
+                         codeTextBox
+                            );
+        }
+
+        private void printAnObjectsNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode("printname(object); //change object\r\n", ruleCodeTextBox);
+        }
+
+        private void unlockADoorMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode("door.locked = 0; //change object\r\n", ruleCodeTextBox);
+        }
+
+        private void moveAnObjectOutOfTheWorldMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode("object.holder = offscreen; //change object\r\n", ruleCodeTextBox);
         }
     }
 }
