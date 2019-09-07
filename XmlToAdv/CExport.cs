@@ -362,47 +362,40 @@ namespace XMLtoAdv
 
         void WriteVerbTableC(int ptrSize=2)
         {
-            int count = 0;
             char[] seps = { ',' };
             List<string> verbAtoms = new List<string>();
+            string[] allVerbs = GetAllVerbs();
 
             using (StreamWriter sw = File.CreateText("VerbTable.c"))
             {
-                
+
                 sw.WriteLine("char VerbTableData[]={");
-
+                
                 //write the function to initialize it
-                for (int i = 0; i < verbs.GetNumEntries(); i++)
+                for (int i = 0; i < allVerbs.Length; i++)
                 {
-                    string verb = verbs.GetEntry(i);
+                    string verb = allVerbs[i];
+                    
+                    string comma = ",";
+                    if (i == allVerbs.Length - 1)
+                        comma = " ";
 
-                    //split it up using commas
-                    string[] toks = verb.Split(seps);
-                    count += toks.Length;
-                    for (int j = 0; j < toks.Length; j++)
-                    {
-                        string comma = ",";
-                        if (i == verbs.GetNumEntries() - 1)
-                            comma = " ";
+                    string line = "\t" + GetVerbId(verb) ;
+                    for (int k = 0; k < ptrSize; k++)
+                        line += ",0";
 
-                        string line = "\t" + i;
-                        for (int k = 0; k < ptrSize; k++)
-                            line += ",0";
-
-                        line +=  comma + "/*" + toks[j].ToUpper() + "*/";
-                        sw.WriteLine(line);
-                        verbAtoms.Add(toks[j].ToUpper());
-                    }
-
+                    line +=  comma + "/*" + allVerbs[i].ToUpper() + "*/";
+                    sw.WriteLine(line);
+ 
                 }
                 sw.WriteLine("\t};");
                 sw.WriteLine("");
                 sw.WriteLine("void init_verb_table()");
                 sw.WriteLine("{");
                 sw.WriteLine("VerbTable = (WordEntry*)VerbTableData;");
-                for (int i = 0; i < verbAtoms.Count; i++)
+                for (int i = 0; i < allVerbs.Length; i++)
                 {
-                    sw.WriteLine("\tVerbTable[" + i + "].wrd = (char*)\"" + verbAtoms[i] + "\";");
+                    sw.WriteLine("\tVerbTable[" + i + "].wrd = (char*)\"" + allVerbs[i].ToUpper() + "\";");
                 }
                 sw.WriteLine("}");
             }//end using
@@ -418,7 +411,7 @@ namespace XMLtoAdv
                     sw.WriteLine("#define " + verb_id.ToUpper() + " " + i);
                 }
 
-                sw.WriteLine("const int NumVerbs=" + count + ";\n");
+                sw.WriteLine("const int NumVerbs=" + allVerbs.Length + ";\n");
 
             }
         }
@@ -560,6 +553,30 @@ namespace XMLtoAdv
                 }
             }
         }
+
+        string[] GetAllVerbs()
+        {
+            List<string> allVerbs = new List<string>();
+
+
+            char[] seps = { ',' };
+            for (int i = 0; i < verbs.GetNumEntries(); i++)
+            {
+                string verb = verbs.GetEntry(i);
+
+                //split it up using commas
+                string[] toks = verb.Split(seps);
+
+                foreach (var item in toks)
+                {
+                    allVerbs.Add(item.ToUpper().Trim());
+                }
+             
+            }
+
+            return allVerbs.ToArray();
+        }
+       
     }
 
     enum CDECLYesNo { NO, YES };

@@ -137,7 +137,7 @@ namespace XMLtoAdv
             PopulateVariableTable(doc);
             PopulateSubroutineNames(doc);
             ParseForStrings(doc, descriptionTable);
-
+            ParseForFailStrings(doc, nogoTable);
             ValidateStringLength();
 
 
@@ -279,10 +279,46 @@ namespace XMLtoAdv
 
         virtual public void Convert() { }
 
+        private void ParseForFailStrings(string code, Table table)
+        {
+            //fail followed by whitespace 
+            //followed by ( 
+            //followed by whitespace 
+            //followed by "
+            //followed by text
+            //followed by "
+            //followed by )
+            string regex = "fail(\\s)*\\((\\s)*\"[^\"]*[\"](\\s)*";
+
+            MatchCollection matches = System.Text.RegularExpressions.Regex.Matches(code, regex);
+
+            foreach (Match m in matches)
+            {
+                string s = m.Value;
+                //trim off the function call
+                s = s.Substring(s.IndexOf("\"")+1);
+                s = s.Substring(0, s.IndexOf("\""));
+                table.AddEntry(s);
+            }
+
+        }
+
+
         private void ParseForStrings(string code, Table table)
         {
             try
             {
+                //remove all commenrs
+                string pattern = "//.*\r\n";
+                code = Regex.Replace(code, pattern, "\n");
+
+                //remove all the fail strings
+                string failPattern = "fail(\\s)*\\((\\s)*\"[^\"]*[\"](\\s)*";
+                code = Regex.Replace(code, failPattern, "");
+
+                //remove newlines (these will cause empty strings)
+                code = code.Replace("println(\"\")", "");
+
                 int start = code.IndexOf("\"");
                 if (start != -1)
                 {
@@ -292,19 +328,10 @@ namespace XMLtoAdv
                     string substr = rem.Substring(0, end);
 
                     if (substr.Contains('\\'))
-                    {
+                     {
                         throw new Exception("The string [" + substr + "] contains a ' ' character.  This will create an escape sequence and mess up the string table.  Please remove it.");
                     }
 
-                    /*
-                    foreach (char ch in substr.ToArray())
-                    {
-                        if (!Char.IsLetterOrDigit(ch) && !Char.IsPunctuation(ch) && !Char.IsWhiteSpace(ch))
-                        {
-                            throw new Exception("strange char:" + (int)ch + " in string [" + substr + "]" );
-                        }
-                    }
-                    */
                     if (substr.Length > 253)
                     {
                         throw new Exception("string '" + substr + "' is greater than 253 characters.\r\nShorten it or split it into multiple print statements.");
@@ -324,14 +351,39 @@ namespace XMLtoAdv
         /*
          * Scans for strings in the events and puts them in the description table.
          */
-        public void ParseForStrings(XmlDocument doc, Table table)
+        
+       public void ParseForStrings(XmlDocument doc, Table table)
+       {
+           XmlNodeList events = doc.SelectNodes("//project/events/event");
+
+           foreach (XmlNode n in events)
+           {
+               string code = n.InnerText;
+
+               ParseForStrings(code, table);
+           }
+
+           events = doc.SelectNodes("//project/routines/routine");
+
+           foreach (XmlNode n in events)
+           {
+               string code = n.InnerText;
+               ParseForStrings(code, table);
+           }
+       
+    }
+
+
+
+
+        public void ParseForFailStrings(XmlDocument doc, Table table)
         {
             XmlNodeList events = doc.SelectNodes("//project/events/event");
 
             foreach (XmlNode n in events)
             {
                 string code = n.InnerText;
-                ParseForStrings(code, table);
+                ParseForFailStrings(code, table);
             }
 
             events = doc.SelectNodes("//project/routines/routine");
@@ -339,9 +391,10 @@ namespace XMLtoAdv
             foreach (XmlNode n in events)
             {
                 string code = n.InnerText;
-                ParseForStrings(code, table);
+                ParseForFailStrings(code, table);
             }
         }
+
 
         /*
          * Solves dependency problems
@@ -562,12 +615,14 @@ namespace XMLtoAdv
             WriteStringTableC("Dictionary.c", "Dictionary", dict);
             WriteObjectTableC();
             WriteObjectWordTableC();
-            WriteVerbTableC(EIGHT_BYTE_POINTERS);
-            WriteCheckTableC(EIGHT_BYTE_POINTERS);
+            //WriteVerbTableC(EIGHT_BYTE_POINTERS);
+            //WriteCheckTableC(EIGHT_BYTE_POINTERS);
+            WriteVerbTableC(FOUR_BYTE_POINTERS);
+            WriteCheckTableC(FOUR_BYTE_POINTERS);
             WriteUserVarsC();
-            WriteSentenceTableC("BeforeTable.c", "BeforeTable", "before", EIGHT_BYTE_POINTERS);
-            WriteSentenceTableC("AfterTable.c", "AfterTable", "after", EIGHT_BYTE_POINTERS);
-            WriteSentenceTableC("InsteadTable.c", "InsteadTable", "instead", EIGHT_BYTE_POINTERS);
+            WriteSentenceTableC("BeforeTable.c", "BeforeTable", "before", FOUR_BYTE_POINTERS);
+            WriteSentenceTableC("AfterTable.c", "AfterTable", "after", FOUR_BYTE_POINTERS);
+            WriteSentenceTableC("InsteadTable.c", "InsteadTable", "instead", FOUR_BYTE_POINTERS);
             WriteEventsHeader(doc, CDECLYesNo.NO);
             WriteEvents(doc, "8086", new CLL.VisitorRPi(this));
             Environment.CurrentDirectory = oldDir;
@@ -1289,6 +1344,18 @@ namespace XMLtoAdv
             return descriptionTable.GetEntryId(text);
         }
 
+        public int GetFailStringId(string s)
+        {
+            int strId = nogoTable.GetEntryId(s);
+
+            if (strId == -1)
+            {
+                throw new Exception("String \'" + s + "\' not found in table");
+            }
+
+            return 256 - strId;
+        }
+
         public bool IsSubroutine(string name)
         {
             if (name.IndexOf("(") == -1)
@@ -1599,7 +1666,7 @@ namespace XMLtoAdv
 
             try
             {
-            
+
                 //get the file path 
                 CreateTables(fileName, "_Apple2");
                 /*
@@ -1870,9 +1937,15 @@ namespace XMLtoAdv
             if (dskName == "")
                 dskName = "adventure";
 
+            //fix Linux
             string s = File.ReadAllText("build.sh");
             s = s.Replace("__DISK_NAME__", dskName);
             File.WriteAllText("build.sh", s);
+
+            //fix DOS
+            s = File.ReadAllText("build.bat");
+            s = s.Replace("__DISK_NAME__", dskName);
+            File.WriteAllText("build.bat", s);
         }
 
     }//end class
