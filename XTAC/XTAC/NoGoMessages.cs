@@ -34,7 +34,9 @@ namespace XTAC
             textBox8.Text = obj.Nogo.Nw;
             textBox9.Text = obj.Nogo.Up;
             textBox10.Text = obj.Nogo.Down;
-            
+            textBox11.Text = obj.Nogo.In;
+            textBox12.Text = obj.Nogo.Out;
+
         }
 
         private void label5_Click(object sender, EventArgs e)
@@ -59,7 +61,9 @@ namespace XTAC
             obj.Nogo.Nw = textBox8.Text;
             obj.Nogo.Up = textBox9.Text;
             obj.Nogo.Down = textBox10.Text;
-             
+            obj.Nogo.In = textBox11.Text;
+            obj.Nogo.Out = textBox12.Text;
+
             Close();
         }
     }

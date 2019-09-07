@@ -168,7 +168,11 @@
             public string Up { get; set; }
             [XmlElement(ElementName = "down")]
             public string Down { get; set; }
-        }
+            [XmlElement(ElementName = "in")]
+            public string In { get; set; }
+            [XmlElement(ElementName = "out")]
+            public string Out { get; set; }
+    }
 
         [XmlRoot(ElementName = "backdrop")]
         public class Backdrop

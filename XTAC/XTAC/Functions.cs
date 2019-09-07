@@ -270,6 +270,8 @@ namespace XTAC
             AddCheck("eat", "check_have_dobj");
             AddCheck("enter", "check_dobj_supplied");
             AddCheck("enter", "check_see_dobj");
+            AddCheck("in", "check_move");
+            AddCheck("out", "check_move");
             AddCheck("examine", "check_dobj_supplied");
             AddCheck("examine", "check_see_dobj");
             AddCheck("get", "check_dobj_supplied");
@@ -370,7 +372,25 @@ namespace XTAC
         }
 
 
-        void FixPrintedNames()
+        void FixEnter()
+        {
+            foreach (Object o in xproject.Project.Objects.Object)
+            {
+                if (o.Nogo.In == null || o.Nogo.In == "")
+                {
+                    //if the printed name is null, switch the name and the printed name
+                    o.Nogo.In = "You can't enter that.";
+                }
+                if (o.Nogo.Out == null || o.Nogo.Out == "")
+                {
+                    //if the printed name is null, switch the name and the printed name
+                    o.Nogo.Out = "I don't know which way that is.";
+                }
+
+
+            }
+        }
+            void FixPrintedNames()
         {
             foreach (Object o in xproject.Project.Objects.Object)
             {
@@ -458,6 +478,8 @@ namespace XTAC
             AddMissingCheck("unlock", "check_dobj_lockable");
             AddMissingCheck("unlock", "check_dobj_lockable");
             AddMissingCheck("unlock", "check_dobj_lockable");
+            AddMissingCheck("enter", "check_move");
+            AddMissingCheck("out", "check_move");
         }
 
         /// <summary>

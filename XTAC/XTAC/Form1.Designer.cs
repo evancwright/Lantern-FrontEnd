@@ -273,6 +273,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.unlockADoorUsingAKeycodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripBattOnMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.switchOnAnObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchOffAnObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -284,6 +285,7 @@
             this.requireAKeycardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.requireDisguiseOrClothingToMoveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.blockAnExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripPutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventCodeContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addEventCodeToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printLineMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -297,6 +299,8 @@
             this.haveAnEnemyAttackThePlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeAConnectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.blockAnExitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.runDownBatteriesInAFlashlightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.killThePlayerIfInDarknessTooLongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1018,7 +1022,7 @@
             this.sentencesListBox.HorizontalScrollbar = true;
             this.sentencesListBox.Location = new System.Drawing.Point(238, 64);
             this.sentencesListBox.Name = "sentencesListBox";
-            this.sentencesListBox.Size = new System.Drawing.Size(481, 381);
+            this.sentencesListBox.Size = new System.Drawing.Size(481, 329);
             this.sentencesListBox.TabIndex = 16;
             this.sentencesListBox.SelectedIndexChanged += new System.EventHandler(this.sentencesListBox_SelectedIndexChanged);
             this.sentencesListBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.sentencesListBox_KeyPress);
@@ -1416,7 +1420,7 @@
             this.allChecksListBox.ItemHeight = 16;
             this.allChecksListBox.Location = new System.Drawing.Point(507, 42);
             this.allChecksListBox.Name = "allChecksListBox";
-            this.allChecksListBox.Size = new System.Drawing.Size(183, 308);
+            this.allChecksListBox.Size = new System.Drawing.Size(183, 356);
             this.allChecksListBox.TabIndex = 3;
             // 
             // removeCheckButton
@@ -1447,7 +1451,7 @@
             this.verbCheckListBox.ItemHeight = 16;
             this.verbCheckListBox.Location = new System.Drawing.Point(297, 42);
             this.verbCheckListBox.Name = "verbCheckListBox";
-            this.verbCheckListBox.Size = new System.Drawing.Size(204, 404);
+            this.verbCheckListBox.Size = new System.Drawing.Size(204, 356);
             this.verbCheckListBox.TabIndex = 0;
             this.verbCheckListBox.SelectedIndexChanged += new System.EventHandler(this.verbCheckListBox_SelectedIndexChanged);
             // 
@@ -1509,7 +1513,7 @@
             this.builtInVerbsTextBox.Name = "builtInVerbsTextBox";
             this.builtInVerbsTextBox.ReadOnly = true;
             this.builtInVerbsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.builtInVerbsTextBox.Size = new System.Drawing.Size(207, 403);
+            this.builtInVerbsTextBox.Size = new System.Drawing.Size(207, 342);
             this.builtInVerbsTextBox.TabIndex = 0;
             // 
             // label18
@@ -1539,7 +1543,7 @@
             this.userVerbListView.Location = new System.Drawing.Point(267, 55);
             this.userVerbListView.MultiSelect = false;
             this.userVerbListView.Name = "userVerbListView";
-            this.userVerbListView.Size = new System.Drawing.Size(121, 403);
+            this.userVerbListView.Size = new System.Drawing.Size(121, 342);
             this.userVerbListView.TabIndex = 2;
             this.userVerbListView.UseCompatibleStateImageBehavior = false;
             this.userVerbListView.View = System.Windows.Forms.View.List;
@@ -1612,7 +1616,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1097, 401);
+            this.tabPage2.Size = new System.Drawing.Size(1097, 450);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = " Rooms/Objects";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -2525,7 +2529,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1105, 427);
+            this.tabControl1.Size = new System.Drawing.Size(1105, 476);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -2819,6 +2823,7 @@
             this.toolStripMenuItem1,
             this.unlockADoorUsingAKeycodeToolStripMenuItem,
             this.toolStripMenuItem2,
+            this.toolStripBattOnMenuItem,
             this.toolStripMenuItem3,
             this.switchOnAnObjectToolStripMenuItem,
             this.switchOffAnObjectToolStripMenuItem,
@@ -2829,9 +2834,10 @@
             this.findAndItemBySearchingToolStripMenuItem,
             this.requireAKeycardToolStripMenuItem,
             this.requireDisguiseOrClothingToMoveToolStripMenuItem,
-            this.blockAnExitToolStripMenuItem});
+            this.blockAnExitToolStripMenuItem,
+            this.toolStripPutMenuItem});
             this.codeContextMenuStrip.Name = "codeContextMenuStrip";
-            this.codeContextMenuStrip.Size = new System.Drawing.Size(298, 444);
+            this.codeContextMenuStrip.Size = new System.Drawing.Size(298, 488);
             this.codeContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.codeContextMenuStrip_Opening);
             this.codeContextMenuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.codeContextMenuStrip_ItemClicked);
             // 
@@ -2895,8 +2901,15 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(297, 22);
-            this.toolStripMenuItem2.Text = "Switching on a light source";
+            this.toolStripMenuItem2.Text = "Turn on a light source";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // toolStripBattOnMenuItem
+            // 
+            this.toolStripBattOnMenuItem.Name = "toolStripBattOnMenuItem";
+            this.toolStripBattOnMenuItem.Size = new System.Drawing.Size(297, 22);
+            this.toolStripBattOnMenuItem.Text = "Turn on a light requiring batteries";
+            this.toolStripBattOnMenuItem.Click += new System.EventHandler(this.toolStripBattOnMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -2974,6 +2987,13 @@
             this.blockAnExitToolStripMenuItem.Text = "Block an exit";
             this.blockAnExitToolStripMenuItem.Click += new System.EventHandler(this.blockAnExitToolStripMenuItem_Click);
             // 
+            // toolStripPutMenuItem
+            // 
+            this.toolStripPutMenuItem.Name = "toolStripPutMenuItem";
+            this.toolStripPutMenuItem.Size = new System.Drawing.Size(297, 22);
+            this.toolStripPutMenuItem.Text = "Put an item in another item";
+            this.toolStripPutMenuItem.Click += new System.EventHandler(this.toolStripPutMenuItem_Click);
+            // 
             // eventCodeContextMenuStrip
             // 
             this.eventCodeContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -2988,98 +3008,115 @@
             this.switchOffALightSourceToolStripMenuItem,
             this.haveAnEnemyAttackThePlayerToolStripMenuItem,
             this.changeAConnectionToolStripMenuItem,
-            this.blockAnExitToolStripMenuItem1});
+            this.blockAnExitToolStripMenuItem1,
+            this.runDownBatteriesInAFlashlightToolStripMenuItem,
+            this.killThePlayerIfInDarknessTooLongToolStripMenuItem});
             this.eventCodeContextMenuStrip.Name = "eventCodeContextMenuStrip";
-            this.eventCodeContextMenuStrip.Size = new System.Drawing.Size(247, 268);
+            this.eventCodeContextMenuStrip.Size = new System.Drawing.Size(266, 312);
             // 
             // addEventCodeToToolStripMenuItem
             // 
             this.addEventCodeToToolStripMenuItem.Enabled = false;
             this.addEventCodeToToolStripMenuItem.Name = "addEventCodeToToolStripMenuItem";
-            this.addEventCodeToToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.addEventCodeToToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.addEventCodeToToolStripMenuItem.Text = "Add Event code to ...";
             // 
             // printLineMenuItem
             // 
             this.printLineMenuItem.Name = "printLineMenuItem";
-            this.printLineMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.printLineMenuItem.Size = new System.Drawing.Size(265, 22);
             this.printLineMenuItem.Text = "Print a line of text";
             this.printLineMenuItem.Click += new System.EventHandler(this.printLineMenuItem_Click);
             // 
             // printObjectNameMenuItem
             // 
             this.printObjectNameMenuItem.Name = "printObjectNameMenuItem";
-            this.printObjectNameMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.printObjectNameMenuItem.Size = new System.Drawing.Size(265, 22);
             this.printObjectNameMenuItem.Text = "Print an object\'s name";
             this.printObjectNameMenuItem.Click += new System.EventHandler(this.printObjectNameMenuItem_Click);
             // 
             // blankLineMenuItem
             // 
             this.blankLineMenuItem.Name = "blankLineMenuItem";
-            this.blankLineMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.blankLineMenuItem.Size = new System.Drawing.Size(265, 22);
             this.blankLineMenuItem.Text = "Print a blank line";
+            this.blankLineMenuItem.Click += new System.EventHandler(this.blankLineMenuItem_Click);
             // 
             // moveAnObjectIntoTheWorldMenuItem
             // 
             this.moveAnObjectIntoTheWorldMenuItem.Name = "moveAnObjectIntoTheWorldMenuItem";
-            this.moveAnObjectIntoTheWorldMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.moveAnObjectIntoTheWorldMenuItem.Size = new System.Drawing.Size(265, 22);
             this.moveAnObjectIntoTheWorldMenuItem.Text = "Move an object into the world";
             this.moveAnObjectIntoTheWorldMenuItem.Click += new System.EventHandler(this.moveAnObjectIntoTheWorldMenuItem_Click);
             // 
             // moveAnObjectOutOfTheWorldMenuItem
             // 
             this.moveAnObjectOutOfTheWorldMenuItem.Name = "moveAnObjectOutOfTheWorldMenuItem";
-            this.moveAnObjectOutOfTheWorldMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.moveAnObjectOutOfTheWorldMenuItem.Size = new System.Drawing.Size(265, 22);
             this.moveAnObjectOutOfTheWorldMenuItem.Text = "Move an object out of the world";
             this.moveAnObjectOutOfTheWorldMenuItem.Click += new System.EventHandler(this.moveAnObjectOutOfTheWorldMenuItem_Click);
             // 
             // unlockADoorMenuItem
             // 
             this.unlockADoorMenuItem.Name = "unlockADoorMenuItem";
-            this.unlockADoorMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.unlockADoorMenuItem.Size = new System.Drawing.Size(265, 22);
             this.unlockADoorMenuItem.Text = "Unlock a door";
             this.unlockADoorMenuItem.Click += new System.EventHandler(this.unlockADoorMenuItem_Click);
             // 
             // switchOnALightSourceToolStripMenuItem
             // 
             this.switchOnALightSourceToolStripMenuItem.Name = "switchOnALightSourceToolStripMenuItem";
-            this.switchOnALightSourceToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.switchOnALightSourceToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.switchOnALightSourceToolStripMenuItem.Text = "Switch on a light source";
             this.switchOnALightSourceToolStripMenuItem.Click += new System.EventHandler(this.switchOnALightSourceToolStripMenuItem_Click);
             // 
             // switchOffALightSourceToolStripMenuItem
             // 
             this.switchOffALightSourceToolStripMenuItem.Name = "switchOffALightSourceToolStripMenuItem";
-            this.switchOffALightSourceToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.switchOffALightSourceToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.switchOffALightSourceToolStripMenuItem.Text = "Switch off a light source";
             this.switchOffALightSourceToolStripMenuItem.Click += new System.EventHandler(this.switchOffALightSourceToolStripMenuItem_Click);
             // 
             // haveAnEnemyAttackThePlayerToolStripMenuItem
             // 
             this.haveAnEnemyAttackThePlayerToolStripMenuItem.Name = "haveAnEnemyAttackThePlayerToolStripMenuItem";
-            this.haveAnEnemyAttackThePlayerToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.haveAnEnemyAttackThePlayerToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.haveAnEnemyAttackThePlayerToolStripMenuItem.Text = "Have an enemy attack the player";
             this.haveAnEnemyAttackThePlayerToolStripMenuItem.Click += new System.EventHandler(this.haveAnEnemyAttackThePlayerToolStripMenuItem_Click);
             // 
             // changeAConnectionToolStripMenuItem
             // 
             this.changeAConnectionToolStripMenuItem.Name = "changeAConnectionToolStripMenuItem";
-            this.changeAConnectionToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.changeAConnectionToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.changeAConnectionToolStripMenuItem.Text = "Change a connection";
             this.changeAConnectionToolStripMenuItem.Click += new System.EventHandler(this.changeAConnectionToolStripMenuItem_Click);
             // 
             // blockAnExitToolStripMenuItem1
             // 
             this.blockAnExitToolStripMenuItem1.Name = "blockAnExitToolStripMenuItem1";
-            this.blockAnExitToolStripMenuItem1.Size = new System.Drawing.Size(246, 22);
+            this.blockAnExitToolStripMenuItem1.Size = new System.Drawing.Size(265, 22);
             this.blockAnExitToolStripMenuItem1.Text = "Block a direction";
             this.blockAnExitToolStripMenuItem1.Click += new System.EventHandler(this.blockAnExitToolStripMenuItem1_Click);
+            // 
+            // runDownBatteriesInAFlashlightToolStripMenuItem
+            // 
+            this.runDownBatteriesInAFlashlightToolStripMenuItem.Name = "runDownBatteriesInAFlashlightToolStripMenuItem";
+            this.runDownBatteriesInAFlashlightToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
+            this.runDownBatteriesInAFlashlightToolStripMenuItem.Text = "Run down batteries in a flashlight";
+            this.runDownBatteriesInAFlashlightToolStripMenuItem.Click += new System.EventHandler(this.runDownBatteriesInAFlashlightToolStripMenuItem_Click);
+            // 
+            // killThePlayerIfInDarknessTooLongToolStripMenuItem
+            // 
+            this.killThePlayerIfInDarknessTooLongToolStripMenuItem.Name = "killThePlayerIfInDarknessTooLongToolStripMenuItem";
+            this.killThePlayerIfInDarknessTooLongToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
+            this.killThePlayerIfInDarknessTooLongToolStripMenuItem.Text = "Kill the player if in darkness too long";
+            this.killThePlayerIfInDarknessTooLongToolStripMenuItem.Click += new System.EventHandler(this.killThePlayerIfInDarknessTooLongToolStripMenuItem_Click);
             // 
             // Lantern
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1107, 458);
+            this.ClientSize = new System.Drawing.Size(1107, 484);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -3391,6 +3428,10 @@
         private System.Windows.Forms.ToolStripMenuItem switchOffALightSourceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem blockAnExitToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem changeAConnectionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem killThePlayerIfInDarknessTooLongToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripPutMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runDownBatteriesInAFlashlightToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripBattOnMenuItem;
     }
 }
 

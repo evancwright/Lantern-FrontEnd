@@ -112,7 +112,7 @@ namespace XTAC
                     FixEmptyObjects();
                     FixChecks();
                     FixDoors();
-
+                    FixEnter();
                     ShowProject();
                     Text = "Lantern (" + fileName + ")";
                 }
@@ -497,58 +497,55 @@ namespace XTAC
 
             }
             else
-            {
-                
-
-
-               
-
-
+            {   
                 string v = newVerbTextBox.Text.Trim();
 
-                //check for verb,nouns
-                string[] toks = v.Split(' ');
-                if (toks.Length >= 3)
+                //split on commas
+                string[] vs = v.Split(',');
+                foreach (string vb in vs)
                 {
-                    MessageBox.Show("Verb can only be one or two words (i.e. 'throw' or 'throw out').  Do not included nouns!");
-                    return;
-                }
-
-                if (toks.Length == 2)
-                {
-                    bool found = false;
-                    foreach (string p in prepositionsComboBox.Items)
+                    //check for verb,nouns
+                    string[] toks = vb.Split(' ');
+                    if (toks.Length >= 3)
                     {
-                        if (p == toks[1])
-                        {
-                            found = true;
-                        }
-                    }
-
-                    if (!found)
-                    { 
-                        MessageBox.Show("For two word verbs, the second word must be a preposition (i.e. 'throw out')");
+                        MessageBox.Show("Verb can only be one or two words (i.e. 'throw' or 'throw out').  Do not included nouns!");
                         return;
                     }
-                }
 
+                    if (toks.Length == 2)
+                    {
+                        bool found = false;
+                        foreach (string p in prepositionsComboBox.Items)
+                        {
+                            if (p == toks[1])
+                            {
+                                found = true;
+                            }
+                        }
 
-                //check for dupes!
+                        if (!found)
+                        {
+                            MessageBox.Show("For two word verbs, the second word must be a preposition (i.e. 'throw out')");
+                            return;
+                        }
+                    }//end 2 words
 
+                    //check for dupes!
 
-                if (!IsDupeVerb(v))
-                {
-                    xproject.Project.Verbs.Userverbs.Verb.Add(v);
-                    userVerbListView.Items.Add(v);
-                    verbComboBox.Items.Add(v);
-                    verbCheckListBox.Items.Add(v);
-                    newVerbTextBox.Text = "";
-                }
-                else
-                {
-                    MessageBox.Show("That verb already exists.");
-                }
+                    if (IsDupeVerb(vb))
+                    {
+                        MessageBox.Show("The verb '" + vb + "' already exists.");
+                        return;
+                    }
 
+                }//end foreach verb in comma separated list
+
+                //must be ok
+                xproject.Project.Verbs.Userverbs.Verb.Add(v);
+                userVerbListView.Items.Add(v);
+                verbComboBox.Items.Add(v);
+                verbCheckListBox.Items.Add(v);
+                newVerbTextBox.Text = "";
             }
         }
 
@@ -927,31 +924,72 @@ namespace XTAC
             }
 
             if (dir.Equals("N"))
+            {
                 GetCurObj().Directions.N = dirAttr;
+                GetCurObj().Nogo.N = "";
+            }
             else if (dir.Equals("S"))
+            {
                 GetCurObj().Directions.S = dirAttr;
+                GetCurObj().Nogo.S = "";
+            }
             else if (dir.Equals("E"))
+            {
                 GetCurObj().Directions.E = dirAttr;
+                GetCurObj().Nogo.E = "";
+            }
             else if (dir.Equals("W"))
+            {
                 GetCurObj().Directions.W = dirAttr;
+                GetCurObj().Nogo.W = "";
+            }
             else if (dir.Equals("NE"))
+            {
                 GetCurObj().Directions.Ne = dirAttr;
+                GetCurObj().Nogo.Ne = "";
+            }
             else if (dir.Equals("SE"))
+            {
                 GetCurObj().Directions.Se = dirAttr;
+                GetCurObj().Nogo.Se = "";
+            }
             else if (dir.Equals("SW"))
+            {
                 GetCurObj().Directions.Sw = dirAttr;
+                GetCurObj().Nogo.Sw = "";
+            }
             else if (dir.Equals("NW"))
+            {
                 GetCurObj().Directions.Nw = dirAttr;
+                GetCurObj().Nogo.Nw = "";
+            }
             else if (dir.Equals("UP"))
+            {
                 GetCurObj().Directions.Up = dirAttr;
+                GetCurObj().Nogo.Up = "";
+            }
             else if (dir.Equals("DOWN"))
+            {
                 GetCurObj().Directions.Down = dirAttr;
+                GetCurObj().Nogo.Down = "";
+            }
             else if (dir.Equals("IN"))
+            {
                 GetCurObj().Directions.In = dirAttr;
+                GetCurObj().Nogo.In = "";
+            }
             else if (dir.Equals("OUT"))
+            {
                 GetCurObj().Directions.Out = dirAttr;
+                GetCurObj().Nogo.Out = "";
+            }
             else
                 throw new Exception("Invalid direction " + dir);
+
+            //clear any nogo message
+
+
+
         }
 
         private void nComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -1109,7 +1147,9 @@ namespace XTAC
             o.Holder = "0";
 
             o.Nogo = new Nogo();
-
+            o.Nogo.Out = "I don't know which way that is.";
+            o.Nogo.In = "You can't enter that.";
+                
             o.Synonyms = new Synonyms();
             o.Backdrop = new Backdrop();
             o.Flags = new Flags();
@@ -1149,7 +1189,7 @@ namespace XTAC
             room1.Holder = "0";
             room1.Name = "room_1";
             room1.PrintedName = "Room 1";
-            room1.Description = "This is the end of a dirt room.";
+            room1.Description = "This is the end of a dirt road.";
             room1.Flags.Emittinglight = "1";
             xproject.Project.Objects.Object.Add(room1);
 
@@ -2068,7 +2108,7 @@ namespace XTAC
             obj.Flags.Door = "1";
             obj.Flags.Locked = "1";
             obj.Flags.Lockable = "1";
-            obj.Flags.Open = "1";
+            obj.Flags.Open = "0";
             obj.Flags.Openable = "1";
 
             xproject.Project.Objects.Object.Add(obj);
@@ -3118,24 +3158,38 @@ namespace XTAC
         }
 
         private void switchOnAnObjectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        {   
+
             InsertCode(
-                "\tobject.user3 = 1; //change object name\r\n" +     
-                "\tobject.description = \"The machine is on.\"; //make more elaborate if needed\r\n"
-           ,
-            ruleCodeTextBox
-            );
+                "if ( iobj.user3 == 0 )\r\n{\r\n" +
+                "\tiobj.user3 = 1; // turn it on\r\n" +
+                "\tprintln(\"You turn on the machine.\"); // change me\r\n" +
+                "}\r\n" +
+                "else\r\n" +
+                "{\r\n" +
+                "\tprintln(\"It's already on.\");\r\n" +
+                "}\r\n" 
+                ,
+                codeTextBox
+                );
 
         }
 
         private void switchOffAnObjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             InsertCode(
-                "\tobject.user3 = 0; //change object name\r\n" +
-                "\tobject.description = \"The machine is off.\"; //make more elaborate if needed\r\n" 
-           ,
-            ruleCodeTextBox
-            );
+       "if ( iobj.user3 == 1 )\r\n{\r\n" +
+       "\tiobj.user3 = 1; // turn it on\r\n" +
+       "\tprintln(\"You turn off the machine.\"); // change me\r\n" +
+       "}\r\n" +
+       "else\r\n" +
+       "{\r\n" +
+       "\tprintln(\"It's already off.\");\r\n" +
+       "}\r\n"
+       ,
+       codeTextBox
+       );
+
         }
 
         private void openADoorUsingAKeycodeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3146,18 +3200,25 @@ namespace XTAC
         {
             //unlock door
             InsertCode(
-            "println(\"Enter keycode:\");\r\n" +
-            "ask();\r\n" +
-            "if (answer == \"12345\")\r\n" +
-            "{\r\n" +
-            "\tprintln(\"The door swings open.\");\r\n" +
-            "\tdoor.open = 1;\r\n" +
-            "\tdoor.locked = 0;\r\n" +
-            "}\r\n" +
-            "else\r\n" +
-            "{\r\n" +
-            "\tprintln(\"Invalid code.\");\r\n" +
-            "}\r\n",
+                "if (door.locked == 1)\r\n{\r\n"+
+            "\tprintln(\"Enter keycode:\");\r\n" +
+            "\task();\r\n" +
+            "\tif (answer == \"12345\")\r\n" +
+            "\t{\r\n" +
+            "\t\tprintln(\"The door swings open.\");\r\n" +
+            "\t\tdoor.open = 1;\r\n" +
+            "\t\tdoor.locked = 0;\r\n" +
+            "\t}\r\n" +
+            "\telse\r\n" +
+            "\t{\r\n" +
+            "\t\tprintln(\"Invalid code.\");\r\n" +
+            "\t}\r\n" +
+            "}\r\n"+
+            "else\r\n{\r\n" +
+            "\tprintln(\"The door is unlocked.\");\r\n" +
+            "}"
+            ,
+
             codeTextBox
             );
 
@@ -3189,7 +3250,7 @@ namespace XTAC
 
         private void printBlankLineMenuItem_Click(object sender, EventArgs e)
         {
-            InsertCode("\tprintln(\"\")\r\n", ruleCodeTextBox);
+            InsertCode("\tprintln(\"\");\r\n", codeTextBox);
         }
 
         private void switchOnALightSourceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3330,6 +3391,91 @@ namespace XTAC
         private void moveAnObjectOutOfTheWorldMenuItem_Click(object sender, EventArgs e)
         {
             InsertCode("object.holder = offscreen; //change object\r\n", ruleCodeTextBox);
+        }
+
+        private void blankLineMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode("\tprintln(\"\");\r\n", ruleCodeTextBox);
+        }
+
+        private void killThePlayerIfInDarknessTooLongToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode("if (turnsWithoutLight==5)\r\n" +
+                        "{\r\n" +
+                        "\tprintln(\"Crash!!! It appears the ceiling has collapsed on you.\");\r\n" +
+                        "\tprintln(\"***YOU HAVE DIED***\");\r\n" +
+                        "//reset the game here or call a function to do it\r\n"+
+                        "\tlook();\r\n" +
+                        "}\r\n",
+                        ruleCodeTextBox
+                        );
+        }
+
+        private void toolStripPutMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+                "if (dobj == object) //change object to the thing that goes in noun 2\r\n" +
+                "{\r\n" +
+                "\tif (dobj.holder != iobj)\r\n" +
+                "\t{\r\n" +
+                "\t\tprintln(\"Done.\");\r\n" +
+                "\t\tdobj.holder = iobj;\r\n" +
+                "\t}\r\n" +
+                "\telse\r\n" +
+                "\t{\r\n" +
+                "\t\tprintln(\"It's already there.\");\r\n" +
+                "\t}\r\n" +
+                "}\r\n" +
+                "else\r\n"+
+                "{\r\n" +
+                "\tprintln(\"That won't fit.\");\r\n" +    
+                "}\r\n"
+                ,
+                codeTextBox
+               );
+        }
+
+        private void runDownBatteriesInAFlashlightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode(" //batteryLife is variable you need to add\r\n"+
+                        "if (batteries.holder == flashlight && flashlight.user3 == 1 && batteryLife > 0)\r\n" +
+                        "{\r\n" +
+                        "\tbatteryLife--; //subtract 1 from life\r\n" +
+                        "\tif (batteryLife == 0)\r\n" +
+                        "\t{\r\n"+
+                        "\t\tprintln(\"The flashlight has gone out.\");\r\n" +
+                        "\t\tflashlight.lit = 0;\r\n" +
+                        "\t\tlook();\r\n" +
+                        "\t}\r\n" +
+                        "}\r\n",
+                        ruleCodeTextBox
+                        );
+
+        }
+
+        private void toolStripBattOnMenuItem_Click(object sender, EventArgs e)
+        {
+            InsertCode(
+                "//this code assume you have a variable named batteryLife\r\n"+
+                "//If your batteries don't rundown, remove '&& batterLife != 0;\r\n" +
+                "//otherwise add the variable throught the variable tab;\r\n" +
+                "if (flashlight.user3 == 0) //already on?\r\n{\r\n" +
+                "\tflashlight.user3 = 1; // turn it on\r\n" +
+                 "\tprintln(\"Click!\");\r\n" +
+                 "\t//check if batteries in and have life left\r\n" +
+                "\tif (batteries.holder == dobj && batteryLife != 0)\r\n" +
+                "\t{\r\n" +
+                "\t\tflashlight.lit = 1; //now it's lit\r\n"+
+                "\t\tlook();\r\n" +
+                "\t}\r\n" +
+                "}\r\n" +
+                "else\r\n" +
+                "{\r\n" +
+                "\tprintln(\"It's already on.\");\r\n" +
+                "}\r\n"
+                ,
+                codeTextBox
+               );
         }
     }
 }
