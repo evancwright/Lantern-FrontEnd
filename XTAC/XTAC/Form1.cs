@@ -2912,7 +2912,7 @@ namespace XTAC
 
                     if (Builder.Build(fileName, "_CPM", xproject.Project.Output, "com"))
                     {
-                        MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+                        MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " and run either build.bat or build.sh");
                     }
                 }
                 catch (Exception ex)

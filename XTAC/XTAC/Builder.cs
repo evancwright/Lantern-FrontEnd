@@ -41,14 +41,15 @@ namespace XTAC
                 {
                     ReplaceNames("template.sh", outputName.ToLower(), "build.sh");
                 }
-                  
-                Process.Start("build.sh");
+                /* 
+               Process.Start("build.sh");
 
-                if (!File.Exists(newName))
-                {
-                    MessageBox.Show("Build failed. Run build.sh manually in the project directory and check console for errors.");
-                }
-
+               if (!File.Exists(newName))
+               {
+                   MessageBox.Show("Build failed. Run build.sh manually in the project directory and check console for errors.");
+               }
+               */
+                success = true;
             }
             finally
             {

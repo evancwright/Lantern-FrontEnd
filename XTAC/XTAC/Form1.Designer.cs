@@ -91,7 +91,6 @@
             this.label40 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
-            this.ruleCodeTextBox = new XTAC.CodeEditor();
             this.rulesListBox = new System.Windows.Forms.ListBox();
             this.addRuleButton = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -124,7 +123,6 @@
             this.label44 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
             this.syntaxHelpButton = new System.Windows.Forms.Button();
-            this.codeTextBox = new XTAC.CodeEditor();
             this.functionsListBox = new System.Windows.Forms.ListBox();
             this.label22 = new System.Windows.Forms.Label();
             this.funcNameTextBox = new System.Windows.Forms.TextBox();
@@ -301,6 +299,8 @@
             this.blockAnExitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.runDownBatteriesInAFlashlightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.killThePlayerIfInDarknessTooLongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.codeTextBox = new XTAC.CodeEditor();
+            this.ruleCodeTextBox = new XTAC.CodeEditor();
             this.menuStrip1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -441,82 +441,82 @@
             // amstradCPC464ToolStripMenuItem
             // 
             this.amstradCPC464ToolStripMenuItem.Name = "amstradCPC464ToolStripMenuItem";
-            this.amstradCPC464ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.amstradCPC464ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.amstradCPC464ToolStripMenuItem.Text = "Amstrad CPC464";
             this.amstradCPC464ToolStripMenuItem.Click += new System.EventHandler(this.amstradCPC464ToolStripMenuItem_Click);
             // 
             // appleToolStripMenuItem
             // 
             this.appleToolStripMenuItem.Name = "appleToolStripMenuItem";
-            this.appleToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.appleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.appleToolStripMenuItem.Text = "Apple ][";
             this.appleToolStripMenuItem.Click += new System.EventHandler(this.appleToolStripMenuItem_Click);
             // 
             // bBCMicroToolStripMenuItem
             // 
             this.bBCMicroToolStripMenuItem.Name = "bBCMicroToolStripMenuItem";
-            this.bBCMicroToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.bBCMicroToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bBCMicroToolStripMenuItem.Text = "BBC Micro";
             this.bBCMicroToolStripMenuItem.Click += new System.EventHandler(this.bBCMicroToolStripMenuItem_Click);
             // 
             // coCoToolStripMenuItem
             // 
             this.coCoToolStripMenuItem.Name = "coCoToolStripMenuItem";
-            this.coCoToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.coCoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.coCoToolStripMenuItem.Text = "CoCo 2,3";
             this.coCoToolStripMenuItem.Click += new System.EventHandler(this.coCoToolStripMenuItem_Click);
             // 
             // commodore64ToolStripMenuItem
             // 
             this.commodore64ToolStripMenuItem.Name = "commodore64ToolStripMenuItem";
-            this.commodore64ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.commodore64ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.commodore64ToolStripMenuItem.Text = "Commodore 64";
             this.commodore64ToolStripMenuItem.Click += new System.EventHandler(this.commodore64ToolStripMenuItem_Click);
             // 
             // cPMZ80ToolStripMenuItem
             // 
             this.cPMZ80ToolStripMenuItem.Name = "cPMZ80ToolStripMenuItem";
-            this.cPMZ80ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.cPMZ80ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cPMZ80ToolStripMenuItem.Text = "CP/M (Z80)";
             this.cPMZ80ToolStripMenuItem.Click += new System.EventHandler(this.cPMZ80ToolStripMenuItem_Click);
             // 
             // iBMPCXTToolStripMenuItem
             // 
             this.iBMPCXTToolStripMenuItem.Name = "iBMPCXTToolStripMenuItem";
-            this.iBMPCXTToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.iBMPCXTToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.iBMPCXTToolStripMenuItem.Text = "IBM PC/XT";
             this.iBMPCXTToolStripMenuItem.Click += new System.EventHandler(this.iBMPCXTToolStripMenuItem_Click);
             // 
             // tRS80ToolStripMenuItem
             // 
             this.tRS80ToolStripMenuItem.Name = "tRS80ToolStripMenuItem";
-            this.tRS80ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.tRS80ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tRS80ToolStripMenuItem.Text = "TRS-80 I, III, IV";
             this.tRS80ToolStripMenuItem.Click += new System.EventHandler(this.tRS80ToolStripMenuItem_Click);
             // 
             // zXSpectrumToolStripMenuItem
             // 
             this.zXSpectrumToolStripMenuItem.Name = "zXSpectrumToolStripMenuItem";
-            this.zXSpectrumToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.zXSpectrumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zXSpectrumToolStripMenuItem.Text = "ZX Spectrum";
             this.zXSpectrumToolStripMenuItem.Click += new System.EventHandler(this.zXSpectrumToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // raspberryPiToolStripMenuItem
             // 
             this.raspberryPiToolStripMenuItem.Name = "raspberryPiToolStripMenuItem";
-            this.raspberryPiToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.raspberryPiToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.raspberryPiToolStripMenuItem.Text = "Raspberry Pi";
             this.raspberryPiToolStripMenuItem.Click += new System.EventHandler(this.raspberryPiToolStripMenuItem_Click);
             // 
             // windowsx64ToolStripMenuItem
             // 
             this.windowsx64ToolStripMenuItem.Name = "windowsx64ToolStripMenuItem";
-            this.windowsx64ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.windowsx64ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.windowsx64ToolStripMenuItem.Text = "Windows (x64)";
             this.windowsx64ToolStripMenuItem.Click += new System.EventHandler(this.windowsx64ToolStripMenuItem_Click);
             // 
@@ -547,7 +547,7 @@
             this.tabPage7.Controls.Add(this.groupBox1);
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(1097, 401);
+            this.tabPage7.Size = new System.Drawing.Size(1097, 450);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Variables";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -581,7 +581,7 @@
             this.userVarsListBox.FormattingEnabled = true;
             this.userVarsListBox.Location = new System.Drawing.Point(577, 44);
             this.userVarsListBox.Name = "userVarsListBox";
-            this.userVarsListBox.Size = new System.Drawing.Size(139, 407);
+            this.userVarsListBox.Size = new System.Drawing.Size(139, 368);
             this.userVarsListBox.TabIndex = 6;
             this.userVarsListBox.SelectedIndexChanged += new System.EventHandler(this.userVarsListBox_SelectedIndexChanged);
             // 
@@ -699,7 +699,7 @@
             this.tabPage6.Controls.Add(this.addRuleButton);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1097, 401);
+            this.tabPage6.Size = new System.Drawing.Size(1097, 450);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Events";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -916,21 +916,6 @@
             this.label38.TabIndex = 11;
             this.label38.Text = "Event Name:";
             // 
-            // ruleCodeTextBox
-            // 
-            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ruleCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 47);
-            this.ruleCodeTextBox.Multiline = true;
-            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
-            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ruleCodeTextBox.Size = new System.Drawing.Size(665, 292);
-            this.ruleCodeTextBox.TabIndex = 30;
-            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
-            this.ruleCodeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ruleCodeTextBox_MouseDown);
-            // 
             // rulesListBox
             // 
             this.rulesListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -938,7 +923,7 @@
             this.rulesListBox.FormattingEnabled = true;
             this.rulesListBox.Location = new System.Drawing.Point(256, 47);
             this.rulesListBox.Name = "rulesListBox";
-            this.rulesListBox.Size = new System.Drawing.Size(157, 290);
+            this.rulesListBox.Size = new System.Drawing.Size(157, 277);
             this.rulesListBox.TabIndex = 9;
             this.rulesListBox.SelectedIndexChanged += new System.EventHandler(this.rulesListBox_SelectedIndexChanged);
             this.rulesListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rulesListBox_MouseDown);
@@ -975,7 +960,7 @@
             this.tabPage5.Controls.Add(this.label23);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1097, 401);
+            this.tabPage5.Size = new System.Drawing.Size(1097, 450);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Sentences";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1177,7 +1162,7 @@
             this.tabPage4.Controls.Add(this.newFuncButton);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1097, 401);
+            this.tabPage4.Size = new System.Drawing.Size(1097, 450);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Functions";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1286,22 +1271,6 @@
             this.syntaxHelpButton.UseVisualStyleBackColor = true;
             this.syntaxHelpButton.Click += new System.EventHandler(this.syntaxHelpButton_Click);
             // 
-            // codeTextBox
-            // 
-            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.codeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
-            this.codeTextBox.Multiline = true;
-            this.codeTextBox.Name = "codeTextBox";
-            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.codeTextBox.Size = new System.Drawing.Size(824, 237);
-            this.codeTextBox.TabIndex = 17;
-            this.codeTextBox.WordWrap = false;
-            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
-            this.codeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.codeTextBox_MouseDown);
-            // 
             // functionsListBox
             // 
             this.functionsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1359,7 +1328,7 @@
             this.tabPage8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1097, 401);
+            this.tabPage8.Size = new System.Drawing.Size(1097, 450);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "Verb Rules";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -1467,7 +1436,7 @@
             this.tabPage3.Controls.Add(this.label17);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1097, 401);
+            this.tabPage3.Size = new System.Drawing.Size(1097, 450);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Verbs";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -2349,7 +2318,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1097, 401);
+            this.tabPage1.Size = new System.Drawing.Size(1097, 450);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = " Welcome";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -2548,7 +2517,7 @@
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(1097, 401);
+            this.tabPage9.Size = new System.Drawing.Size(1097, 450);
             this.tabPage9.TabIndex = 8;
             this.tabPage9.Text = "Review";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -2691,7 +2660,7 @@
             this.tabPage10.Controls.Add(this.walkThroughTextBox);
             this.tabPage10.Location = new System.Drawing.Point(4, 22);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Size = new System.Drawing.Size(1097, 401);
+            this.tabPage10.Size = new System.Drawing.Size(1097, 450);
             this.tabPage10.TabIndex = 9;
             this.tabPage10.Text = "Walkthrough";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -3111,6 +3080,39 @@
             this.killThePlayerIfInDarknessTooLongToolStripMenuItem.Size = new System.Drawing.Size(265, 22);
             this.killThePlayerIfInDarknessTooLongToolStripMenuItem.Text = "Kill the player if in darkness too long";
             this.killThePlayerIfInDarknessTooLongToolStripMenuItem.Click += new System.EventHandler(this.killThePlayerIfInDarknessTooLongToolStripMenuItem_Click);
+            // 
+            // codeTextBox
+            // 
+            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.codeTextBox.BackColor = System.Drawing.Color.White;
+            this.codeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
+            this.codeTextBox.Multiline = true;
+            this.codeTextBox.Name = "codeTextBox";
+            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.codeTextBox.Size = new System.Drawing.Size(824, 237);
+            this.codeTextBox.TabIndex = 17;
+            this.codeTextBox.WordWrap = false;
+            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
+            this.codeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.codeTextBox_MouseDown);
+            // 
+            // ruleCodeTextBox
+            // 
+            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ruleCodeTextBox.BackColor = System.Drawing.Color.White;
+            this.ruleCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 47);
+            this.ruleCodeTextBox.Multiline = true;
+            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
+            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.ruleCodeTextBox.Size = new System.Drawing.Size(665, 292);
+            this.ruleCodeTextBox.TabIndex = 30;
+            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
+            this.ruleCodeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ruleCodeTextBox_MouseDown);
             // 
             // Lantern
             // 
