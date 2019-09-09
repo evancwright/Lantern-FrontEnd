@@ -173,7 +173,7 @@ namespace CLL
                                 parent.Append(CreatePropAssignment(statement));
                             }
                             else
-                                throw new Exception(attrName + " is not a prop or attr");
+                                throw new Exception(attrName + " is not a property or attribute (parsing: " + statement + ")");
                         }
                         else if (statement.ToString().StartsWith("println"))
                         {
@@ -691,6 +691,14 @@ namespace CLL
         /// <returns></returns>
         bool IsIncrementOrDecrement(string statement, ref int operIndex)
         {
+
+            string[] fs = { "print","look","move","newline" };
+            foreach (var s in fs)
+            {
+                if (statement.StartsWith(s))
+                    return false;
+            }
+
             char[] ops = { '=', '+', '-', '*', '/', '%' };
 
             int index = statement.IndexOfAny(ops);
@@ -699,6 +707,7 @@ namespace CLL
                 return false;
 
             operIndex = index;
+
             if (statement.IndexOf("++") == index)
             {
                 return true;
@@ -748,7 +757,7 @@ namespace CLL
                 s = s.Substring(0, s.IndexOf("\""));
                 int id = game.GetFailStringId(s);
 
-                code = Regex.Replace(code, m.Value, id.ToString());
+                code = code.Replace(m.Value, id.ToString());
 
             }
             return code;

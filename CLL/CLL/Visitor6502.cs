@@ -391,19 +391,18 @@ namespace CLL
             //carry flag is not set or the 
             //zero flag is set
             //zc
-            //00 - greater than (yes)
-            //01 - less than (no)
-            //10 - equal (yes)
-            //11 - impossible
+            //00 - less than
+            //11 - equal
+            //01 - gte 
             //need to determine that carry flag is 0
             sw.WriteLine("\tphp ; flags -> a");
             sw.WriteLine("\tpla");
             sw.WriteLine("\tand #1 ; isolate c for >=");
-            sw.WriteLine("\tcmp #0 ; test");
-            sw.WriteLine("\tphp ; flags -> a");
-            sw.WriteLine("\tpla");
-            sw.WriteLine("\tand #1  ; mask it");
-            sw.WriteLine("\tpha ; push result of gte (carry == 0)");
+           // sw.WriteLine("\tcmp #0 ; test");
+           // sw.WriteLine("\tphp ; flags -> a");
+           // sw.WriteLine("\tpla");
+           // sw.WriteLine("\tand #1  ; mask it");
+           sw.WriteLine("\tpha ; push result of gte (carry == 1)");
         }
 
         public void Visit(LessThanEquals m)
@@ -419,25 +418,21 @@ namespace CLL
 
             //zero flag is set
             //zc
-            //00 - greater than (no)
-            //01 - less than (yes)
-            //10 - equal (yes)
-            //11 - impossible
+            //01 - greater than (no)
+            //00 - less than (yes)
+            //11 - equal (yes)
+            //10 - impossible
             //need to determine that z + c != 0 
 
             sw.WriteLine("\tphp ; flags -> a");
             sw.WriteLine("\tpla");
-            sw.WriteLine("\tand #3 ; isolate zc for <=");
-    //        sw.WriteLine("\tcmp #0 ; isolate zc for <=");
-    //        sw.WriteLine("\tphp ; flags -> a");
-    //        sw.WriteLine("\tpla ; ");
-            sw.WriteLine("\tcmp #0 ; are z and c zero?");
-            sw.WriteLine("\tphp ; flags -> a");
-            sw.WriteLine("\tpla ; ");
-            sw.WriteLine("\tlsr ; isolate z");
-            sw.WriteLine("\tclc");
-            sw.WriteLine("\tadc #1 ; flip it");
-            sw.WriteLine("\tand #1 ; mask it");
+            sw.WriteLine("\tand #3 ; isolate zc for <= test");
+            sw.WriteLine("\tldy #0 ; success flag");
+            sw.WriteLine("\tcmp #1 ; is A > ?");
+            sw.WriteLine("\tDB $F0 ; beq");
+            sw.WriteLine("\tDB 4 ; 4");
+            sw.WriteLine("\tldy #1 ; not >, must be <= 1");
+            sw.WriteLine("\ttya ; move flag to A");
             sw.WriteLine("\tpha ; push result of lte");
         }
 

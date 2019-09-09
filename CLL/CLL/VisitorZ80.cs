@@ -75,7 +75,11 @@ namespace CLL
         public void Visit(PrintVar ps)
         {
             //TODO - add z80 printvar
-            throw new NotImplementedException("Z80 Print var not implemented.");
+            sw.WriteLine("\t;printing variable " + ps.VarName);
+            sw.WriteLine($"\tld a,({ps.VarName})");
+            sw.WriteLine("\tcall itoa");
+            sw.WriteLine("\tld hl,itoabuffer");
+            sw.WriteLine("\tcall OUTLIN");
         }
 
         public void Visit(Rand r)
@@ -225,8 +229,8 @@ namespace CLL
         {
             //push a 1 if carry = 0 and z == 0 
             sw.WriteLine("\t; a > b");
-            sw.WriteLine("\tpop af");
             sw.WriteLine("\tpop bc");
+            sw.WriteLine("\tpop af");
             sw.WriteLine("\tcp b");
             sw.WriteLine("\tjr c,6 ; skip to push 0");
             sw.WriteLine("\tdb 38h; jrc");
@@ -247,10 +251,11 @@ namespace CLL
         {
             //push a 1 if carry = 1
             sw.WriteLine("\t; a < b");
-            sw.WriteLine("\tpop af");
             sw.WriteLine("\tpop bc");
+            sw.WriteLine("\tpop af");
             sw.WriteLine("\tcp b");
-            sw.WriteLine("\tjr c,4 ; skip to push 0");
+            sw.WriteLine("\tdb 38h  ; jr c,4 ; skip to push 0");
+            sw.WriteLine("\tdb 4");
             sw.WriteLine("\tld a,0");
             sw.WriteLine("\t;jr 2 ; skip to push af");
             sw.WriteLine("\tdb 18h ; jr");
@@ -262,16 +267,18 @@ namespace CLL
         public void Visit(GreaterThanEquals m)
         {
             //push a 0 if carry = 1 
-            sw.WriteLine("\t; a < b");
-            sw.WriteLine("\tpop af");
+            sw.WriteLine("\t; a >= b");
             sw.WriteLine("\tpop bc");
+            sw.WriteLine("\tpop af");
             sw.WriteLine("\tcp b");
-            sw.WriteLine("\tjr c,4 ; skip to push 0");
-            sw.WriteLine("\tld a,1");
-            sw.WriteLine("\t;jr 2 ; skip to push af");
-            sw.WriteLine("\tdb 18h ; jr");
-            sw.WriteLine("\tdb  2");
-            sw.WriteLine("\tld  a,0");
+            sw.WriteLine("\tdb 28h ; jr z,8 - skip to load 1");
+            sw.WriteLine("\tdb 8h ; ");
+            sw.WriteLine("\tdb 30h ; jr cc,6 ; skip to load 1");
+            sw.WriteLine("\tdb 6; ");
+            sw.WriteLine("\tld a,0");
+            sw.WriteLine("\tdb 18h ; jr ; jump to push af");
+            sw.WriteLine("\tdb  4");
+            sw.WriteLine("\tld  a,1");
             sw.WriteLine("\tpush af");
         }
 
@@ -279,16 +286,18 @@ namespace CLL
         public void Visit(LessThanEquals m)
         {
             //push a 1 if carry = 1 or zero = 1
-            sw.WriteLine("\t; a < b (push 1 of c or z set)");
-            sw.WriteLine("\tpop af");
+            sw.WriteLine("\t; a <= b (push 1 of c or z set)");
+            //push a 0 if carry = 1 
             sw.WriteLine("\tpop bc");
+            sw.WriteLine("\tpop af");
             sw.WriteLine("\tcp b");
-            sw.WriteLine("\tjr z,6 ; skip to push 1");
-            sw.WriteLine("\tjr c,4 ; skip to push 1");
+            sw.WriteLine("\tdb 28h ; jr z,8 - skip to load 1");
+            sw.WriteLine("\tdb 8h ; ");
+            sw.WriteLine("\tdb 38h ; jr c,6 ; skip to load 1");
+            sw.WriteLine("\tdb 6; ");
             sw.WriteLine("\tld a,0");
-            sw.WriteLine("\t;jr 2 ; skip to push af");
-            sw.WriteLine("\tdb 18h; jr");
-            sw.WriteLine("\tdb 2");
+            sw.WriteLine("\tdb 18h ; jr ; jump to push af");
+            sw.WriteLine("\tdb  4");
             sw.WriteLine("\tld  a,1");
             sw.WriteLine("\tpush af");
         }
