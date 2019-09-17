@@ -489,9 +489,8 @@ namespace XMLtoAdv
             WriteZ80Common();
 
             //try to build
-
+            FixBuildScript(doc);
             
-
             Environment.CurrentDirectory = oldDir;
         }
 
@@ -1503,8 +1502,12 @@ namespace XMLtoAdv
             }
         }
 
-        void WriteWelcomeMessage(string fileName, string strDelim, string nullByte = "")
+        void WriteWelcomeMessage(string fileName, string strDelim, string nullByte = "", bool escapeTicks = false)
         {
+            string quot = "\"";
+            if (escapeTicks)
+                quot = "'";
+
             using (StreamWriter sw = File.CreateText(fileName))
             {
                 sw.WriteLine(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
@@ -1513,12 +1516,20 @@ namespace XMLtoAdv
 
                 XmlNodeList list = doc.SelectNodes("//project/welcome");
                 sw.WriteLine("");
-                sw.WriteLine("welcome " + strDelim + "  \"" + list[0].InnerText + "\"" + nullByte);
+                sw.WriteLine("welcome " + strDelim + "  " + quot + EscapeTicks(list[0].InnerText, escapeTicks) + quot + nullByte);
                 list = doc.SelectNodes("//project/author");
-                sw.WriteLine("author " + strDelim + " \"" + list[0].InnerText + "\"" + nullByte);
+                sw.WriteLine("author " + strDelim + " " + quot + EscapeTicks(list[0].InnerText, escapeTicks) + quot + nullByte);
                 list = doc.SelectNodes("//project/version");
-                sw.WriteLine("version " + strDelim + " \"" + list[0].InnerText + "\"" + nullByte);
+                sw.WriteLine("version " + strDelim + " " + quot + EscapeTicks(list[0].InnerText, escapeTicks) + quot + nullByte);
             }
+        }
+
+        string EscapeTicks(string s, bool yesNo)
+        {
+            if (yesNo)
+                return s.Replace("'", "',27,'");
+            else
+                return s;
         }
 
         int GetVerbId(string v)
@@ -1669,25 +1680,6 @@ namespace XMLtoAdv
 
                 //get the file path 
                 CreateTables(fileName, "_Apple2");
-                /*
-                WriteWelcomeMessage("Welcome6502.s", "\tASC", "\n\tDB 0\n");
-                WriteStringTable6502("StringTable6502.s", "string_table", descriptionTable, false);
-                WriteStringTable6502("Dictionary6502.s", "dictionary", dict,false);
-                WriteStringTable6502("NogoTable6502.s", "nogo_table", nogoTable, false);
-                WriteStringTable6502("PrepTable6502.s", "prep_table", prepTable);
-                WriteObjectTable6502("ObjectTable6502.s");
-                WriteObjectWordTable("ObjectWordTable6502.s", "\tDB");
-                WriteVerbTable6502("VerbTable6502.s");
-                WriteCheckTable("CheckRules6502.s", "\tDB", "\tDW");
-                WriteSentenceTable("6502", "before", "DB", "DW");
-                WriteSentenceTable("6502", "instead", "DB", "DW");
-                WriteSentenceTable("6502", "after", "DB", "DW");
-                WriteUserVarTable(doc, "6502");           // WriteEvents(doc, "6502", new AsmWriter6809());
-                *
-                WriteEvents(doc, "6502", new CLL.Visitor6502(this));
-                InsertEvents6502(doc);
-                InsertEventJumps6502(doc);
-                */
                 Common6502Export();
                 FixBuildScript(doc);
             }
@@ -1742,25 +1734,10 @@ namespace XMLtoAdv
 
                 //get the file path 
                 CreateTables(fileName, "_C64");
-                /*
-                WriteWelcomeMessage("Welcome6502.asm", ".text", "\n.byte 0\n");
-                WriteStringTable6502("StringTable6502.asm", "string_table", descriptionTable);
-                WriteStringTable6502("Dictionary6502.asm", "dictionary", dict);
-                WriteStringTable6502("NogoTable6502.asm", "nogo_table", nogoTable);
-                WriteStringTable6502("PrepTable6502.asm", "prep_table", prepTable);
-                WriteObjectTable6502("ObjectTable6502.asm");
-                WriteObjectWordTable("ObjectWordTable6502.asm", ".byte");
-                WriteVerbTable6502("VerbTable6502.asm");
-                WriteCheckTable("CheckRules6502.asm", ".byte", ".word");
-                WriteSentenceTable("6502", "before", ".byte", ".word");
-                WriteSentenceTable("6502", "instead", ".byte", ".word");
-                WriteSentenceTable("6502", "after", ".byte", ".word");
-                WriteUserVarTable(doc, "6502");           // WriteEvents(doc, "6502", new AsmWriter6809());
-                */
-               // WriteBackdropTable(doc, "BackDropTable6502.asm", ".db");
-                 
-                //WriteEvents(doc, "6502", new CLL.Visitor6502(this) );
                 Common6502Export();
+                //try to build
+                FixBuildScript(doc);
+
             }
             finally
             {
@@ -1912,7 +1889,7 @@ namespace XMLtoAdv
         /// </summary>
         void Common6502Export()
         {
-            WriteWelcomeMessage("Welcome6502.s", "\tASC", "\n\tDB 0\n");
+            WriteWelcomeMessage("Welcome6502.s", "\tASC", "\n\tDB 0\n", true);
             WriteStringTable6502("StringTable6502.s", "string_table", descriptionTable, false);
             WriteStringTable6502("Dictionary6502.s", "dictionary", dict, false);
             WriteStringTable6502("NogoTable6502.s", "nogo_table", nogoTable, false);
