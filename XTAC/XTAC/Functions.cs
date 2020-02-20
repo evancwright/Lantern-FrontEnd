@@ -270,7 +270,7 @@ namespace XTAC
             AddCheck("eat", "check_have_dobj");
             AddCheck("enter", "check_dobj_supplied");
             AddCheck("enter", "check_see_dobj");
-            AddCheck("in", "check_move");
+            AddCheck("enter", "check_move");
             AddCheck("out", "check_move");
             AddCheck("examine", "check_dobj_supplied");
             AddCheck("examine", "check_see_dobj");
@@ -330,7 +330,13 @@ namespace XTAC
 
         void AddPrepositions()
         {
-            string[] defaultPreps = new string[] { "in", "on", "at", "under", "into", "inside", "through", "out", "behind", "off", "up", "with", "to", "off", "north", "south", "east", "west", "northeast", "southeast", "northwest", "southwest", "up", "down", "about", "over", "across" };
+            string[] defaultPreps = new string[] { "in",
+                    "on", "at", "under", "into", "inside",
+                    "through", "out", "behind", "off", "up",
+                    "with", "to", "off", "north", "south", "east",
+                    "west", "northeast", "southeast", "northwest",
+                    "southwest", "up", "down", "about", "over",
+                    "across" };
 
             xproject.Project.Preps.Prep = new List<string>();
             foreach (string s in defaultPreps) { xproject.Project.Preps.Prep.Add(s); }
@@ -342,7 +348,7 @@ namespace XTAC
             string[] defaultVerbs = new string[] {
                 "n,go north,north","s,go south,south","e,go east,east","w,go west,west","ne,go northeast,northeast","se,go southeast,southeast","sw,go southwest,southwest","nw,go northwest,northwest",
 "up,go up,u","down,go down,d","enter,go in,go inside,get in","out","go","get,take,grab,pick up","give","inventory,i","kill,attack","drop","light","look,l","examine,x,look at","look in","search","open","lock","unlock","close,shut","eat","drink","put,place","quit","smell,sniff","listen","wait","climb",
-"yell,scream,shout", "jump", "talk to", "turn on","turn off", "wear", "save", "restore", "push,press","read","use", "again"
+"yell,scream,shout", "jump", "talk to", "turn on","turn off", "wear,put on", "save", "restore", "push,press","read","use", "again"
             };
 
             foreach (string s in defaultVerbs) { xproject.Project.Verbs.Builtinverbs.Verb.Add(s); }
@@ -376,15 +382,19 @@ namespace XTAC
         {
             foreach (Object o in xproject.Project.Objects.Object)
             {
+                if (o.Nogo == null)
+                    o.Nogo = new Nogo();
                 if (o.Nogo.In == null || o.Nogo.In == "")
                 {
                     //if the printed name is null, switch the name and the printed name
-                    o.Nogo.In = "You can't enter that.";
+                    if (o.Directions.In == "255")
+                        o.Nogo.In = "You can't enter that.";
                 }
                 if (o.Nogo.Out == null || o.Nogo.Out == "")
                 {
                     //if the printed name is null, switch the name and the printed name
-                    o.Nogo.Out = "I don't know which way that is.";
+                    if (o.Directions.Out == "255")
+                        o.Nogo.Out = "I don't know which way that is.";
                 }
 
 
@@ -399,6 +409,7 @@ namespace XTAC
                     //if the printed name is null, switch the name and the printed name
                     o.PrintedName = o.Name.Trim();
                     o.Name = o.Name.Replace(' ', '_');
+
                 }
 
                 if (o.PrintedName.Contains('_'))

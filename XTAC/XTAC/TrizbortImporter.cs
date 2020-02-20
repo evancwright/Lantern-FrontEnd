@@ -73,7 +73,10 @@ namespace XTAC
             {
                 Object obj = CreateObject();
 
-                obj.Name = r.Name.Replace(' ','_').Trim();
+                obj.Name = r.Name.Replace(' ', '_').Trim();
+
+                if (!nameCounts.ContainsKey(obj.Name))
+                    throw new Exception(obj.Name + " not found in nameCounts while assigning ids.");
 
                 if (nameCounts[obj.Name] > 1)
                 {//append the index
@@ -194,6 +197,8 @@ namespace XTAC
                             int idNum = project.Project.Objects.Object.Count;
 
                             string name = s.Replace(' ', '_').Trim();
+                            name = name.Replace('-', '_').Trim();
+                            name = name.Replace('!', '_');
                             if (nameCounts[name] == 1)
                                 thing.Name = s.Replace(' ', '_').Trim();
                             else
@@ -278,6 +283,7 @@ namespace XTAC
             foreach (Room r in rooms)
             {
                 string n = r.Name.Replace(' ', '_').Trim();
+                //string n = r.Name.Trim();
                 int c = 0;
                 
                 if (dict.TryGetValue(n, out c))

@@ -24,6 +24,7 @@ namespace XTAC
         List<Keys> lastEventKeys = new List<Keys>();
         string homeDir;
 
+
         //the list of verbs checks
         string[] allChecks = new string[]
         {
@@ -378,20 +379,10 @@ namespace XTAC
             lockedCheckBox.Checked = GetCheck(xproject.Project.Objects.Object[room].Flags.Locked);
             emittingLightCheckBox.Checked = GetCheck(xproject.Project.Objects.Object[room].Flags.Emittinglight);
             visibleCheckBox.Checked = GetCheck(xproject.Project.Objects.Object[room].Flags.Scenery);
-            backdropCheckBox.Checked = GetCheck(xproject.Project.Objects.Object[room].Flags.Backdrop);
+            user3CheckBox.Checked = GetCheck(xproject.Project.Objects.Object[room].Flags.Backdrop);
             user1CheckBox.Checked = GetCheck(xproject.Project.Objects.Object[room].Flags.User1);
             user2CheckBox.Checked = GetCheck(xproject.Project.Objects.Object[room].Flags.User2);
-
-            if (backdropCheckBox.Checked)
-            {
-                backdropTextBox.Text = xproject.Project.Objects.Object[room].Backdrop.Rooms;
-                backdropTextBox.Enabled = true;
-            }
-            else
-            {
-                backdropTextBox.Text = "";
-                backdropTextBox.Enabled = false;
-            }
+            user3CheckBox.Checked = GetCheck(xproject.Project.Objects.Object[room].Flags.User3);
 
             doorCheckBox.Checked = GetCheck(xproject.Project.Objects.Object[room].Flags.Door);
             wearableCheckBox.Checked = GetCheck(xproject.Project.Objects.Object[room].Flags.Wearable);
@@ -568,9 +559,9 @@ namespace XTAC
 
                 foreach (Routine rt in xproject.Project.Routines.Routine)
                 {
-                    if (rt.Name == name)
+                    if (rt.Name.ToUpper() == name.ToUpper())
                     {
-                        MessageBox.Show("There is already a function with that name");
+                        MessageBox.Show("There is already a function with that name.");
                         return;
                     }
                 }
@@ -1085,6 +1076,7 @@ namespace XTAC
             xproject.Project.ProjName = "NEW PROJECT";
             xproject.Project.Version = "Version 1.0";
             xproject.Project.Author = "Your name";
+            xproject.Project.Language = "English";
             xproject.Project.Welcome = "Short welcome message.";
             xproject.Project.Objects = new Objects();
             xproject.Project.Objects.Object = new List<Object>();
@@ -1742,7 +1734,7 @@ namespace XTAC
 
                     if (Builder.Build(fileName, "_TRS80", xproject.Project.Output, "cmd"))
                     {
-                        MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+                        MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " and run build.sh or build.bat");
                     }
                 }
                 catch (Exception ex)
@@ -1835,11 +1827,20 @@ namespace XTAC
 
 
                     string fnName = xproject.Project.Routines.Routine[sel].Name;
+
+                    if (IsRequiredFunction(fnName))
+                    {
+                        MessageBox.Show("That function can't be deleted");
+                        return;
+                    }
+
+
                     if (IsFunctionUsed(fnName))
                     {
                         MessageBox.Show("That function is used by a sentence, please delete the sentence first.");
                         return;
                     }
+
 
 
                     if (MessageBox.Show("Delete the function " + s + "?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -1890,7 +1891,7 @@ namespace XTAC
                 try
                 {
                     converter.ConvertSpectrum(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " and run build.sh or build.bat");
                 }
                 catch (Exception ex)
                 {
@@ -1913,7 +1914,7 @@ namespace XTAC
                 try
                 {
                     converter.ConvertC64(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " and run build.sh or build.bat");
                 }
                 catch (Exception ex)
                 {
@@ -2018,7 +2019,6 @@ namespace XTAC
         {
             if (fileName != "")
             {
-
                 Save();
 
                 if (ValidProj())
@@ -2463,6 +2463,38 @@ namespace XTAC
             }
 
 
+            //warn about objects which have themselves as synonyms
+            for (int i = 0; i < xproject.Project.Objects.Object.Count; i++)
+            {
+                Object o1 = xproject.Project.Objects.Object[i];
+
+                if (o1.Synonyms == null)
+                    continue;
+
+                if (o1.Synonyms.Names == null)
+                    continue;
+
+                string[] words = o1.PrintedName.Split(' ');
+                string[] synonyms = o1.Synonyms.Names.Split(',');
+
+                foreach (string s in synonyms)
+                {
+                    if (s == "") continue;
+
+                    foreach (string t in words)
+                    {
+                        if (t == "") continue;
+
+                        if (s.Trim() == t.Trim())
+                        {
+
+                            MessageBox.Show("Object " + o1.Name + " has itself as a synonym.");                        
+                            return false;
+                        }
+                    }                    
+                }                
+            }
+
             return true;
         }
 
@@ -2676,6 +2708,14 @@ namespace XTAC
         private void copyWalkthroughButton_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(walkThroughTextBox.Text);
+        }
+
+        void FixMissingLanguage()
+        {
+            if (xproject.Project.Language == null)
+            {
+                xproject.Project.Language = "English";
+            }
         }
 
         void FixDescriptions()
@@ -3476,6 +3516,23 @@ namespace XTAC
                 ,
                 codeTextBox
                );
+        }
+
+        void AlphabetizeVerbs()
+        {
+                //verb 
+        }
+
+        private void prepositionsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        bool IsRequiredFunction(string fname)
+        {
+            string[] funcs = { "not_possible", "listen", "drink", "default_eat", "default_drink", "default_talk","kill_player", "wait", "smell", "default_kill", "jump","yell" };
+
+            return funcs.Contains(fname);
         }
     }
 }

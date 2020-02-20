@@ -304,6 +304,8 @@
             [XmlElement(ElementName = "welcome")]
             public string Welcome { get; set; }
             [XmlElement(ElementName = "author")]
+            public string Language { get; set; }
+            [XmlElement(ElementName = "language")]
             public string Author { get; set; }
             [XmlElement(ElementName = "version")]
             public string Version { get; set; }
