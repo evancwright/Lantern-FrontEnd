@@ -29,7 +29,7 @@ namespace GameTables
 
         public static string[] attribNames = { "n", "s", "e", "w", "ne", "se", "sw", "nw", "up", "down", "in", "out", "mass"};  //12
 
-        public static string[] xmlFlagNames = { "scenery", "supporter", "container", "transparent",
+        public static string[] xmlFlagNames = { "scenery", "supporter", "container", "user4",
                                "openable", "open", "lockable", "locked",
                                "portable", "user3", "wearable", "beingworn",
                                "user1", "emittinglight", "door", "user2"};
@@ -205,7 +205,7 @@ namespace GameTables
             XmlNode nogos = data.SelectSingleNode("nogo");
             if (nogos != null)
             {
-                for (int i = 0; i < 10; i++ )
+                for (int i = 0; i < 12; i++ )
                 {
                     string dir = attribNames[i];
                     XmlNode n = nogos.SelectSingleNode(dir);
@@ -220,10 +220,13 @@ namespace GameTables
         public bool HasNogoMsg(string dir)
         {
             string val = "";
-            if (!nogoMap.TryGetValue(dir, out val))
+            if (!nogoMap.TryGetValue(dir, out val)) 
             {
                 return false;
             }
+
+            if (val == "")
+                return false;
 
             return (!val.Trim().Equals(""));
             
