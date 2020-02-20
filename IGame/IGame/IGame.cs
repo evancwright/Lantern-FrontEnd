@@ -16,6 +16,7 @@ namespace IGame
         public abstract int GetObjectId(string name);
         public abstract int GetObjectProp(int id, string name);
         public abstract int GetStringId(string s);
+        public abstract int GetFailStringId(string s);
         public abstract int GetVarVal(string name);
         public abstract bool IsVariable(string name);
         public abstract bool IsFunction(string name);
@@ -26,20 +27,22 @@ namespace IGame
         public abstract void PrintStringCr(string str);
         public abstract void PrintStringCr(int strId);
         public abstract void PrintCr();
+        public abstract void Ask();
         public abstract void PrintObjectName(int id);
         public abstract void SetObjectAttr(int id, string name, int val);
         public abstract void SetVar(string name, int val);
         public abstract void CallFunction(string name);
         public abstract bool PlayerHas(int id);
         public abstract bool ObjectHas(int parent, int child);
-            
-
+        public abstract bool ObjectSees(int parent, int child);
+        public abstract bool IsAsking();
     }
 
     public interface IGameXml
     {
         int GetObjectId(string name);
         int GetStringId(string s);
+        int GetFailStringId(string s);
         bool IsVariable(string name);
         string GetVarAddr(string name);
         bool IsFunction(string name);
