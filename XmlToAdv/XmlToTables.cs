@@ -108,7 +108,7 @@ namespace XMLtoAdv
             pltfDirs["_CPC464"] = "cpc464";
             pltfDirs["_BBCMicro"] = "BBCMicro";
             pltfDirs["_RPi"] = "RPiSkel";
-            skelDirs["_8086"] = "8086Skel";
+            pltfDirs["_8086"] = "8086Skel";
             pltfDirs["_x64"] = "x64Skel";
             pltfDirs["_CoCo"] = "CoCoSkel";
         }
