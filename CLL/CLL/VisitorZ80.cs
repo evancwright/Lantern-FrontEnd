@@ -102,6 +102,24 @@ namespace CLL
             sw.WriteLine("\tpush af ; result to stack");
         }
 
+
+        public void Visit(Sees ph)
+        {
+            //child is on top of stack
+            sw.WriteLine("\tpop af ; pop child");
+            sw.WriteLine("\tld d,a ; stash child in d");
+            //parent is on bottom of stack
+            sw.WriteLine("\tpop af ; pop parent");
+            sw.WriteLine("\tld b,a; pop parent");
+            sw.WriteLine("\tld c,HOLDER_ID; pop parent");
+            sw.WriteLine("\tcall get_obj_attr ; property c of object b -> a");
+            sw.WriteLine("\tld c,a ; seer -> c");
+            sw.WriteLine("\tld a,d ; move child to b");
+            sw.WriteLine("\tld b,a ; ");
+            sw.WriteLine("\tcall c_sees_b");
+            sw.WriteLine("\tpush af ; result to stack");
+        }
+
         public void Visit(VariableRVal v)
         {
             sw.WriteLine("\t;load var");

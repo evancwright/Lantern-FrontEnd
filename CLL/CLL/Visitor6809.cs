@@ -124,6 +124,12 @@ namespace CLL
             sw.WriteLine("\tpshs a");
         }
 
+
+        public void Visit(Sees ph)
+        {
+            throw new Exception("not implemented.");
+        }
+
         public void Visit(VariableRVal v)
         {
             string addr;

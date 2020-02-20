@@ -146,6 +146,24 @@ namespace CLL
             sw.WriteLine("\tpha ; push it onto stack");
         }
 
+        public void Visit(Sees ph)
+        {
+            sw.WriteLine("\tpla ; get child");
+            sw.WriteLine("\tsta child");
+            sw.WriteLine("\tpla ; get parent");
+            sw.WriteLine("\tsta parent");
+            sw.WriteLine("\tldy #HOLDER_ID ; id");
+            sw.WriteLine("\tjsr get_obj_attr ; get parent room of seer");
+            sw.WriteLine("\tsta parent ; ");
+            sw.WriteLine("\tlda child ; id  ; set table to point to child");
+            sw.WriteLine("\tldy #0 ; id ");
+            sw.WriteLine("\tjsr get_obj_attr ; table addr points to child");
+            sw.WriteLine("\tjsr visible_ancestor");
+            sw.WriteLine("\tlda visibleAncestorFlag");
+            sw.WriteLine("\tpha ; push it onto stack");
+        }
+
+
         public void Visit(VariableRVal v)
         {
             sw.WriteLine("\tlda " + game.GetVarAddr(v.VarName));
@@ -336,19 +354,18 @@ namespace CLL
             //carry flag is not set or the 
             //zero flag is set
             //zc
-            //00 - greater than (yes)
-            //01 - less than (no)
-            //10 - equal (no)
-            //11 - impossible
+            //00 - less than
+            //01 - greater than (no)
+            //11 - equal
             //need to determine z + c == 0
             sw.WriteLine("\tphp ; flags -> a");
             sw.WriteLine("\tpla");
             sw.WriteLine("\tand #3 ; isolate z and c for greater than");
-            sw.WriteLine("\tcmp #0 ; test zc");
+            sw.WriteLine("\tcmp #1 ; test zc = 01");
             sw.WriteLine("\tphp ; zc -> a");
             sw.WriteLine("\tpla");
-            sw.WriteLine("\tand #2 ; isolate z");
             sw.WriteLine("\tlsr a ; right align z");
+            sw.WriteLine("\tand #1 ; isolate z");
             sw.WriteLine("\tpha ; push result of gt");
         }
 
@@ -366,16 +383,20 @@ namespace CLL
             //carry flag is not set or the 
             //zero flag is set
             //zc
-            //00 - greater than (no)
-            //01 - less than (yes)
-            //10 - equal (no)
-            //11 - impossible
-            //need to determine that carry flag is 1
+            //00 - < (yes)
+            //01 - > (no)
+            //11 - equal (no)
+            
+            //need to determine that carry and flag are 11
 
             sw.WriteLine("\tphp ; flags -> ");
             sw.WriteLine("\tpla");
-            sw.WriteLine("\teor #$FF ; isolate carry flag");
-            sw.WriteLine("\tand #1 ; isolate carry flag");
+            sw.WriteLine("\tand #$3 ; isolate zero and carryflag");
+            sw.WriteLine("\tcmp #$0 ; ");
+            sw.WriteLine("\tphp ; ");
+            sw.WriteLine("\tpla ; ");
+            sw.WriteLine("\tlsr a ; right align zero flag");
+            sw.WriteLine("\tand #$1 ; isolate zero flag");
             sw.WriteLine("\tpha ; push carry flag");
         }
 

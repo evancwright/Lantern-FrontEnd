@@ -80,7 +80,7 @@ namespace CLL
                 }
             }//end while
 
-            string leading = s.Substring(1, index-1);
+            string leading = s.Substring(1, index - 1);
             string remainder = s.Substring(index + 1).Trim();
 
             code.Clear();
@@ -121,7 +121,7 @@ namespace CLL
                 }
             }//end while
 
-            string leading = s.Substring(1, index-1);
+            string leading = s.Substring(1, index - 1);
             string remainder = s.Substring(index + 1).Trim();
 
             code.Clear();
@@ -162,7 +162,7 @@ namespace CLL
 
                 if (index == -1)
                     throw new Exception("Expected ; near " + code);
-                    
+
 
                 //remove the leading comment from 'code'
                 string remainder = s.Substring(index + 1).Trim();
@@ -174,7 +174,7 @@ namespace CLL
                 return new StringBuilder(s);
             }
         }
-        
+
         /// <summary>
         /// chops off everything up to but not including the (
         /// </summary>
@@ -186,7 +186,7 @@ namespace CLL
             if (temp.ToString().IndexOf("(") == -1)
                 throw new Exception("Couldn't find ( in " + temp);
 
-            
+
             temp = temp.Substring(temp.IndexOf("("));
             return temp;
         }
@@ -263,7 +263,7 @@ namespace CLL
                 code.Insert(0, remainder);
 
                 s = s.Substring(0, index).Trim();
-               return s;
+                return s;
             }
             else
                 throw new Exception("Unable to find token near " + code);
@@ -303,7 +303,7 @@ namespace CLL
         {
             return (op == "||" || op == "&&");
         }
-        
+
 
         public bool IsRelationalOperator(string op)
         {
@@ -313,7 +313,9 @@ namespace CLL
                 op == ">" ||
                 op == "!=" ||
                 op == "==" ||
-                op == "has");
+                op == "has" ||
+                op == "sees"
+                );
         }
          
         public bool IsMathOperator(string op)

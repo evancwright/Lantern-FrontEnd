@@ -678,7 +678,7 @@ namespace CLL
     public class Has : BinaryOperator
     {
 
-        public Has() : base(PRECEDENCE_AND) { }
+        public Has() : base(PRECEDENCE_EQ_NE) { }
 
 
         public override void Accept(IVisitor v)
@@ -691,6 +691,27 @@ namespace CLL
         public override int Eval(IGame.IGame game)
         {
             if (game.ObjectHas(Left.Eval(game), Right.Eval(game)))
+                return 1;
+            return 0;
+        }
+    }
+
+    public class Sees : BinaryOperator
+    {
+
+        public Sees() : base(PRECEDENCE_AND) { }
+
+
+        public override void Accept(IVisitor v)
+        {
+            Left.Accept(v); //push arg onto the stack
+            Right.Accept(v); //push arg onto the stack
+            v.Visit(this); //pop,check if player has it,push result
+        }
+
+        public override int Eval(IGame.IGame game)
+        {
+            if (game.ObjectSees(Left.Eval(game), Right.Eval(game)))
                 return 1;
             return 0;
         }

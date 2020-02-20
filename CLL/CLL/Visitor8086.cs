@@ -55,7 +55,7 @@ namespace CLL
             //sw.WriteLine("\tmov ax,StringTable");
             //sw.WriteLine("\tpush ax");
             sw.WriteLine("\tmov ah,0");
-            sw.WriteLine("\tmov al," + game.GetStringId(ps.text) + " ; " + ps.text);
+            sw.WriteLine("\tmov al," + game.GetStringId(ps.text) + " ; " + ps.text.Substring(0, Math.Min(ps.text.Length,10)));
             sw.WriteLine("\tpush ax");
             sw.WriteLine("\tcall print_string");
             sw.WriteLine("\tadd sp,2  ; pop 2 params");
@@ -63,24 +63,26 @@ namespace CLL
 
         public void Visit(NewLn nl)
         {
+            sw.WriteLine("\tnop ; newline");
             sw.WriteLine("\tcall print_cr");
         }
 
         public void Visit(PrintLn ps)
         {
-            sw.WriteLine("\tnop ;print statement");
+            sw.WriteLine("\tnop ;println statement");
             //sw.WriteLine("\tmov ax,StringTable");
             //sw.WriteLine("\tpush ax"); 
             sw.WriteLine("\tmov ah,0");
-            sw.WriteLine("\tmov al," + game.GetStringId(ps.text) + " ; " + ps.text);
+            sw.WriteLine("\tmov al," + game.GetStringId(ps.text) + " ; " + ps.text.Substring(0, Math.Min(ps.text.Length, 10)));
             sw.WriteLine("\tpush ax");
             sw.WriteLine("\tcall print_string");
             sw.WriteLine("\tadd sp,2  ; pop 2 bytes");
+            sw.WriteLine("\tnop");
             sw.WriteLine("\tcall print_cr");
         }
 
         public void Visit(PrintObjectName ps)
-        {
+        { //id is on stack?
             sw.WriteLine("\tnop ;print name statement");
             sw.WriteLine("\tcall print_obj_name");
             sw.WriteLine("\tadd sp,2  ; pop params");
@@ -88,7 +90,12 @@ namespace CLL
 
         public void Visit(PrintVar pv)
         {
-            throw new NotImplementedException("8086 PrintVar not implemented.");
+            sw.WriteLine("\t; printing " + pv.VarName);
+            sw.WriteLine("\tmov ah,0");
+            sw.WriteLine("\tmov al, " + game.GetVarAddr(pv.VarName));
+            sw.WriteLine("\tpush ax");
+            sw.WriteLine("\tcall print_var");
+            sw.WriteLine("\tadd sp,2  ; pop params");
         }
 
         public void Visit(Rand r)
@@ -101,8 +108,6 @@ namespace CLL
 
         public void Visit(Has ph)
         {
-
-
             //pop child
             sw.WriteLine("\t; child is on stack");
             //pop parent
@@ -110,6 +115,20 @@ namespace CLL
 
             //call ancestor function
             sw.WriteLine("\tcall is_child_of");
+            sw.WriteLine("\tadd sp,4");
+            sw.WriteLine("\tmov ah,0 ; clear high byte");
+            sw.WriteLine("\tpush ax");
+        }
+
+        public void Visit(Sees ph)
+        {
+            //pop child
+            sw.WriteLine("\t; child is on stack");
+            //pop parent
+            sw.WriteLine("\t; parent is on stack");
+
+            //call ancestor function
+            sw.WriteLine("\tcall is_visible_to");
             sw.WriteLine("\tadd sp,4");
             sw.WriteLine("\tmov ah,0 ; clear high byte");
             sw.WriteLine("\tpush ax");
@@ -295,13 +314,13 @@ namespace CLL
         {
             //compare and push a 1 if carry set
             sw.WriteLine("\tnop ;a < b");
-            sw.WriteLine("\tpop ax");
+            sw.WriteLine("\tpop bx");
             sw.WriteLine("\tpop bx");
             sw.WriteLine("\tcmp ax,bx");
             sw.WriteLine("\tpushf");
             sw.WriteLine("\tpop ax ");
-            sw.WriteLine("\tand a,1");
-            sw.WriteLine("\tpshs a");
+            sw.WriteLine("\tand ax,1 ; ");
+            sw.WriteLine("\tpush ax");
         }
 
         public void Visit(GreaterThanEquals m)
@@ -498,8 +517,6 @@ namespace CLL
 
         public void WriteReturn()
         {
-            sw.WriteLine("\tmov ax,0 ; fix Watcom");
-            sw.WriteLine("\tmov bx,ax ; fix Watcom");
             sw.WriteLine("\t};");
             sw.WriteLine("}");
         }

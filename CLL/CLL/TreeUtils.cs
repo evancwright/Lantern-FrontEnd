@@ -159,6 +159,8 @@ namespace CLL
                 return new And();
             if (nodeText == "has")
                 return new Has();
+            if (nodeText == "sees")
+                return new Sees();
             throw new Exception("Unable to convert " + nodeText + " to a binary operator");
 
 

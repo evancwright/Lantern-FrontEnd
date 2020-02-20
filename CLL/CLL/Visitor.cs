@@ -19,6 +19,7 @@ namespace CLL
         void Visit(PrintVar pv);
         void Visit(Rand r);
         void Visit(Has ph);
+        void Visit(Sees ph);
         void Visit(VariableRVal v);
         void Visit(AttributeRVal v);
         void Visit(PropertyRVal v);

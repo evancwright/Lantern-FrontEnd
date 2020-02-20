@@ -101,6 +101,20 @@ namespace CLL
             sw.WriteLine(Tabs()+" param_stack_push(param1) ; ");
         }
 
+
+        public void Visit(Sees ph)
+        {
+            //pop child
+            sw.WriteLine(Tabs() + "; child is on stack");
+            sw.WriteLine(Tabs() + "param2 = param_stack_pop()");
+            //pop parent
+            sw.WriteLine(Tabs() + "; parent is on stack");
+            sw.WriteLine(Tabs() + "param1 = param_stack_pop()");
+            //call ancestor function
+            sw.WriteLine(Tabs() + "param1 = is_visible_to(param1,param2);");
+            sw.WriteLine(Tabs() + " param_stack_push(param1) ; ");
+        }
+
         public void Visit(VariableRVal v)
         {
             sw.WriteLine(Tabs()+"// variable rval");
