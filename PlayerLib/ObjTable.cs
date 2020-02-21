@@ -119,6 +119,8 @@ namespace PlayerLib
                 else
                     attrs[GameObject.xmlFlagNames[i].ToUpper()] = gobj.properties[i];
             }
+
+            
         }
 
         public string GetObjName()

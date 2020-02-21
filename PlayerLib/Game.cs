@@ -63,7 +63,7 @@ namespace PlayerLib
         static Game _game;
         bool asking;
 
-        string[] dirs = { "n", "s", "e", "w", "ne", "se", "nw", "sw", "up", "down" };
+        string[] dirs = { "n", "s", "e", "w", "ne", "se", "nw", "sw", "up", "down", "in", "out" };
 
         public new bool Asking { get { return asking; } set { asking = value; } }
 
@@ -83,14 +83,17 @@ namespace PlayerLib
             prepTable.Add("IN");
         	prepTable.Add("ON");
 	        prepTable.Add("AT");
-        	prepTable.Add("TO");
-        	prepTable.Add("INSIDE");
+            prepTable.Add("UNDER");
+            prepTable.Add("INTO");
+            prepTable.Add("INSIDE");
+            prepTable.Add("THROUGH");
+            
         	prepTable.Add("OUT");
-        	prepTable.Add("UNDER");
+            prepTable.Add("BEHIND");
             prepTable.Add("OFF");
             prepTable.Add("UP");
             prepTable.Add("WITH");
-            prepTable.Add("BEHIND");
+            prepTable.Add("TO");
             prepTable.Add("NORTH");
             prepTable.Add("SOUTH");
             prepTable.Add("EAST");
@@ -99,7 +102,6 @@ namespace PlayerLib
             prepTable.Add("SOUTHEAST");
             prepTable.Add("NORTHWEST");
             prepTable.Add("SOUTHWEST");
-            prepTable.Add("UP");
             prepTable.Add("DOWN");
             prepTable.Add("ABOUT");
             prepTable.Add("OVER");
@@ -119,52 +121,60 @@ namespace PlayerLib
 
         public void SetGameData(string fileName)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(fileName);
-
-            GetIntro(doc);
-
-            BuildStringTable(doc);
-
-            for (int i = 0; i < stringTable.GetNumEntries(); i++)
+            try
             {
-                string s = stringTable.GetEntry(i);
-                if (s.Length > 255)
+                XmlDocument doc = new XmlDocument();
+                doc.Load(fileName);
+
+                GetIntro(doc);
+
+                BuildStringTable(doc);
+
+                for (int i = 0; i < stringTable.GetNumEntries(); i++)
                 {
-                    MessageBox.Show("Warning: string \"" + s + "\" is greater than 255 characters long.  This will run fine in test player but will cause problems when exporting.");
+                    string s = stringTable.GetEntry(i);
+                    if (s.Length > 255)
+                    {
+                        MessageBox.Show("Warning: string \"" + s + "\" is greater than 255 characters long.  This will run fine in test player but will cause problems when exporting.");
+                    }
+
+                    if (s.Contains('\"'))
+                    {
+                        MessageBox.Show("Warning: string \"" + s + "\" contains a double quote.  Please change it to a single quote.");
+                    }
+                    if (s.Contains('\r') || s.Contains('\n'))
+                    {
+                        MessageBox.Show("Warning: string \"" + s + "\" contains a newline.  Please remove it.");
+                    }
+
+
                 }
 
-                if (s.Contains('\"'))
-                {
-                    MessageBox.Show("Warning: string \"" + s + "\" contains a double quote.  Please change it to a single quote.");
-                }
-                if (s.Contains('\r') || s.Contains('\n'))
-                {
-                    MessageBox.Show("Warning: string \"" + s + "\" contains a newline.  Please remove it.");
-                }
-                
 
+                BuildNogoTable(doc);
+
+                BuildVerbTable(doc);
+
+                PopulateObjectAndDictionary(doc);
+                BuildObjWordTable();
+
+                //this.gameData = data;
+
+                //            ProgramData progData = ProgramData.GetInstance();
+                //            progData.SetProgramData(Game.GetInstance());
+
+                BuildDefaultSentenceMap();
+                LoadVars(doc);
+                BuildSentences(doc);
+                GetFunctionNames(doc);
+                BuildFunctions(doc);
+                BuildCheckTable(doc);
+                scores = new int[objTable.GetCount()];
             }
-
-
-            BuildNogoTable(doc);
-            BuildVerbTable(doc);
-
-            PopulateObjectAndDictionary(doc);
-            BuildObjWordTable();
-
-            //this.gameData = data;
-
-//            ProgramData progData = ProgramData.GetInstance();
-//            progData.SetProgramData(Game.GetInstance());
-
-            BuildDefaultSentenceMap();
-            LoadVars(doc);
-            BuildSentences(doc);
-            GetFunctionNames(doc);
-            BuildFunctions(doc);
-            BuildCheckTable(doc);
-            scores = new int[objTable.GetCount()];
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public void SetOutputWindow(TextBox tb)
@@ -220,23 +230,25 @@ namespace PlayerLib
 
 
              
-            if (name == "dobj")
+            if (name.StartsWith("dobj"))
                 return dobj;
 
-            if (name == "iobj")
+            if (name.StartsWith("iobj"))
                 return iobj;
              
             int i = 0;
             foreach (ObjTableEntry o in objTable.objects.Values)
             {
                 if (o.name.ToUpper().Equals(name.ToUpper()))
+                //if (o.name == name)
                 {
                     return i;
                 }
                 i++;
             }
 
-            return -1;
+            throw new Exception("Unable to find an object named " + name + " in the object table");
+ //           return -1;
         }
 
         public override void SetObjectAttr(int id, string name, int val)
@@ -364,7 +376,16 @@ namespace PlayerLib
 
             ObjTableEntry curRoom = objTable.GetObj(GetPlayerRoom());
             int newRoom = curRoom.GetObjAttr(dir);
+            
+            if (newRoom > 127)
+            {
+                newRoom = 255 - newRoom;
+                PrintStringCr(nogoTable.GetEntry(newRoom + 1));
+                return;
+            }
+
             ObjTableEntry newr = objTable.GetObj(newRoom);
+            
             if (newr.GetObjAttr("DOOR") == 1)
             {
                     newRoom = GetObjectAttr(newRoom, dir);
@@ -420,7 +441,8 @@ namespace PlayerLib
            
         public void Enter()
         {
-            if (GetObjectAttr(dobj, "IN") != 255)
+            int newRoom = GetObjectAttr(dobj, "IN");
+            if (newRoom <=127)
             {
                 if (GetObjectAttr(dobj, "OPEN") == 0)
                 {
@@ -434,7 +456,8 @@ namespace PlayerLib
             }
             else
             {
-                PrintStringCr("You can't enter that.");
+                newRoom = 255 - newRoom;
+                PrintStringCr(nogoTable.GetEntry(newRoom + 1));
             }
         }
 
@@ -502,6 +525,9 @@ namespace PlayerLib
 
             XmlToTables x = XmlToTables.GetInstance();
             x.PopulateNogoTable(doc, nogoTable);
+
+            x.ParseForFailStrings(doc, nogoTable);
+
         }
 
         void BuildVerbTable(XmlDocument doc)
@@ -1059,74 +1085,80 @@ namespace PlayerLib
 
         void BuildDefaultSentenceMap()
         {
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence> ( verbMap["LOOK"],  new DfltSentence(Look) )
-                );
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence>(verbMap["LOOK AT"], new DfltSentence(LookAt))
-                );
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence>(verbMap["LOOK IN"], new DfltSentence(LookIn))
-                );
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence>(verbMap["INVENTORY"], new DfltSentence(Inventory))
-                );
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence>(verbMap["GET"], new DfltSentence(Get))
-                );
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence>(verbMap["DROP"], new DfltSentence(Drop))
-                );
+            try
+            {
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["LOOK"], new DfltSentence(Look))
+                    );
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["LOOK AT"], new DfltSentence(LookAt))
+                    );
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["LOOK IN"], new DfltSentence(LookIn))
+                    );
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["INVENTORY"], new DfltSentence(Inventory))
+                    );
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["GET"], new DfltSentence(Get))
+                    );
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["DROP"], new DfltSentence(Drop))
+                    );
 
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence>(verbMap["N"], new DfltSentence(Move))
-                );
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence>(verbMap["S"], new DfltSentence(Move))
-                );
-            defaultSentences.Add(
-                 new Tuple<int, DfltSentence>(verbMap["E"], new DfltSentence(Move))
-                 );
-            defaultSentences.Add(
-                 new Tuple<int, DfltSentence>(verbMap["W"], new DfltSentence(Move))
-                 );
-            defaultSentences.Add(
-                 new Tuple<int, DfltSentence>(verbMap["NE"], new DfltSentence(Move))
-                 );
-            defaultSentences.Add(
-                 new Tuple<int, DfltSentence>(verbMap["NW"], new DfltSentence(Move))
-                 );
-            defaultSentences.Add(
-                 new Tuple<int, DfltSentence>(verbMap["SE"], new DfltSentence(Move))
-                 );
-            defaultSentences.Add(
-                 new Tuple<int, DfltSentence>(verbMap["SW"], new DfltSentence(Move))
-                 );
-            defaultSentences.Add(
-                 new Tuple<int, DfltSentence>(verbMap["UP"], new DfltSentence(Move))
-                 );
-            defaultSentences.Add(
-                 new Tuple<int, DfltSentence>(verbMap["DOWN"], new DfltSentence(Move))
-                 );
-            defaultSentences.Add(
-                 new Tuple<int, DfltSentence>(verbMap["OUT"], new DfltSentence(Move))
-                 );
-            defaultSentences.Add(
-                 new Tuple<int, DfltSentence>(verbMap["OPEN"], new DfltSentence(Open))
-                 );
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence>(verbMap["CLOSE"], new DfltSentence(Close))
-                );
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence>(verbMap["ENTER"], new DfltSentence(Enter))
-                );
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence>(verbMap["PUT"], new DfltSentence(Put))
-                );
-            defaultSentences.Add(
-                new Tuple<int, DfltSentence>(verbMap["WEAR"], new DfltSentence(Wear))
-                );
-
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["N"], new DfltSentence(Move))
+                    );
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["S"], new DfltSentence(Move))
+                    );
+                defaultSentences.Add(
+                     new Tuple<int, DfltSentence>(verbMap["E"], new DfltSentence(Move))
+                     );
+                defaultSentences.Add(
+                     new Tuple<int, DfltSentence>(verbMap["W"], new DfltSentence(Move))
+                     );
+                defaultSentences.Add(
+                     new Tuple<int, DfltSentence>(verbMap["NE"], new DfltSentence(Move))
+                     );
+                defaultSentences.Add(
+                     new Tuple<int, DfltSentence>(verbMap["NW"], new DfltSentence(Move))
+                     );
+                defaultSentences.Add(
+                     new Tuple<int, DfltSentence>(verbMap["SE"], new DfltSentence(Move))
+                     );
+                defaultSentences.Add(
+                     new Tuple<int, DfltSentence>(verbMap["SW"], new DfltSentence(Move))
+                     );
+                defaultSentences.Add(
+                     new Tuple<int, DfltSentence>(verbMap["UP"], new DfltSentence(Move))
+                     );
+                defaultSentences.Add(
+                     new Tuple<int, DfltSentence>(verbMap["DOWN"], new DfltSentence(Move))
+                     );
+                defaultSentences.Add(
+                     new Tuple<int, DfltSentence>(verbMap["OUT"], new DfltSentence(Move))
+                     );
+                defaultSentences.Add(
+                     new Tuple<int, DfltSentence>(verbMap["OPEN"], new DfltSentence(Open))
+                     );
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["CLOSE"], new DfltSentence(Close))
+                    );
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["ENTER"], new DfltSentence(Enter))
+                    );
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["PUT"], new DfltSentence(Put))
+                    );
+                defaultSentences.Add(
+                    new Tuple<int, DfltSentence>(verbMap["WEAR"], new DfltSentence(Wear))
+                    );
+            }
+            catch
+            {
+                throw new Exception("Error: building default sentence map - This usually happens when a default verb has been removed.");
+            }
         }
 
         bool TryDefaultSentence()
@@ -1182,6 +1214,8 @@ namespace PlayerLib
                 return "DOWN";
             if (verbMap["OUT"] == verb)
                 return "OUT";
+            if (verbMap["ENTER"] == verb)
+                return "IN";
             throw new Exception("Unable to map verb " + verb + " to a direction");
         }
 
@@ -1195,6 +1229,18 @@ namespace PlayerLib
             }
 
             return strId;
+        }
+
+        public override int GetFailStringId(string s)
+        {
+            int strId = nogoTable.GetEntryId(s);
+
+            if (strId == -1)
+            {
+                throw new Exception("String \'" + s + "\' not found in table");
+            }
+
+            return 256 - strId;
         }
 
         public override void AddVar(string varName, int amt)
@@ -1367,6 +1413,14 @@ namespace PlayerLib
                     return false;
                 child = tempParent;
             }
+        }
+
+
+        public override bool ObjectSees(int seer, int seen)
+        {
+            ///todo may need to get seer's parent
+            int room = GetObjectAttr(seer, "HOLDER");
+            return VisibleAncestor(room, seen);
         }
 
         void ClearScores()

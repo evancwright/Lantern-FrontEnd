@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using System.Xml;
 
 namespace PlayerLib
-{    
+{
 
     partial class Game
     {
         delegate bool VerbCheckDlgt();
         const int MaxInvWeight = 10;
 
-        List<Tuple<int,string>> checkList = new List<Tuple<int,string>>();
+        List<Tuple<int, string>> checkList = new List<Tuple<int, string>>();
         Dictionary<string, VerbCheckDlgt> checkTable = new Dictionary<string, VerbCheckDlgt>();
 
         void BuildCheckTable(XmlDocument doc)
@@ -64,13 +64,13 @@ namespace PlayerLib
                 if (verbId != -1)
                 {
                     string checkName = c.Attributes.GetNamedItem("check").Value.Trim();
-                    checkList.Add(new Tuple<int,string>(verbId, checkName));
+                    checkList.Add(new Tuple<int, string>(verbId, checkName));
                 }
 
 
             }
 
-          
+
         }
 
         bool check_see_dobj()
@@ -109,7 +109,7 @@ namespace PlayerLib
 
         bool check_have_dobj()
         {
-            if (!VisibleAncestor(PLAYER,dobj))
+            if (!VisibleAncestor(PLAYER, dobj))
             {
                 PrintStringCr("You don't have that.");
                 return false;
@@ -139,7 +139,7 @@ namespace PlayerLib
 
         bool check_dobj_portable()
         {
-            if (GetObjectAttr(dobj,"PORTABLE") == 0)
+            if (GetObjectAttr(dobj, "PORTABLE") == 0)
             {
                 PrintStringCr("You can't take that.");
                 return false;
@@ -157,8 +157,8 @@ namespace PlayerLib
         {
             if (GetObjectAttr(dobj, "IN") > 127)
             {
-                    PrintStringCr("You can't enter that.");
-                    return false;
+                PrintStringCr("You can't enter that.");
+                return false;
             }
             return true;
         }
@@ -217,9 +217,9 @@ namespace PlayerLib
 
         bool check_dobj_unlocked()
         {
-             if (GetObjectAttr(dobj, "LOCKED") == 1)
+            if (GetObjectAttr(dobj, "LOCKED") == 1)
             {
-                
+
                 PrintStringCr("The " + objTable.GetObj(dobj).printedName + " is locked.");
                 return false;
             }
@@ -286,7 +286,7 @@ namespace PlayerLib
             }
             if (GetObjectAttr(dobj, "LOCKED") == 1)
             {
-                PrintStringCr("It' locked.");
+                PrintStringCr("It's locked.");
                 return false;
             }
             return true;
@@ -325,7 +325,7 @@ namespace PlayerLib
                     return false;
                 }
 
-                if (GetObjectAttr(iobj,"OPEN")==0)
+                if (GetObjectAttr(iobj, "OPEN") == 0)
                 {
                     PrintStringCr("It's closed.");
                     return false;
@@ -353,7 +353,19 @@ namespace PlayerLib
             string dir = VerbToDir();
 
             ObjTableEntry curRoom = objTable.GetObj(GetPlayerRoom());
-            int newRoom = curRoom.GetObjAttr(dir);
+
+            int newRoom = 255;
+
+            if (dir != "IN")
+            {
+                newRoom = curRoom.GetObjAttr(dir);
+            }
+            else
+            {
+                ObjTableEntry tgtObj = objTable.GetObj(dobj);
+                newRoom = tgtObj.GetObjAttr(dir);
+            }
+
             if (newRoom < 127)
             {
                 ObjTableEntry newr = objTable.GetObj(newRoom);
@@ -379,26 +391,26 @@ namespace PlayerLib
 
         bool RunChecks()
         {
-                
-                foreach (Tuple <int,string> t in checkList)
-                {
-                    if (t.Item1 == verb)
-                    {
-                        try {
-                            VerbCheckDlgt chk = checkTable[t.Item2];
-                            if (!chk())
-                            {
-                                return false;
-                            }
-                        } 
-                        catch (Exception e)
-                        {
-                            throw new Exception("Unable to run check [" + t.Item2 + "] for verb " + t.Item1, e);     
-                        }
 
+            foreach (Tuple<int, string> t in checkList)
+            {
+                if (t.Item1 == verb)
+                {
+                    try {
+                        VerbCheckDlgt chk = checkTable[t.Item2];
+                        if (!chk())
+                        {
+                            return false;
+                        }
                     }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Unable to run check [" + t.Item2 + "] for verb " + t.Item1, e);
+                    }
+
                 }
-            
+            }
+
 
             return true;
         }
@@ -408,4 +420,27 @@ namespace PlayerLib
             return asking;
         }
     }
+
+    enum DefaultString
+    {
+        DONT_SEE,
+        DONT_HAVE,
+        ALREADY_HAVE,
+        THE_,
+        _IS_CLOSED,
+        NOT_POSSIBLE,
+        ITS_CLOSED,
+        NOT_OPEN,
+        CANT_PUT_THINGS_IN_THAT,
+        CANT_WEAR_THAT,
+        ITS_LOCKED,
+        NOT_OPENABLE,
+        NOT_A_CONTAINER,
+        ALREADY_UNLOCKED,
+        NOT_LOCKABLE,
+        CANT_ENTER,
+        MISSING_PREPOSITION,
+        MISSING_NOUN
+    };
+
 }

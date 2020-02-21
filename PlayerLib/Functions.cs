@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 //using Emitters;
@@ -47,6 +48,11 @@ namespace PlayerLib
                 {
                     name = n.Attributes.GetNamedItem("name").Value;
                     string code = n.InnerText;
+
+                    //preprocess out comments and fail strings
+
+                    code = Preprocess(code);
+
                     events.Add(CLL.FunctionBuilder.BuildFunction(this, name + "_sub", code));
                 }
                 catch (Exception ex)
@@ -66,6 +72,9 @@ namespace PlayerLib
 
                     name = n.Attributes.GetNamedItem("name").Value;
                     string code = n.InnerText;
+
+                    code = Preprocess(code);
+
                     CLL.Function f = CLL.FunctionBuilder.BuildFunction(this, name, code);
                     functions.Add(name, f);
                 }
@@ -76,5 +85,38 @@ namespace PlayerLib
             }
         }
 
+        /// <summary>
+        //Removes comments and replaces fail string with the string ids
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        string Preprocess(string code)
+        {
+            string noComments = Regex.Replace(code.ToString(), "//.*\r\n", "");
+
+            noComments = PreprocessFailStrings(noComments);
+            
+            return noComments;
+        }
+
+        string PreprocessFailStrings(string code)
+        {
+            string regex = "fail(\\s)*\\((\\s)*\"[^\"]*[\"](\\s)*\\)";
+
+            MatchCollection matches = Regex.Matches(code, regex);
+
+            foreach (Match m in matches)
+            {
+                string s = m.Value;
+                //trim off the function call
+                s = s.Substring(s.IndexOf("\"") + 1);
+                s = s.Substring(0, s.IndexOf("\""));
+                int id = GetFailStringId(s);
+
+                code = code.Replace(m.Value, id.ToString());
+
+            }
+            return code;
+        }
     }
 }
