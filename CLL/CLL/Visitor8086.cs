@@ -295,17 +295,17 @@ namespace CLL
             //push a 1 if zc == 0
 
             sw.WriteLine("\tnop ;a > b");
-            sw.WriteLine("\tpop ax");
             sw.WriteLine("\tpop bx");
+            sw.WriteLine("\tpop ax");
             sw.WriteLine("\tcmp ax,bx");
             string psh = GetNextLabel();
-            string zero = GetNextLabel();
+            string yes = GetNextLabel();
             //sw.WriteLine("\tbls 4 ; C or Z is set - load a #0");
-            sw.WriteLine("\tjle " + zero);
+            sw.WriteLine("\tja " + yes.Substring(0,yes.Length-1));
+            sw.WriteLine("\tmov ax,0");
+            sw.WriteLine("\tjmp " + psh.Substring(0, psh.Length - 1));
+            sw.WriteLine(yes);
             sw.WriteLine("\tmov ax,1");
-            sw.WriteLine("\tjp " + psh);
-            sw.WriteLine(zero);
-            sw.WriteLine("\tmox ax,0");
             sw.WriteLine(psh);
             sw.WriteLine("\tpush ax");
         }
@@ -315,11 +315,11 @@ namespace CLL
             //compare and push a 1 if carry set
             sw.WriteLine("\tnop ;a < b");
             sw.WriteLine("\tpop bx");
-            sw.WriteLine("\tpop bx");
+            sw.WriteLine("\tpop ax");
             sw.WriteLine("\tcmp ax,bx");
             sw.WriteLine("\tpushf");
             sw.WriteLine("\tpop ax ");
-            sw.WriteLine("\tand ax,1 ; ");
+            sw.WriteLine("\tand ax,1 ; ");  //carry bit
             sw.WriteLine("\tpush ax");
         }
 
@@ -327,8 +327,8 @@ namespace CLL
         {
             //push a 1 if c == 0
             sw.WriteLine("\tnop ;a >= b");
-            sw.WriteLine("\tpop ax");
             sw.WriteLine("\tpop bx");
+            sw.WriteLine("\tpop ax");
             sw.WriteLine("\tcmp ax,bx");
             sw.WriteLine("\tcmc ; flip bits");
             sw.WriteLine("\tpushf");
@@ -345,16 +345,16 @@ namespace CLL
             //10 = a == b
             //push a 1 if zc != 0
 
-            sw.WriteLine("\tnop ;a >= b");
-            sw.WriteLine("\tpop ax");
+            sw.WriteLine("\tnop ;a <= b");
             sw.WriteLine("\tpop bx");
+            sw.WriteLine("\tpop ax");
             sw.WriteLine("\tcmp ax,bx");
-            string one = GetNextLabel();
+            string yes = GetNextLabel();
             string push = GetNextLabel();
-            sw.WriteLine("\tjle " + one + " ; C or Z is set - load a #1");
+            sw.WriteLine("\tjbe " + yes.Substring(0, yes.Length - 1) + " ; C or Z is set - load a #1");
             sw.WriteLine("\tmov ax,0");
-            sw.WriteLine("\tjp " + push);
-            sw.WriteLine(one);
+            sw.WriteLine("\tjmp " + push.Substring(0,push.Length - 1));
+            sw.WriteLine(yes);
             sw.WriteLine("\tmov ax,1");
             sw.WriteLine(push);
             sw.WriteLine("\tpush ax");
