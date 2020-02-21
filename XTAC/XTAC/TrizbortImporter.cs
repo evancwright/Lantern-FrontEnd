@@ -73,7 +73,7 @@ namespace XTAC
             {
                 Object obj = CreateObject();
 
-                obj.Name = r.Name.Replace(' ', '_').Trim();
+                obj.Name = FixObjectName(r.Name);
 
                 if (!nameCounts.ContainsKey(obj.Name))
                     throw new Exception(obj.Name + " not found in nameCounts while assigning ids.");
@@ -196,13 +196,20 @@ namespace XTAC
 
                             int idNum = project.Project.Objects.Object.Count;
 
-                            string name = s.Replace(' ', '_').Trim();
-                            name = name.Replace('-', '_').Trim();
-                            name = name.Replace('!', '_');
-                            if (nameCounts[name] == 1)
-                                thing.Name = s.Replace(' ', '_').Trim();
+                            string fixedName = FixObjectName(s);
+
+                            if (nameCounts.ContainsKey(fixedName))
+                            {
+                                if (nameCounts[fixedName] == 1)
+                                    thing.Name = fixedName;
+                                else
+                                    thing.Name = fixedName + idNum;
+                            }
                             else
-                                thing.Name = s.Replace(' ', '_').Trim() + idNum;
+                            {
+                                //throw new Exception("Couldn't get a count of " + fixedName);
+                                nameCounts[fixedName] = 1;
+                            }
                             thing.PrintedName = s.Trim();
                             
                             thing.Id = "" + id;
@@ -278,12 +285,19 @@ namespace XTAC
 
         }
 
+
+        /// <summary>
+        /// Build a map of the objects and the number of objects with that name.
+        /// The "fixed" names are stored in the dictionary
+        /// </summary>
+        /// <param name="rooms"></param>
+        /// <param name="dict"></param>
         void CountNames(List<Room> rooms , Dictionary<string, int> dict)
         {
             foreach (Room r in rooms)
             {
-                string n = r.Name.Replace(' ', '_').Trim();
-                //string n = r.Name.Trim();
+                string n = FixObjectName(r.Name);
+                
                 int c = 0;
                 
                 if (dict.TryGetValue(n, out c))
@@ -298,13 +312,15 @@ namespace XTAC
                 string objects = r.Objects;
                 if (objects != null)
                 {
+
+                    //get the objects in that room
                     string[] objs = objects.Split('|');
 
                     foreach (string s in objs)
                     {
                         if (!s.Equals(""))
                         {   
-                            string name = s.Replace(' ', '_').Trim(); 
+                            string name = FixObjectName(s); 
                             if (dict.TryGetValue(name, out c))
                             {
                                 dict[name]++;
@@ -317,6 +333,19 @@ namespace XTAC
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Replace any weird characters in object name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        string FixObjectName(string name)
+        {
+            string fname = name.Replace(' ', '_').Trim();
+            fname = fname.Replace('-', '_').Trim();
+            fname = fname.Replace('!', '_').Trim();
+            return fname.ToLower();
         }
     }
 }

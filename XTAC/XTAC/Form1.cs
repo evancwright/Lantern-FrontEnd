@@ -2137,6 +2137,7 @@ namespace XTAC
                         NewProject();
                         TrizbortImporter trizImp = new TrizbortImporter();
                         trizImp.Import(xproject, openFileDialog1.FileName);
+                        FixDescriptions();
                         ShowProject();
                         MessageBox.Show("Import Complete. You will now be prompted to save your project.");
                         SaveAs();
@@ -2407,10 +2408,10 @@ namespace XTAC
                 {
                     Object o2 = xproject.Project.Objects.Object[j];
 
-                    if (o1.Name.ToUpper().Equals(o2.Name.ToUpper()))
+                    if (o1.Name == o2.Name) //don't worry about case.
                     {
                         MessageBox.Show("ERROR: You have two objects with the same id name: " + o1.Name);
-                        return false;
+                        //return false;
                     }
                 }
             }
@@ -2710,6 +2711,7 @@ namespace XTAC
             Clipboard.SetText(walkThroughTextBox.Text);
         }
 
+
         void FixMissingLanguage()
         {
             if (xproject.Project.Language == null)
@@ -2717,6 +2719,10 @@ namespace XTAC
                 xproject.Project.Language = "English";
             }
         }
+
+        /// <summary>
+        /// Strips out carriage returns, newlines, and unprintable characters.
+        /// </summary>
 
         void FixDescriptions()
         {
@@ -2737,13 +2743,13 @@ namespace XTAC
                 {
                     s = s.Replace("\n", "");
                     o.Description = s;
-                    MessageBox.Show("nl deleted from description.");
+                 //   MessageBox.Show("nl deleted from description.");
                 }
                 if (s.Contains("\r"))
                 {
                     s = s.Replace("\r", "");
                     o.Description = s;
-                    MessageBox.Show("cr deleted from description.");
+                //    MessageBox.Show("cr deleted from description.");
                 }
 
 
@@ -2765,13 +2771,13 @@ namespace XTAC
                 {
                     s = s.Replace("\n", "");
                     o.Initialdescription = s;
-                    MessageBox.Show("newline deleted from initial description.");
+                 //   MessageBox.Show("newline deleted from initial description.");
                 }
                 if (s.Contains("\r"))
                 {
                     s = s.Replace("\r", "");
                     o.Initialdescription = s;
-                    MessageBox.Show("cr deleted from initial description.");
+                 //   MessageBox.Show("cr deleted from initial description.");
                 }
 
 
