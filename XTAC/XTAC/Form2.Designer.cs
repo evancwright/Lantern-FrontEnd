@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.outputWindow = new System.Windows.Forms.TextBox();
+//            this.outputWindow = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -70,7 +70,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox outputWindow;
+        //private System.Windows.Forms.TextBox outputWindow;
         private System.Windows.Forms.Label label1;
     }
 }

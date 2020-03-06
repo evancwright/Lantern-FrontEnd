@@ -18,10 +18,16 @@ namespace XTAC
         string fileName;
         List<string> commandHist = new List<string>();
         int historyIndex = -1;
-
+        TextWindow outputWindow; 
         public TestClient()
         {
+            outputWindow = new TextWindow();
+            Controls.Add(outputWindow);
+
             InitializeComponent();
+
+            //make an ITextWindow
+           
         }
 
         private void TestClient_Load(object sender, EventArgs e)
@@ -33,7 +39,7 @@ namespace XTAC
         {
             this.fileName = fileName;
             game = Game.GetInstance();
-            game.SetOutputWindow(outputWindow);
+            game.SetOutputWindow(outputWindow as ITextWindow);
             game.SetGameData(fileName);
             game.Run();
             //outputWindow.DeselectAll();
@@ -141,4 +147,6 @@ namespace XTAC
              
         }
     }
+ 
+
 }

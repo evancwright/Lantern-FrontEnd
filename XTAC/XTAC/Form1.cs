@@ -1962,7 +1962,7 @@ namespace XTAC
                 {
                     XmlToTables converter = XmlToTables.GetInstance();
                     converter.ConvertCPC464(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh or build.bat");
+                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " and run: build.sh or build.bat\r\bTo run the game, open the disk in an emulator (such as Arnold) and type run\"advent\"");
                 }
                 catch (Exception ex)
                 {
@@ -1978,7 +1978,7 @@ namespace XTAC
 
         private void checkButton_Click(object sender, EventArgs e)
         {
-            /*
+/*            
             SyntaxChecker checker = new SyntaxChecker();
 
             try
@@ -1994,8 +1994,9 @@ namespace XTAC
 
                 MessageBox.Show(msg);
             }
-             */
+             
             MessageBox.Show("Not implemented");
+            */
         }
 
         private void welcomeTextBox_Leave(object sender, EventArgs e)

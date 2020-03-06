@@ -441,82 +441,82 @@
             // amstradCPC464ToolStripMenuItem
             // 
             this.amstradCPC464ToolStripMenuItem.Name = "amstradCPC464ToolStripMenuItem";
-            this.amstradCPC464ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.amstradCPC464ToolStripMenuItem.Text = "Amstrad CPC464";
+            this.amstradCPC464ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.amstradCPC464ToolStripMenuItem.Text = "Amstrad CPC 464";
             this.amstradCPC464ToolStripMenuItem.Click += new System.EventHandler(this.amstradCPC464ToolStripMenuItem_Click);
             // 
             // appleToolStripMenuItem
             // 
             this.appleToolStripMenuItem.Name = "appleToolStripMenuItem";
-            this.appleToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.appleToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.appleToolStripMenuItem.Text = "Apple ][";
             this.appleToolStripMenuItem.Click += new System.EventHandler(this.appleToolStripMenuItem_Click);
             // 
             // bBCMicroToolStripMenuItem
             // 
             this.bBCMicroToolStripMenuItem.Name = "bBCMicroToolStripMenuItem";
-            this.bBCMicroToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.bBCMicroToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.bBCMicroToolStripMenuItem.Text = "BBC Micro";
             this.bBCMicroToolStripMenuItem.Click += new System.EventHandler(this.bBCMicroToolStripMenuItem_Click);
             // 
             // coCoToolStripMenuItem
             // 
             this.coCoToolStripMenuItem.Name = "coCoToolStripMenuItem";
-            this.coCoToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.coCoToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.coCoToolStripMenuItem.Text = "CoCo 2,3";
             this.coCoToolStripMenuItem.Click += new System.EventHandler(this.coCoToolStripMenuItem_Click);
             // 
             // commodore64ToolStripMenuItem
             // 
             this.commodore64ToolStripMenuItem.Name = "commodore64ToolStripMenuItem";
-            this.commodore64ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.commodore64ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.commodore64ToolStripMenuItem.Text = "Commodore 64";
             this.commodore64ToolStripMenuItem.Click += new System.EventHandler(this.commodore64ToolStripMenuItem_Click);
             // 
             // cPMZ80ToolStripMenuItem
             // 
             this.cPMZ80ToolStripMenuItem.Name = "cPMZ80ToolStripMenuItem";
-            this.cPMZ80ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.cPMZ80ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.cPMZ80ToolStripMenuItem.Text = "CP/M (Z80)";
             this.cPMZ80ToolStripMenuItem.Click += new System.EventHandler(this.cPMZ80ToolStripMenuItem_Click);
             // 
             // iBMPCXTToolStripMenuItem
             // 
             this.iBMPCXTToolStripMenuItem.Name = "iBMPCXTToolStripMenuItem";
-            this.iBMPCXTToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.iBMPCXTToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.iBMPCXTToolStripMenuItem.Text = "IBM PC/XT";
             this.iBMPCXTToolStripMenuItem.Click += new System.EventHandler(this.iBMPCXTToolStripMenuItem_Click);
             // 
             // tRS80ToolStripMenuItem
             // 
             this.tRS80ToolStripMenuItem.Name = "tRS80ToolStripMenuItem";
-            this.tRS80ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.tRS80ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.tRS80ToolStripMenuItem.Text = "TRS-80 I, III, IV";
             this.tRS80ToolStripMenuItem.Click += new System.EventHandler(this.tRS80ToolStripMenuItem_Click);
             // 
             // zXSpectrumToolStripMenuItem
             // 
             this.zXSpectrumToolStripMenuItem.Name = "zXSpectrumToolStripMenuItem";
-            this.zXSpectrumToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.zXSpectrumToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.zXSpectrumToolStripMenuItem.Text = "ZX Spectrum";
             this.zXSpectrumToolStripMenuItem.Click += new System.EventHandler(this.zXSpectrumToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(163, 6);
             // 
             // raspberryPiToolStripMenuItem
             // 
             this.raspberryPiToolStripMenuItem.Name = "raspberryPiToolStripMenuItem";
-            this.raspberryPiToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.raspberryPiToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.raspberryPiToolStripMenuItem.Text = "Raspberry Pi";
             this.raspberryPiToolStripMenuItem.Click += new System.EventHandler(this.raspberryPiToolStripMenuItem_Click);
             // 
             // windowsx64ToolStripMenuItem
             // 
             this.windowsx64ToolStripMenuItem.Name = "windowsx64ToolStripMenuItem";
-            this.windowsx64ToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.windowsx64ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.windowsx64ToolStripMenuItem.Text = "Windows (x64)";
             this.windowsx64ToolStripMenuItem.Click += new System.EventHandler(this.windowsx64ToolStripMenuItem_Click);
             // 
