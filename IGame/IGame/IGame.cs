@@ -47,4 +47,21 @@ namespace IGame
         string GetVarAddr(string name);
         bool IsFunction(string name);
     }
+
+
+    /// <summary>
+    /// Use to loosely couple the game to an output window
+    /// </summary>
+
+    public interface ITextWindow
+    {
+        string Text { get; set; }
+        void ScrollToCaret();
+        int TextLength { get; }
+        int SelectionStart { get; set; }
+        int SelectionLength { get; set; }
+        void DeselectAll();
+        void Refresh();
+    }
+
 }
