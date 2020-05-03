@@ -59,7 +59,6 @@
     <Compile Include="Visitor6502.cs" />
     <Compile Include="Visitor6809.cs" />
     <Compile Include="Visitor8086.cs" />
-    <Compile Include="VisitorRPi.cs" />
     <Compile Include="VisitorZ80.cs" />
   </ItemGroup>
   <ItemGroup>
