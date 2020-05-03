@@ -7,11 +7,87 @@ using System.Xml;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using LASM;
 
 namespace XTAC
 {
     class Builder
     {
+        public static void BuildPortable(string xmlFileName, out string name)
+        {
+            
+            XmlDocument doc = new XmlDocument();
+            doc.Load(xmlFileName);
+            XmlNodeList list = doc.SelectNodes("//project/projname");
+
+            if (list.Count == 0)
+            {
+                throw new Exception("Project XML does not have a name element!");
+            }
+
+            string oldDir = Environment.CurrentDirectory;
+            string projName = doc.SelectNodes("//project/projname")[0].InnerText.Trim();
+            string outputName = doc.SelectNodes("//project/output")[0].InnerText.Trim();
+
+            try
+            {
+                string workingDirectory = list[0].InnerText + "_VM";
+
+                Environment.CurrentDirectory = workingDirectory;
+                Assembly asm = new Assembly("main.asm");
+                asm.Assemble();
+
+                //rename the output
+                string binName = outputName;
+                if (outputName == "")
+                {
+                    binName = projName.Replace(" ", "_");
+                }
+
+                try
+                {
+                    if (File.Exists(binName))
+                        File.Delete(binName);
+
+                    File.Copy("main.bin", binName);
+                    File.Delete("main.bin");
+
+                    if (!Directory.Exists("src"))
+                        Directory.CreateDirectory("src");
+    
+                    //delete any existing files or move will fail
+                    string[] files = Directory.GetFiles("src");
+                    foreach (string f in files)
+                    {
+                        File.Delete(f);
+                    }
+
+                    files = Directory.GetFiles(".");
+                    foreach (string f in files)
+                    {
+                        if (f.EndsWith(".asm") || f.EndsWith(".lst") || f.EndsWith(".txt"))
+                            File.Move(f, "src\\" + f);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Unable to rename output file", ex);
+                }
+                //return name of file created to the caller                
+                name = binName;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Couldn't assemble main.asm", e);
+            }
+            finally
+            {
+                Environment.CurrentDirectory = oldDir;
+            }
+            
+        }
+        
+
         public static bool Build(string xmlFileName, string platform, string outputName, string extension)
         {
             XmlDocument doc = new XmlDocument();
@@ -41,14 +117,6 @@ namespace XTAC
                 {
                     ReplaceNames("template.sh", outputName.ToLower(), "build.sh");
                 }
-                /* 
-               Process.Start("build.sh");
-
-               if (!File.Exists(newName))
-               {
-                   MessageBox.Show("Build failed. Run build.sh manually in the project directory and check console for errors.");
-               }
-               */
                 success = true;
             }
             finally

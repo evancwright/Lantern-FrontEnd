@@ -52,6 +52,7 @@
             this.tRS80ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zXSpectrumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.portableBinaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.raspberryPiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsx64ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,7 +92,6 @@
             this.label40 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
-            this.ruleCodeTextBox = new XTAC.CodeEditor();
             this.rulesListBox = new System.Windows.Forms.ListBox();
             this.addRuleButton = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -124,7 +124,6 @@
             this.label44 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
             this.syntaxHelpButton = new System.Windows.Forms.Button();
-            this.codeTextBox = new XTAC.CodeEditor();
             this.functionsListBox = new System.Windows.Forms.ListBox();
             this.label22 = new System.Windows.Forms.Label();
             this.funcNameTextBox = new System.Windows.Forms.TextBox();
@@ -301,6 +300,10 @@
             this.blockAnExitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.runDownBatteriesInAFlashlightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.killThePlayerIfInDarknessTooLongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.codeTextBox = new XTAC.CodeEditor();
+            this.ruleCodeTextBox = new XTAC.CodeEditor();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -344,6 +347,8 @@
             this.saveToolStripMenuItem1,
             this.saveToolStripMenuItem,
             this.makeABackupToolStripMenuItem,
+            this.toolStripMenuItem8,
+            this.toolStripMenuItem9,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -353,7 +358,7 @@
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -361,15 +366,15 @@
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
-            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
+            this.loadToolStripMenuItem.Text = "Open Lantern Project";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
             // importTrizbortFileToolStripMenuItem
             // 
             this.importTrizbortFileToolStripMenuItem.Name = "importTrizbortFileToolStripMenuItem";
             this.importTrizbortFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.importTrizbortFileToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.importTrizbortFileToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.importTrizbortFileToolStripMenuItem.Text = "Import Trizbort File";
             this.importTrizbortFileToolStripMenuItem.Click += new System.EventHandler(this.importTrizbortFileToolStripMenuItem_Click);
             // 
@@ -377,21 +382,21 @@
             // 
             this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
             this.saveToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(211, 22);
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(226, 22);
             this.saveToolStripMenuItem1.Text = "Save";
             this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.saveToolStripMenuItem.Text = "Save As...";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // makeABackupToolStripMenuItem
             // 
             this.makeABackupToolStripMenuItem.Name = "makeABackupToolStripMenuItem";
-            this.makeABackupToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.makeABackupToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.makeABackupToolStripMenuItem.Text = "Make a backup";
             this.makeABackupToolStripMenuItem.Click += new System.EventHandler(this.makeABackupToolStripMenuItem_Click);
             // 
@@ -399,7 +404,7 @@
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -432,6 +437,7 @@
             this.tRS80ToolStripMenuItem,
             this.zXSpectrumToolStripMenuItem,
             this.toolStripSeparator1,
+            this.portableBinaryToolStripMenuItem,
             this.raspberryPiToolStripMenuItem,
             this.windowsx64ToolStripMenuItem});
             this.exportToolStripMenuItem1.Name = "exportToolStripMenuItem1";
@@ -506,8 +512,16 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(163, 6);
             // 
+            // portableBinaryToolStripMenuItem
+            // 
+            this.portableBinaryToolStripMenuItem.Name = "portableBinaryToolStripMenuItem";
+            this.portableBinaryToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.portableBinaryToolStripMenuItem.Text = "Portable Binary";
+            this.portableBinaryToolStripMenuItem.Click += new System.EventHandler(this.portableBinaryToolStripMenuItem_Click);
+            // 
             // raspberryPiToolStripMenuItem
             // 
+            this.raspberryPiToolStripMenuItem.Enabled = false;
             this.raspberryPiToolStripMenuItem.Name = "raspberryPiToolStripMenuItem";
             this.raspberryPiToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.raspberryPiToolStripMenuItem.Text = "Raspberry Pi";
@@ -515,6 +529,7 @@
             // 
             // windowsx64ToolStripMenuItem
             // 
+            this.windowsx64ToolStripMenuItem.Enabled = false;
             this.windowsx64ToolStripMenuItem.Name = "windowsx64ToolStripMenuItem";
             this.windowsx64ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.windowsx64ToolStripMenuItem.Text = "Windows (x64)";
@@ -916,22 +931,6 @@
             this.label38.TabIndex = 11;
             this.label38.Text = "Event Name:";
             // 
-            // ruleCodeTextBox
-            // 
-            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ruleCodeTextBox.BackColor = System.Drawing.Color.White;
-            this.ruleCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 47);
-            this.ruleCodeTextBox.Multiline = true;
-            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
-            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ruleCodeTextBox.Size = new System.Drawing.Size(665, 292);
-            this.ruleCodeTextBox.TabIndex = 30;
-            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
-            this.ruleCodeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ruleCodeTextBox_MouseDown);
-            // 
             // rulesListBox
             // 
             this.rulesListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1287,23 +1286,6 @@
             this.syntaxHelpButton.Text = "Syntax Help";
             this.syntaxHelpButton.UseVisualStyleBackColor = true;
             this.syntaxHelpButton.Click += new System.EventHandler(this.syntaxHelpButton_Click);
-            // 
-            // codeTextBox
-            // 
-            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.codeTextBox.BackColor = System.Drawing.Color.White;
-            this.codeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
-            this.codeTextBox.Multiline = true;
-            this.codeTextBox.Name = "codeTextBox";
-            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.codeTextBox.Size = new System.Drawing.Size(824, 237);
-            this.codeTextBox.TabIndex = 17;
-            this.codeTextBox.WordWrap = false;
-            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
-            this.codeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.codeTextBox_MouseDown);
             // 
             // functionsListBox
             // 
@@ -3115,6 +3097,50 @@
             this.killThePlayerIfInDarknessTooLongToolStripMenuItem.Text = "Kill the player if in darkness too long";
             this.killThePlayerIfInDarknessTooLongToolStripMenuItem.Click += new System.EventHandler(this.killThePlayerIfInDarknessTooLongToolStripMenuItem_Click);
             // 
+            // codeTextBox
+            // 
+            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.codeTextBox.BackColor = System.Drawing.Color.White;
+            this.codeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
+            this.codeTextBox.Multiline = true;
+            this.codeTextBox.Name = "codeTextBox";
+            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.codeTextBox.Size = new System.Drawing.Size(824, 237);
+            this.codeTextBox.TabIndex = 17;
+            this.codeTextBox.WordWrap = false;
+            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
+            this.codeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.codeTextBox_MouseDown);
+            // 
+            // ruleCodeTextBox
+            // 
+            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ruleCodeTextBox.BackColor = System.Drawing.Color.White;
+            this.ruleCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 47);
+            this.ruleCodeTextBox.Multiline = true;
+            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
+            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.ruleCodeTextBox.Size = new System.Drawing.Size(665, 292);
+            this.ruleCodeTextBox.TabIndex = 30;
+            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
+            this.ruleCodeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ruleCodeTextBox_MouseDown);
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(223, 6);
+            // 
+            // toolStripMenuItem9
+            // 
+            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(223, 6);
+            this.toolStripMenuItem9.Click += new System.EventHandler(this.toolStripMenuItem9_Click);
+            // 
             // Lantern
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3125,6 +3151,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Lantern";
             this.Text = " Lantern";
+            this.Deactivate += new System.EventHandler(this.Lantern_Deactivate);
+            this.Load += new System.EventHandler(this.Lantern_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabPage7.ResumeLayout(false);
@@ -3435,6 +3463,9 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripPutMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runDownBatteriesInAFlashlightToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripBattOnMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem portableBinaryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
     }
 }
 

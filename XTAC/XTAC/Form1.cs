@@ -24,6 +24,8 @@ namespace XTAC
         List<Keys> lastEventKeys = new List<Keys>();
         string homeDir;
 
+        List<Tuple<string, string>> recentFiles = new List<Tuple<string, string>>();
+
 
         //the list of verbs checks
         string[] allChecks = new string[]
@@ -41,6 +43,8 @@ namespace XTAC
         public Lantern()
         {
             InitializeComponent();
+
+            LoadRecents();
 
             homeDir = Directory.GetCurrentDirectory();
 
@@ -66,7 +70,6 @@ namespace XTAC
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-
         }
 
         private void label12_Click(object sender, EventArgs e)
@@ -90,48 +93,62 @@ namespace XTAC
             // a .CUR file was selected, open it.  
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                System.Xml.Serialization.XmlSerializer reader = new XmlSerializer(typeof(Xml));
-                userVerbListView.Clear();
-                builtinVarsListBox.Items.Clear();
-                verbChecksListBox.Items.Clear();
+                LoadProject(openFileDialog1.FileName);
 
-                // Read the XML file.
-                StreamReader file = new StreamReader(openFileDialog1.FileName);
-                fileName = openFileDialog1.FileName;
-
-                try
+                var results = recentFiles.Find((t) =>  t.Item1 == openFileDialog1.SafeFileName );
+                if (results == null)
                 {
-                    // Deserialize the content of the file into a project object.
-                    xproject = (Xml)reader.Deserialize(file);
-
-                    FixVariableNames();
-                    FixPrintedNames();
-                    FixFunctions();
-                    FixDescriptions();
-                    FixOutputName();
-                    FixVerbs();
-                    FixEmptyObjects();
-                    FixChecks();
-                    FixDoors();
-                    FixEnter();
-                    ShowProject();
-                    Text = "Lantern (" + fileName + ")";
-                }
-                catch (Exception ex)
-                {
-                    string msg = UnrollMessage(ex);
-                    ExceptionForm ef = new ExceptionForm();
-                    ef.ErrText = "Error reading XML file.  Make sure you are not trying to open a Trizbort file.\r\n" + msg;
-                    ef.Show();
-                }
-                finally
-                {
-                    file.Close();
+                    recentFiles.Insert(0,new Tuple<string, string>(openFileDialog1.SafeFileName,openFileDialog1.FileName));
                 }
 
+                if (recentFiles.Count() > 5)
+                {
+                    recentFiles.RemoveAt(5);
+                }
             }
         }
 
+        void LoadProject(string fileToOpen)
+        {
+            System.Xml.Serialization.XmlSerializer reader = new XmlSerializer(typeof(Xml));
+            userVerbListView.Clear();
+            builtinVarsListBox.Items.Clear();
+            verbChecksListBox.Items.Clear();
+
+            // Read the XML file.
+            StreamReader file = new StreamReader(fileToOpen);
+            fileName = fileToOpen;
+
+            try
+            {
+                // Deserialize the content of the file into a project object.
+                xproject = (Xml)reader.Deserialize(file);
+
+                FixVariableNames();
+                FixPrintedNames();
+                FixFunctions();
+                FixDescriptions();
+                FixOutputName();
+                FixVerbs();
+                FixEmptyObjects();
+                FixChecks();
+                FixDoors();
+                FixEnter();
+                ShowProject();
+                Text = "Lantern (" + fileName + ")";
+            }
+            catch (Exception ex)
+            {
+                string msg = UnrollMessage(ex);
+                ExceptionForm ef = new ExceptionForm();
+                ef.ErrText = "Error reading XML file.  Make sure you are not trying to open a Trizbort file.\r\n" + msg;
+                ef.Show();
+            }
+            finally
+            {
+                file.Close();
+            }
+        }
 
         void ShowProject()
         {
@@ -442,6 +459,7 @@ namespace XTAC
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveRecents();
             Application.Exit();
         }
 
@@ -488,7 +506,7 @@ namespace XTAC
 
             }
             else
-            {   
+            {
                 string v = newVerbTextBox.Text.Trim();
 
                 //split on commas
@@ -1141,7 +1159,7 @@ namespace XTAC
             o.Nogo = new Nogo();
             o.Nogo.Out = "I don't know which way that is.";
             o.Nogo.In = "You can't enter that.";
-                
+
             o.Synonyms = new Synonyms();
             o.Backdrop = new Backdrop();
             o.Flags = new Flags();
@@ -1978,25 +1996,25 @@ namespace XTAC
 
         private void checkButton_Click(object sender, EventArgs e)
         {
-/*            
-            SyntaxChecker checker = new SyntaxChecker();
+            /*            
+                        SyntaxChecker checker = new SyntaxChecker();
 
-            try
-            {
-                checker.WriteRoutine(null, "test", codeTextBox.Text);
-                MessageBox.Show("Looks good");
-            }
-            catch (Exception ex)
-            {
-                string msg = ex.Message;
-                if (ex.InnerException != null)
-                    msg += ex.InnerException.Message;
+                        try
+                        {
+                            checker.WriteRoutine(null, "test", codeTextBox.Text);
+                            MessageBox.Show("Looks good");
+                        }
+                        catch (Exception ex)
+                        {
+                            string msg = ex.Message;
+                            if (ex.InnerException != null)
+                                msg += ex.InnerException.Message;
 
-                MessageBox.Show(msg);
-            }
-             
-            MessageBox.Show("Not implemented");
-            */
+                            MessageBox.Show(msg);
+                        }
+
+                        MessageBox.Show("Not implemented");
+                        */
         }
 
         private void welcomeTextBox_Leave(object sender, EventArgs e)
@@ -2490,11 +2508,11 @@ namespace XTAC
                         if (s.Trim() == t.Trim())
                         {
 
-                            MessageBox.Show("Object " + o1.Name + " has itself as a synonym.");                        
+                            MessageBox.Show("Object " + o1.Name + " has itself as a synonym.");
                             return false;
                         }
-                    }                    
-                }                
+                    }
+                }
             }
 
             return true;
@@ -2557,7 +2575,7 @@ namespace XTAC
                 try
                 {
                     converter.ConvertBBCMicro(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " in Cygwin and run: build.sh");
+                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + "and run build.bat");
                 }
                 catch (Exception ex)
                 {
@@ -2744,13 +2762,13 @@ namespace XTAC
                 {
                     s = s.Replace("\n", "");
                     o.Description = s;
-                 //   MessageBox.Show("nl deleted from description.");
+                    //   MessageBox.Show("nl deleted from description.");
                 }
                 if (s.Contains("\r"))
                 {
                     s = s.Replace("\r", "");
                     o.Description = s;
-                //    MessageBox.Show("cr deleted from description.");
+                    //    MessageBox.Show("cr deleted from description.");
                 }
 
 
@@ -2772,13 +2790,13 @@ namespace XTAC
                 {
                     s = s.Replace("\n", "");
                     o.Initialdescription = s;
-                 //   MessageBox.Show("newline deleted from initial description.");
+                    //   MessageBox.Show("newline deleted from initial description.");
                 }
                 if (s.Contains("\r"))
                 {
                     s = s.Replace("\r", "");
                     o.Initialdescription = s;
-                 //   MessageBox.Show("cr deleted from initial description.");
+                    //   MessageBox.Show("cr deleted from initial description.");
                 }
 
 
@@ -2922,7 +2940,7 @@ namespace XTAC
 
         private void windowsx64ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            /*
             if (fileName != "")
             {
                 Save();
@@ -2942,6 +2960,7 @@ namespace XTAC
             {
                 MessageBox.Show("File name is null.  Please save your project before exporting.");
             }
+            */
         }
 
         private void cPMZ80ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3096,7 +3115,7 @@ namespace XTAC
             "\tif (keycard.holder == player)\r\n" +
             "\t{\r\n" +
             "\t\tprintln(\"You swipe the keycard.\");\r\n" +
-            "\t\tmove();\r\n" + 
+            "\t\tmove();\r\n" +
             "\t}\r\n" +
             "\telse\r\n" +
             "\t{\r\n" +
@@ -3126,13 +3145,13 @@ namespace XTAC
             "}",
             codeTextBox
             );
- 
+
         }
 
         private void haveAnEnemyAttackThePlayerToolStripMenuItem_Click(object sender, EventArgs e)
         {//event attack player
             InsertCode(
-            "//change enemy to the appropriate object\r\n"+
+            "//change enemy to the appropriate object\r\n" +
             "//change text as needed\r\n" +
             "if (player.holder == enemy.holder)\r\n" +
 "{\r\n" +
@@ -3144,12 +3163,12 @@ namespace XTAC
 "\telse\r\n" +
 "\t{\r\n" +
 "\t\tprintln(\"The enemy fires his thingy at you!\");\r\n" +
-"\t\thealth -= 25; //change this number as needed\r\n"+
+"\t\thealth -= 25; //change this number as needed\r\n" +
 "\t\tif(health == 0 || health > 100)\r\n" +
 "\t\t{\r\n" +
 "\t\t\tprintln(\"***YOU HAVE DIED***\");\r\n" +
 "\t\t\t//reset game or call function to reset game\r\n" +
-"\t\t\tplayer.holder = 2; //player back to start room\r\n"+
+"\t\t\tplayer.holder = 2; //player back to start room\r\n" +
 "\t\t\thealth = 100;\r\n" +
 "\t\t\tenemy.user3 = 0; //wait to fire\r\n" +
 "\t\t\tlook();\r\n" +
@@ -3171,7 +3190,7 @@ namespace XTAC
         private void requireDisguiseOrClothingToMoveToolStripMenuItem_Click(object sender, EventArgs e)
         {//require a disguise
             InsertCode(
-            "//change room and item names as need\r\n"+
+            "//change room and item names as need\r\n" +
             "if (player.holder == location && uniform.beingworn == 0 )\r\n" +
             "{\r\n" +
                 "\t//change as needed. You could move/kill player as well\r\n" +
@@ -3205,7 +3224,7 @@ namespace XTAC
         }
 
         private void switchOnAnObjectToolStripMenuItem_Click(object sender, EventArgs e)
-        {   
+        {
 
             InsertCode(
                 "if ( iobj.user3 == 0 )\r\n{\r\n" +
@@ -3215,7 +3234,7 @@ namespace XTAC
                 "else\r\n" +
                 "{\r\n" +
                 "\tprintln(\"It's already on.\");\r\n" +
-                "}\r\n" 
+                "}\r\n"
                 ,
                 codeTextBox
                 );
@@ -3247,7 +3266,7 @@ namespace XTAC
         {
             //unlock door
             InsertCode(
-                "if (door.locked == 1)\r\n{\r\n"+
+                "if (door.locked == 1)\r\n{\r\n" +
             "\tprintln(\"Enter keycode:\");\r\n" +
             "\task();\r\n" +
             "\tif (answer == \"12345\")\r\n" +
@@ -3260,7 +3279,7 @@ namespace XTAC
             "\t{\r\n" +
             "\t\tprintln(\"Invalid code.\");\r\n" +
             "\t}\r\n" +
-            "}\r\n"+
+            "}\r\n" +
             "else\r\n{\r\n" +
             "\tprintln(\"The door is unlocked.\");\r\n" +
             "}"
@@ -3302,14 +3321,14 @@ namespace XTAC
 
         private void switchOnALightSourceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InsertCode( "object.lit = 1; //change object\r\n", ruleCodeTextBox);
+            InsertCode("object.lit = 1; //change object\r\n", ruleCodeTextBox);
         }
 
-        void InsertCode( string code, TextBox control)
+        void InsertCode(string code, TextBox control)
         {
             StringBuilder text = new StringBuilder(control.Text);
             int caret = control.SelectionStart;
-            text.Insert(caret,code);
+            text.Insert(caret, code);
             control.Text = text.ToString();
         }
 
@@ -3444,14 +3463,14 @@ namespace XTAC
         {
             InsertCode("\tprintln(\"\");\r\n", ruleCodeTextBox);
         }
-
+        
         private void killThePlayerIfInDarknessTooLongToolStripMenuItem_Click(object sender, EventArgs e)
         {
             InsertCode("if (turnsWithoutLight==5)\r\n" +
                         "{\r\n" +
                         "\tprintln(\"Crash!!! It appears the ceiling has collapsed on you.\");\r\n" +
                         "\tprintln(\"***YOU HAVE DIED***\");\r\n" +
-                        "//reset the game here or call a function to do it\r\n"+
+                        "//reset the game here or call a function to do it\r\n" +
                         "\tlook();\r\n" +
                         "}\r\n",
                         ruleCodeTextBox
@@ -3473,9 +3492,9 @@ namespace XTAC
                 "\t\tprintln(\"It's already there.\");\r\n" +
                 "\t}\r\n" +
                 "}\r\n" +
-                "else\r\n"+
+                "else\r\n" +
                 "{\r\n" +
-                "\tprintln(\"That won't fit.\");\r\n" +    
+                "\tprintln(\"That won't fit.\");\r\n" +
                 "}\r\n"
                 ,
                 codeTextBox
@@ -3484,12 +3503,12 @@ namespace XTAC
 
         private void runDownBatteriesInAFlashlightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InsertCode(" //batteryLife is variable you need to add\r\n"+
+            InsertCode(" //batteryLife is variable you need to add\r\n" +
                         "if (batteries.holder == flashlight && flashlight.user3 == 1 && batteryLife > 0)\r\n" +
                         "{\r\n" +
                         "\tbatteryLife--; //subtract 1 from life\r\n" +
                         "\tif (batteryLife == 0)\r\n" +
-                        "\t{\r\n"+
+                        "\t{\r\n" +
                         "\t\tprintln(\"The flashlight has gone out.\");\r\n" +
                         "\t\tflashlight.lit = 0;\r\n" +
                         "\t\tlook();\r\n" +
@@ -3503,7 +3522,7 @@ namespace XTAC
         private void toolStripBattOnMenuItem_Click(object sender, EventArgs e)
         {
             InsertCode(
-                "//this code assume you have a variable named batteryLife\r\n"+
+                "//this code assume you have a variable named batteryLife\r\n" +
                 "//If your batteries don't rundown, remove '&& batterLife != 0;\r\n" +
                 "//otherwise add the variable throught the variable tab;\r\n" +
                 "if (flashlight.user3 == 0) //already on?\r\n{\r\n" +
@@ -3512,7 +3531,7 @@ namespace XTAC
                  "\t//check if batteries in and have life left\r\n" +
                 "\tif (batteries.holder == dobj && batteryLife != 0)\r\n" +
                 "\t{\r\n" +
-                "\t\tflashlight.lit = 1; //now it's lit\r\n"+
+                "\t\tflashlight.lit = 1; //now it's lit\r\n" +
                 "\t\tlook();\r\n" +
                 "\t}\r\n" +
                 "}\r\n" +
@@ -3527,7 +3546,7 @@ namespace XTAC
 
         void AlphabetizeVerbs()
         {
-                //verb 
+            //verb 
         }
 
         private void prepositionsComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -3537,9 +3556,96 @@ namespace XTAC
 
         bool IsRequiredFunction(string fname)
         {
-            string[] funcs = { "not_possible", "listen", "drink", "default_eat", "default_drink", "default_talk","kill_player", "wait", "smell", "default_kill", "jump","yell" };
+            string[] funcs = { "not_possible", "listen", "drink", "default_eat", "default_drink", "default_talk", "kill_player", "wait", "smell", "default_kill", "jump", "yell" };
 
             return funcs.Contains(fname);
+        }
+
+        private void portableBinaryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //make the folder
+            //move into it
+            //write out the code
+            //copy in the LASM shell
+            //assemble it
+            if (fileName != "")
+            {
+                Save();
+                try
+                {
+                    XmlToTables converter = XmlToTables.GetInstance();
+                    converter.ConvertVM(fileName);  //"f3xml.xml"
+                    string name;
+                    Builder.BuildPortable(fileName, out name);
+
+                    MessageBox.Show("Export complete.  File '" + name + "' was created in the directory " + converter.buildDir);
+                }
+                catch (Exception ex)
+                {
+                    string msg = UnrollMessage(ex);
+                    ExceptionForm ef = new ExceptionForm();
+                    ef.ErrText = msg;
+                    ef.Show();
+                }
+            }
+        }
+
+        private void LoadRecent(object sender, EventArgs e)
+        {
+            string file = (sender as ToolStripMenuItem).Text;
+            string path = recentFiles.Find((t) => t.Item1 == file ).Item2;
+            LoadProject(path);            
+        }
+
+        private void Lantern_Load(object sender, EventArgs e)
+        {
+        }
+
+        void LoadRecents()
+        {
+            if (File.Exists("recent.txt"))
+            {
+                string[] lines = File.ReadAllLines("recent.txt");
+                foreach (string s in lines)
+                {
+                    string[] parts = s.Split(',');
+                    string file = parts[0].Trim();
+                    string path = parts[1].Trim();
+
+                    recentFiles.Add(new Tuple<string, string>(file, path));
+
+                    ToolStripMenuItem item = new ToolStripMenuItem(file);
+                    item.Click += LoadRecent;
+                    //menuStrip1.Items[0].
+                    fileToolStripMenuItem.DropDownItems.Insert
+                        (
+                        7,
+                        item
+                        );
+                }
+            }
+        }
+
+        void SaveRecents()
+        {
+            //save recents
+            using (StreamWriter sw = new StreamWriter("recent.txt", false))
+            {
+                foreach (var t in recentFiles)
+                {
+                    sw.WriteLine(t.Item1 + "," + t.Item2);
+                }
+            }
+        }
+
+        private void Lantern_Deactivate(object sender, EventArgs e)
+        {
+            SaveRecents();
+        }
+
+        private void toolStripMenuItem9_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
