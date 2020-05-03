@@ -106,7 +106,7 @@ namespace LangDef
         public static bool IsHexWordConstant(this string s)
         {
             s = s.Trim();
-            Match m = Regex.Match(s, "[0-9a-fA-F]{1,4}H");
+            Match m = Regex.Match(s, "0[0-9a-fA-F]{1,4}H");
             if (m.Success && m.Length == s.Length)
                 return true;
             return false;
