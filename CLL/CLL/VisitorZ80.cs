@@ -168,7 +168,7 @@ namespace CLL
             sw.WriteLine("\t; && statement");
             sw.WriteLine("\tpop af");
             sw.WriteLine("\tpop bc");
-            sw.WriteLine("\tand a,b");
+            sw.WriteLine("\tand b");
             sw.WriteLine("\t;jr z,4");
             sw.WriteLine("\tdb 28h ; jr z");
             sw.WriteLine("\tdb 4");
@@ -186,7 +186,7 @@ namespace CLL
             sw.WriteLine("\t; || statement");
             sw.WriteLine("\tpop af");
             sw.WriteLine("\tpop bc");
-            sw.WriteLine("\tor a,b");
+            sw.WriteLine("\tor b");
             sw.WriteLine("\t;jr z,4");
             sw.WriteLine("\tdb 28h ; jr z,");
             sw.WriteLine("\tdb 4");
@@ -204,7 +204,7 @@ namespace CLL
             sw.WriteLine("\tpop af");
             sw.WriteLine("\tpop bc");
             sw.WriteLine("\tcp b");
-            sw.WriteLine("\t;jr z,4");
+            sw.WriteLine("\t;jr z,04h");
             sw.WriteLine("\tdb 28h ; jrz");
             sw.WriteLine("\tdb 4 ; ");
             sw.WriteLine("\tld a,0");
@@ -251,7 +251,7 @@ namespace CLL
             sw.WriteLine("\tpop af");
             sw.WriteLine("\tcp b");
             sw.WriteLine("\tjr c,6 ; skip to push 0");
-            sw.WriteLine("\tdb 38h; jrc");
+            sw.WriteLine("\tdb 38h ; jrc");
             sw.WriteLine("\tdb 6;");
             sw.WriteLine("\tld a,1");
             sw.WriteLine("\tjr z,4 ; skip to push 0");

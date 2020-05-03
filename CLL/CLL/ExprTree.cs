@@ -880,10 +880,10 @@ namespace CLL
             {
                 //RPI NEEDS 'else'
                 //Horrible Hack :(
-                if (v is VisitorRPi)
-                {
-                    (v as VisitorRPi).WriteElse ();
-                }
+            //    if (v is VisitorRPi)
+            //    {
+             //       (v as VisitorRPi).WriteElse ();
+             //   }
 
                 elseifs[i].Body.endBody.Text = v.GetNextLabel();
 
@@ -897,21 +897,19 @@ namespace CLL
 
                 //jump out of else-if
                 exitJump.Accept(v, exitLabel.Text);
-
-                if (v as VisitorRPi == null)
-                {
-                    elseifs[i].Body.endBody.Accept(v);
-                    v.EndBody();
-                }
+                
+                elseifs[i].Body.endBody.Accept(v);
+                v.EndBody();
+                
                 //RPi needs }
 
                 //godawful hack
-                if (v is VisitorRPi)
-                {
-                    v.EndBody();
-                }
+                //if (v is VisitorRPi)
+                //{
+                //    v.EndBody();
+                // }
 
-
+                /*
                 //horrible hack. else needs to be attached to last else if
                 if (Else != null && (v as VisitorRPi) != null &&
                     i == this.elseifs.Count -1)
@@ -920,31 +918,19 @@ namespace CLL
                     Else.Accept(v);
                     v.EndBody();
                 }
-
+                */
 
             } //end loop through else-ifs
 
-            //C code needs to close all nested else ifs
-            if (v is VisitorRPi)
-            {
-                for (int i=0; i < elseifs.Count;i++)
-                {
-                    v.EndBody();
-                }
-            }
-
+            
             //horrible hack
             //case 1 - not C visitor - write else
             //case 2 - C visitor write else if not already written
             if (Else != null)
             { 
-                if (  ((v as VisitorRPi) == null ) ||
-                    ( (v is VisitorRPi) && elseifs.Count == 0) )
-                {
-                    v.BeginElse();
-                    Else.Accept(v);
-                    v.EndBody();
-                }
+                v.BeginElse();
+                Else.Accept(v);
+                v.EndBody();
             }
 
             //@exit
