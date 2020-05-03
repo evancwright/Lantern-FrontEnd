@@ -96,9 +96,10 @@ namespace XMLtoAdv
             skelDirs["_CPC464"] = "z80Skel";
             skelDirs["_Spectrum"] = "z80Skel";
             skelDirs["_8086"] = "CCommon";
-            skelDirs["_BBCMicro"] = "6502Skel";
+            skelDirs["_BBCMicro"] = "6502Merlin";
             skelDirs["_RPi"] = "CCommon";
             skelDirs["_x64"] = "CCommon";
+            skelDirs["_VM"] = "LASMSkel";
 
             pltfDirs["_Spectrum"] = "spectrum";
             pltfDirs["_TRS80"] = "trs80";
@@ -111,6 +112,7 @@ namespace XMLtoAdv
             pltfDirs["_8086"] = "8086Skel";
             pltfDirs["_x64"] = "x64Skel";
             pltfDirs["_CoCo"] = "CoCoSkel";
+            pltfDirs["_VM"] = "LASMSkel";
         }
 
 
@@ -300,7 +302,6 @@ namespace XMLtoAdv
                 s = s.Substring(0, s.IndexOf("\""));
                 table.AddEntry(s);
             }
-
         }
 
 
@@ -478,6 +479,16 @@ namespace XMLtoAdv
             Environment.CurrentDirectory = oldDir;
         }
 
+        public void ConvertVM(string fileName)
+        {
+            string oldDir = Environment.CurrentDirectory;
+
+            //get the file path 
+            CreateTables(fileName, "_VM");
+            WriteZ80Common();
+            Environment.CurrentDirectory = oldDir;
+        }
+
 
         public void ConvertCPM(string fileName)
         {
@@ -536,8 +547,8 @@ namespace XMLtoAdv
             WriteSentenceTable("Z80", "after", "DB", "DW");
             WriteEvents(doc, "Z80", new CLL.VisitorZ80(this));
             WriteUserVarTable(doc, "Z80");
-         
          }
+
 
         public void Convert8086(string fileName)
         {
@@ -601,7 +612,7 @@ namespace XMLtoAdv
 
             Environment.CurrentDirectory = oldDir;
         }
-
+/*
         public void ConvertX64(string fileName)
         {
             string oldDir = Environment.CurrentDirectory;
@@ -626,7 +637,7 @@ namespace XMLtoAdv
             WriteEvents(doc, "8086", new CLL.VisitorRPi(this));
             Environment.CurrentDirectory = oldDir;
         }
-
+*/
         private void WriteStringTable6809(string fileName, string header, Table t)
         {
 
@@ -1699,21 +1710,7 @@ namespace XMLtoAdv
 
                 //get the file path 
                 CreateTables(fileName, "_BBCMicro");
-
-                WriteWelcomeMessage("Welcome6502.asm", ".text", "\n.byte 0\n");
-                WriteStringTable6502("StringTable6502.asm", "string_table", descriptionTable);
-                WriteStringTable6502("Dictionary6502.asm", "dictionary", dict);
-                WriteStringTable6502("NogoTable6502.asm", "nogo_table", nogoTable);
-                WriteStringTable6502("PrepTable6502.asm", "prep_table", prepTable);
-                WriteObjectTable6502("ObjectTable6502.asm");
-                WriteObjectWordTable("ObjectWordTable6502.asm", ".byte");
-                WriteVerbTable6502("VerbTable6502.asm");
-                WriteCheckTable("CheckRules6502.asm", ".byte", ".word");
-                WriteSentenceTable("6502", "before", ".byte", ".word");
-                WriteSentenceTable("6502", "instead", ".byte", ".word");
-                WriteSentenceTable("6502", "after", ".byte", ".word");
-                WriteUserVarTable(doc, "6502");           // WriteEvents(doc, "6502", new AsmWriter6809());
-
+                Common6502Export();
                 WriteEvents(doc, "6502", new CLL.Visitor6502(this));
                 WriteBBCLoader();
             }
