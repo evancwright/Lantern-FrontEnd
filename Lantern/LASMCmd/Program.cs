@@ -11,8 +11,15 @@ namespace LASMCmd
     {
         static void Main(string[] args)
         {
-            Assembly lasm = new Assembly(args[0]);
-            lasm.Assemble();
+            if (args.Length == 1)
+            {
+                Assembly lasm = new Assembly(args[0]);
+                lasm.Assemble();
+            }
+            else
+            {
+                Console.WriteLine("Usage: lasm file");
+            }
         }
     }
 }
