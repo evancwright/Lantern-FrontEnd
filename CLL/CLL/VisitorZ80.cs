@@ -393,6 +393,7 @@ namespace CLL
         public void Visit(Ask ask)
         {
             sw.WriteLine("\t; ask command");
+            sw.WriteLine("\tld hl,INBUF");
             sw.WriteLine("\tcall getlin");
             sw.WriteLine("\tld ix,INBUF");
             sw.WriteLine("\tld iy,string_table");
