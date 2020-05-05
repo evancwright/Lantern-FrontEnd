@@ -158,7 +158,7 @@ namespace LASM
             if (ix != -1)
             {
                 Comment = str.Substring(ix);
-                str = str.Substring(0, ix - 1).Trim();
+                str = str.Substring(0, ix).Trim();
             }
 
             //split it on the space
@@ -516,7 +516,7 @@ namespace LASM
             {
                 s = s.Substring(0, s.IndexOf(";")).Trim();
             }
-            s = s.Substring(s.IndexOfAny(new char[] { ' ', '\t' }));
+            s = s.Substring(s.IndexOfAny(new char[] { ' ', '\t' })).Trim();
 
             if (s.IsHexLiteral())
             {
