@@ -49,14 +49,23 @@ namespace LASM
 
                             if (s != "")
                             {
+                                string oldS = s;
+
                                 //break string into groups of 2
                                 while (s != "")
                                 {
-                                    string pair = s.Substring(0, 2);
-                                    s = s.Substring(2);
-                                    byte b = pair.ToByte();
-                                    bw.Write(b);
-                                    byteCounter++;
+                                    try
+                                    {
+                                        string pair = s.Substring(0, 2);
+                                        s = s.Substring(2);
+                                        byte b = pair.ToByte();
+                                        bw.Write(b);
+                                        byteCounter++;
+                                    }
+                                    catch (Exception x)
+                                    {
+                                        throw new Exception("Error writing binary for " + st.Text);
+                                    }
                                 }
                             }
                         }

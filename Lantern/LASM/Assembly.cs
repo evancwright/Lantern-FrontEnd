@@ -13,6 +13,7 @@ namespace LASM
     {
         string outputFile = "";
         string listFile = "";
+        List<string> files = new List<string>();
 
         public Assembly(string fileName)
         {
@@ -115,7 +116,7 @@ namespace LASM
 
 
                     count++;
-                    if (count == 10)
+                    if (count % 4 == 0)
                         sw.WriteLine();
                 }
 
@@ -128,7 +129,7 @@ namespace LASM
                 {
                     sw.Write(s + ":" + labelOffsets[s] + "\t");
                     count++;
-                    if (count == 10)
+                    if (count % 4 == 0)
                         sw.WriteLine();
                 }
 

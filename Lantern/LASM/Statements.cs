@@ -477,6 +477,7 @@ namespace LASM
         public RESBStatement(string s)
         {
             string[] parts = s.Split(' ');
+            
             HowMany = Convert.ToInt32(parts[1]);
         }
 

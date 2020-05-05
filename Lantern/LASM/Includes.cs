@@ -17,7 +17,7 @@ namespace LASM
         void IncludeFile(string includeStatement)
         {
             string fileName = "";
-
+            
             if (fileName.StartsWith("#define"))
             {
                 fileName = includeStatement.Substring(8).Trim();
@@ -26,6 +26,15 @@ namespace LASM
             {
                 fileName = includeStatement.Trim();
             }
+
+            if (files.Contains(fileName))
+            {
+                throw new Exception("File " + fileName + " has already been included!");
+            }
+
+            files.Add(fileName);
+
+
 
             if (File.Exists(fileName))
             {

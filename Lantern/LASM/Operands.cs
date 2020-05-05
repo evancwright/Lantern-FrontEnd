@@ -24,6 +24,7 @@ namespace LASM
         {
             op = op.Trim();
 
+
             if (IsRegister(op))
             {
                 return new RegisterOperand(op);
