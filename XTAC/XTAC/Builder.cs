@@ -62,6 +62,168 @@ namespace XTAC
             
         }
 
+    
+        /// <summary>
+        /// Writes out a cmd file with a 01 02 loadLo loadHi header
+        /// </summary>
+        /// <param name="fileName"></param>
+        public static string BuildTRS80(string xmlFileName)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(xmlFileName);
+            XmlNodeList list = doc.SelectNodes("//project/projname");
+
+            if (list.Count == 0)
+            {
+                throw new Exception("Project XML does not have a name element!");
+            }
+
+            string oldDir = Environment.CurrentDirectory;
+            string projName = doc.SelectNodes("//project/projname")[0].InnerText.Trim();
+            string outputName = doc.SelectNodes("//project/output")[0].InnerText.Trim();
+            string binFile = outputName + ".cmd";
+
+            try
+            {
+                string workingDirectory = list[0].InnerText + "_TRS80";
+
+                Environment.CurrentDirectory = workingDirectory;
+                Assembly asm = new Assembly("main.asm");
+                asm.Assemble();
+
+                //add the header to make it a .cmd file
+                byte[] fileData = File.ReadAllBytes("main.bin");
+                ushort loadAddr = 0x5200;
+
+                BinaryWriter bw = new BinaryWriter(File.OpenWrite(binFile));
+ 
+                try
+                {
+                    for (int i=0; i < fileData.Length; i++)
+                    {
+                        if (i % 256 == 0)
+                        {//write out a record header
+                            bw.Write((byte)0x01); //record type
+                            int remaining = fileData.Length - i;
+                            if (remaining >=256)
+                            {
+                                bw.Write((byte)0x02); //number of bytes to follow
+                            }
+                            else
+                            {
+                                bw.Write((byte) (remaining+2)); //number of bytes to follow
+                            }
+                            bw.Write((byte)(loadAddr % 256)); //lo
+                            bw.Write((byte)(loadAddr / 256)); //hi
+                            loadAddr += 256;
+                            bw.Flush();
+                        }
+
+                        bw.Write((byte)fileData[i]);
+
+                    }
+                    bw.Write((byte)2);
+                    bw.Write((byte)2);
+                    bw.Write((byte)0);
+                    bw.Write((byte)(0x52));
+                    bw.Flush();
+                }
+                catch (Exception ex1)
+                {
+                    Console.WriteLine("Huh?");
+                }
+                finally
+                {
+                    bw.Flush();
+                    bw.Dispose();
+                }
+                MoveOutputFiles();
+
+                return binFile;
+             }
+            catch (Exception e)
+            {
+                throw new Exception("Couldn't assemble main.asm", e);
+            }
+            finally
+            {
+                Environment.CurrentDirectory = oldDir;
+            }
+        }
+
+        /// <summary>
+        /// Assembles code and runs CPCDiskXP to create disk file
+        /// </summary>
+        /// <param name="xmlFileName"></param>
+        /// <returns></returns>
+        public static string BuildCPC464(string xmlFileName)
+        {
+            string oldDir = Environment.CurrentDirectory;
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(xmlFileName);
+                XmlNodeList list = doc.SelectNodes("//project/projname");
+
+                if (list.Count == 0)
+                {
+                    throw new Exception("Project XML does not have a name element!");
+                }
+
+                string projName = doc.SelectNodes("//project/projname")[0].InnerText.Trim();
+                string outputName = doc.SelectNodes("//project/output")[0].InnerText.Trim();
+
+                Environment.CurrentDirectory = projName + "_CPC464";
+
+                string diskName = outputName + ".dsk";
+                string fileName = outputName + ".bin";
+
+                try
+                {
+                    File.Delete(fileName);
+
+                    Assembly lasm = new Assembly("main.asm");
+                    lasm.Assemble();
+                    //rename output to 'data'
+                    File.Move("main.bin", fileName);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error assembling main.asm", ex);
+                }
+
+                //try to run the CPCDiskXP 
+
+                string diskCmd = string.Format(
+                        "{0} -File {1} -AddAmsdosHeader 4000 -AddToNewDsk {2} -NewDSKFormat 1",
+                        @"..\bin\CPCDiskXP",
+                        fileName,
+                        diskName
+                        );
+
+                File.WriteAllText("build.bat", diskCmd);
+
+                Process.Start("build.bat").WaitForExit();
+
+                if (!File.Exists(diskName))
+                {
+                    throw new Exception("Error creating disk.  Couldn't find " + diskName);
+                }
+                
+                MoveOutputFiles();
+                return outputName;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("CPC464 build failed.", ex);
+            }
+            finally
+            {
+                Environment.CurrentDirectory = oldDir;
+            }
+
+        }
+
         /// <summary>
         ///Assemble the files produced by the converter 
         /// </summary>

@@ -333,7 +333,6 @@
             public string walkthrough { get; set; }
         [XmlElement(ElementName = "filename")]
         public string filename { get; set; }
-
     }
 
     [XmlRoot(ElementName = "xml")]

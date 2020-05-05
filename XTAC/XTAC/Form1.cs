@@ -1750,10 +1750,14 @@ namespace XTAC
                     XmlToTables converter = XmlToTables.GetInstance();
                     converter.ConvertTRS80(fileName);  //"f3xml.xml"
 
-                    if (Builder.Build(fileName, "_TRS80", xproject.Project.Output, "cmd"))
-                    {
-                        MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " and run build.sh or build.bat");
-                    }
+                    string cmdFile = Builder.BuildTRS80(fileName);
+                    MessageBox.Show(
+                           string.Format("TRS-80 build complete.\r\n{0} written to {1}.{2}.\r\n\r\n",
+                           cmdFile,
+                           converter.buildDir,
+                           "\r\nSee help menu for TRS-80 specific commands."
+                           )
+                          );
                 }
                 catch (Exception ex)
                 {
@@ -1990,7 +1994,17 @@ namespace XTAC
                 {
                     XmlToTables converter = XmlToTables.GetInstance();
                     converter.ConvertCPC464(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " and run: build.sh or build.bat\r\bTo run the game, open the disk in an emulator (such as Arnold) and type run\"advent\"");
+                    string outputName = Builder.BuildCPC464(fileName);
+                    MessageBox.Show(
+                        String.Format(
+                            "Export complete.  File {0}.dsk written to {1}.\r\n{2}{3}{4}",
+                            outputName,
+                            converter.buildDir,
+                            "\r\nTo run the game, open the disk in an emulator (such as Arnold) and type: run\"",
+                            outputName,
+                            "\""
+                            )
+                       );
                 }
                 catch (Exception ex)
                 {
@@ -3656,6 +3670,20 @@ namespace XTAC
         private void toolStripMenuItem9_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void tRS80FreHDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExceptionForm ex = new ExceptionForm();
+            ex.ErrText =
+                "To launch MAME run mame64 -debug trs80l2 \r\n\r\n" +
+                "You can run a .cmd file in MAME using the Quickload option.\r\n\r\n" +
+                "To deploy to actual machine, attach the cmd file to a disk by either..." +
+                "1) Using TRS Tools to attach the .cmd to a disk.\r\n\r\n" +
+                "2) Using a FreHD, boot into DOS and use the import2 command." +
+                "Example: import2\"main.cmd game / cmd\"";
+            ex.ShowDialog();
+            
         }
     }
 }
