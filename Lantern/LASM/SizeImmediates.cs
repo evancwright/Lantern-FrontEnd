@@ -15,23 +15,30 @@ namespace LASM
         /// </summary>
         void SetImmediateSizes()
         {
-            for (int i = 0; i < statements.Count; i++)
+            try
             {
-                Statement st = statements[i];
-
-                if (st is ExecutableStatement)
+                for (int i = 0; i < statements.Count; i++)
                 {
-                    try
+                    Statement st = statements[i];
+
+                    if (st is ExecutableStatement)
                     {
-                        (st as ExecutableStatement).SetImmediateSizes();
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception(
-                            string.Format("Line {0}:  Unable to set immediate size: {1}",
-                            st.LineNumber, st.Text), ex);
+                        try
+                        {
+                            (st as ExecutableStatement).SetImmediateSizes();
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(
+                                string.Format("Line {0}:  Unable to set immediate size: {1}",
+                                st.LineNumber, st.Text), ex);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error setting immediate sizes.", ex);
             }
         }
     }

@@ -59,7 +59,8 @@ namespace LASM
                     {
                         return new IndexedRegister(inner);
                     }
-                     
+                    else
+                        throw new Exception("Unhandled case" + inner);
 
                 }
                 else
@@ -154,7 +155,7 @@ namespace LASM
 
         static string[] indexRegisters =
         {
-            "HL", "IX", "IY",
+            "DE","HL", "IX", "IY",
         };
 
 

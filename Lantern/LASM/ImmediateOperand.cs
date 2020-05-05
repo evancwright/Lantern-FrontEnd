@@ -20,7 +20,7 @@ namespace LASM
                 TextType = "IMMEDIATE";
                 if (op.IsDecimalNumber())
                     UshortVal = op.ToUInt16();
-                if (op.IsHexByteConstant())
+                else if (op.IsHexByteConstant())
                 {
                     UshortVal = op.HexToDecimal();
                 }

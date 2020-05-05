@@ -18,9 +18,15 @@ namespace LASM
 
             foreach (Statement st in statements)
             {
-                st.Address = addr;
-
-                addr += st.GetBinaryLength();
+                if (st is OrgStatement)
+                {
+                    addr = st.Address;
+                }
+                else
+                {
+                    st.Address = addr;
+                    addr += st.GetBinaryLength();
+                }
             }
         }
 
@@ -79,7 +85,7 @@ namespace LASM
                     catch (Exception x)
                     {
                         throw new Exception(
-                            string.Format("Line {0}: Unable to find label's address.", st.LineNumber)
+                            string.Format("Line {0}: {1} \r\n Unable to find label's address.", st.LineNumber, st.Text)
                             , x);
                     }
 

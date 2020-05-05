@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-
+using LangDef;
 namespace LASM
 {
     partial class Assembly
@@ -17,7 +17,6 @@ namespace LASM
             //FIND #defines
             foreach (string line in lines)
             {
-
                 if (line.StartsWith("#DEFINE"))
                 {
                     try
@@ -47,27 +46,55 @@ namespace LASM
 
         void ReplaceDefines()
         {
-            for (int i=0; i < lines.Count; i++)
+            try
             {
-                string s = lines[i];
-
-                if (!s.StartsWith("#DEFINE") &&
-                    !Regex.IsMatch(s, @"[ \t]DB[\t ]") &&
-                    !Regex.IsMatch(s, @"[ \t]DW[\t ]")
-                    )
+                for (int i = 0; i < lines.Count; i++)
                 {
-                    foreach (string define in defines.Keys)
-                    { 
-                        //split the line on commas, spaces
-                        string pattern = @"[ \t,\(+]" + define + @"([ \t,;\)]|$)";
+                    string s = lines[i];
 
-                        if (Regex.IsMatch(s,pattern))
+                    if (!s.StartsWith("#DEFINE") &&
+                        !Regex.IsMatch(s, @"[ \t]DB[\t ]") &&
+                        !Regex.IsMatch(s, @"[ \t]DW[\t ]")
+                        )
+                    {
+                        foreach (string define in defines.Keys)
                         {
-                            s = Regex.Replace(s, define, defines[define]);
+                            //split the line on commas, spaces
+                            string pattern = @"[ \t,\(+]" + define + @"([ \t,;\)+]|$)";
+
+                            if (Regex.IsMatch(s, pattern))
+                            {
+                                string repl = defines[define];
+                                /*
+                                if (repl.IsHexWordConstant())
+                                {
+                                    ushort flipped = repl.ToUInt16();
+
+                                    ushort lo = (ushort)( flipped % 256 );
+                                    ushort hi = (ushort) (flipped / 256 );
+
+                                    repl = string.Format("0{0:X2}{1:X2}H", lo, hi);
+
+                                }
+                                else if (repl.IsDecimalWord())
+                                {
+                                    ushort flipped = repl.ToUInt16();
+
+                                    ushort lo = (ushort)(flipped % 256);
+                                    ushort hi = (ushort)(flipped / 256);
+
+                                    repl = string.Format("0{0:X2}{1:X2}H", lo, hi);
+                                }*/
+                                s = Regex.Replace(s, define, repl);
+                            }
                         }
+                        lines[i] = s;
                     }
-                    lines[i] = s;
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error replacing #defines", ex);
             }
         }
 

@@ -13,17 +13,24 @@ namespace LASM
         /// </summary>
         void ReplaceDBWithAddresses()
         {
-            foreach (Statement st in statements)
+            try
             {
-                if (st is SpaceAllocation)
+
+                foreach (Statement st in statements)
                 {
-                    SpaceAllocation sp = st as SpaceAllocation;
+                    if (st is SpaceAllocation)
+                    {
+                        SpaceAllocation sp = st as SpaceAllocation;
 
-                    sp.ReplaceLabels(labelOffsets);
+                        sp.ReplaceLabels(labelOffsets);
 
+                    }
                 }
             }
+            catch   (Exception e)
+            {
+                throw new Exception("Error replacing labels in DB/BW statements.", e);
+            }
         }
-        
     }
 }

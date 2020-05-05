@@ -16,47 +16,58 @@ namespace LASM
         /// <param name="fileName"></param>
         void WriteBinary(string fileName)
         {
-            int byteCounter = 0;
-            using (BinaryWriter bw = new BinaryWriter(File.Open(fileName, FileMode.OpenOrCreate)))
+            try
             {
-                foreach (Statement st in statements)
+                int byteCounter = 0;
+                using (BinaryWriter bw = new BinaryWriter(File.Open(fileName, FileMode.OpenOrCreate)))
                 {
-                    if (st is IWritable)
+                    foreach (Statement st in statements)
                     {
-                        if (byteCounter != st.Address)
-                        {
-                            throw new Exception(
-                                String.Format("Address mismatch at line {0}:{1}", st.Address,st.Text)
-                                );
-                        }
-                        /*
-                        if (st is ExecutableStatement)
-                        {
-                            ExecutableStatement ex = st as ExecutableStatement;
-                            byte[] op = LangDef.LangDef.Decode(ex.OpCode.GetBinary());
-                            if (ex.GetBinaryLength() != )
-                        }
-                        */
+                        if (st is OrgStatement)
+                            byteCounter = (st as OrgStatement).Address;
 
-                        //  IWritable iw = st as IWritable;
-                        //  iw.WriteBinary(bw);
-                        string s = st.HexText;
-                        
-                        if (s != "")
+                        if (st is IWritable)
                         {
-                            //break string into groups of 2
-                            while (s != "")
+                            if (byteCounter != st.Address)
                             {
-                                string pair = s.Substring(0, 2);
-                                s = s.Substring(2);
-                                byte b = pair.ToByte();
-                                bw.Write(b);
-                                byteCounter++;
+                                throw new Exception(
+                                    String.Format("Address mismatch at line {0}:{1}", st.Address, st.Text)
+                                    );
                             }
-                        }   
+                            /*
+                            if (st is ExecutableStatement)
+                            {
+                                ExecutableStatement ex = st as ExecutableStatement;
+                                byte[] op = LangDef.LangDef.Decode(ex.OpCode.GetBinary());
+                                if (ex.GetBinaryLength() != )
+                            }
+                            */
+
+                            //  IWritable iw = st as IWritable;
+                            //  iw.WriteBinary(bw);
+                            string s = st.HexText;
+
+                            if (s != "")
+                            {
+                                //break string into groups of 2
+                                while (s != "")
+                                {
+                                    string pair = s.Substring(0, 2);
+                                    s = s.Substring(2);
+                                    byte b = pair.ToByte();
+                                    bw.Write(b);
+                                    byteCounter++;
+                                }
+                            }
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                throw new Exception("Error writing binary file.", ex);
+            }
         }
+
     }
 }

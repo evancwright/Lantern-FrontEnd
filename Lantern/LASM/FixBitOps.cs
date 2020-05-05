@@ -19,7 +19,9 @@ namespace LASM
 
                     if (ex.OpCode == "BIT" || ex.OpCode == "RES" || ex.OpCode == "SET")
                     {
+                        
                         byte b = ex.LeftOperand.GetHexText().ToByte();
+                        /*
                         b = (byte)(b << 3);
 
                         if (ex.OpCode == "BIT")
@@ -34,8 +36,8 @@ namespace LASM
                         {//left shit b 3 and | 11000110
                             b = (byte)(b | 11000110);
                         }
-
-
+                        */
+                        
                         if (ex.GetModeText() == "IMMEDIATE,IX_INDEXED_PLUS_OFFSET" ||
                             ex.GetModeText() == "IMMEDIATE,IY_INDEXED_PLUS_OFFSET")
                         {//left shit b 3 or byte 

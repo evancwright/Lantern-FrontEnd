@@ -38,7 +38,14 @@ namespace LASM
 
         public override void SetAddresses(Dictionary<string, ushort> labelOffsets, string moduleName = "")
         {
-            UshortVal = labelOffsets[Value];
+            try
+            {
+                UshortVal = labelOffsets[Value];
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unable to find address for label:" + Value, ex);
+            }
         }
 
     }

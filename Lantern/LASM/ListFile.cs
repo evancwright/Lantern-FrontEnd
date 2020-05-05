@@ -14,17 +14,24 @@ namespace LASM
         /// </summary>
         public void SetHexText()
         {
-            foreach (Statement st in statements)
+            try
             {
-                try
+                foreach (Statement st in statements)
                 {
-                    if (st is IWritable)
-                        st.HexText = st.AsHextText();
+                    try
+                    {
+                        if (st is IWritable)
+                            st.HexText = st.AsHextText();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Error on line " + st.LineNumber + " processing:" + st.Text, e);
+                    }
                 }
-                catch (Exception e)
-                {
-                    throw new Exception("Error on line " +  st.LineNumber + " processing:" + st.Text, e);
-                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error converting text to binary.",e);
             }
         }
 

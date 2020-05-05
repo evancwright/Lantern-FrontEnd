@@ -37,12 +37,12 @@ namespace LASM
             WritePreprocessedFile("preprocessed.asm");
             CreateStatements();
             AssignLineNumbers();
-            WriteIntermediateFile("fixlabels.asm");
+            WriteIntermediateFile("fixlabels.txt");
             SplitOperands();
             WriteParsedOperands("operands.txt");
             ValidateOpCodes();
-
             ValidateOperands();
+            
             AssignModuleNumbers();
             AssignAddresses();
             GetLabelAddresses();
@@ -50,6 +50,7 @@ namespace LASM
             SetAddresses();
             FixRelativeAddresses();
             ReplaceDBWithAddresses();
+            WriteIntermediateFile("pass2.txt");
             SetImmediateSizes();
             //        ValidateBinaryLengths();
             FixBitInstructions();
@@ -155,53 +156,62 @@ namespace LASM
         /// </summary>
         public void CreateStatements()
         {
-            int i = 0;
-            foreach (string str in  lines)
+            try
             {
-                try
+                int i = 0;
+                foreach (string str in lines)
                 {
-                    i++;
-                    string label = "";
-                    string s = "";
-                    //if this line starts with a label, save it and replace it with a tab
-                    if (str.StartsWithLabel() || str.StartsWith("@"))
+                    try
                     {
-                        label = str.GetFirstPart();
-                        s = "\t" + str.GetRest();
+                        i++;
+                        string label = "";
+                        string s = "";
+                        //if this line starts with a label, save it and replace it with a tab
+                        if (str.StartsWithLabel() || str.StartsWith("@"))
+                        {
+                            label = str.GetFirstPart();
+                            s = "\t" + str.GetRest();
+                        }
+                        else
+                        {
+                            s = str;
+                        }
+
+                        if (s.Trim() == "")
+                            statements.Add(new BlankLine());
+                        else if (Regex.IsMatch(s, "[\t ]ORG[\t ]"))
+                            statements.Add(new OrgStatement(s));
+                        else if (s.Trim().StartsWith(";"))
+                            statements.Add(new Comment(s));
+                        else if (s.Trim().StartsWith("*MOD"))
+                            statements.Add(new Module(s));
+                        else if (s.StartsWith("#DEFINE"))
+                            statements.Add(new DefineStatement(s));
+                        else if (Regex.IsMatch(s, @"(^|[\t ])DB[\t ]"))
+                            statements.Add(new DBStatement(s, defines));
+                        else if (Regex.IsMatch(s, @"[\t ]DW[\t ]"))
+                            statements.Add(new DWStatement(s, defines));
+                        else if (Regex.IsMatch(s, @"[\t ]DS[\t ]"))
+                            statements.Add(new RESBStatement(s));
+                        else if (Char.IsLetter(s.First()))
+                            statements.Add(new GlobalLabel(s));
+                        else
+                            statements.Add(new ExecutableStatement(s, globalLabels));
+
+                        //put the label back on the statement
+                        if (label != "")
+                            statements.Last().Label = label;
+                        //could also have EQU or include     
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        s = str;
+                        throw new Exception("Line " + i + ": Unable to parse:" + str, ex);
                     }
-
-                    if (s.Trim() == "")
-                        statements.Add(new BlankLine());
-                    else if (s.Trim().StartsWith(";"))
-                        statements.Add(new Comment(s));
-                    else if (s.Trim().StartsWith("*MOD"))
-                        statements.Add(new Module(s));   
-                    else if (s.StartsWith("#DEFINE"))
-                        statements.Add(new DefineStatement(s));
-                    else if (Regex.IsMatch(s, @"(^|[\t ])DB[\t ]"))
-                        statements.Add(new DBStatement(s, defines));
-                    else if (Regex.IsMatch(s, @"[\t ]DW[\t ]"))
-                        statements.Add(new DWStatement(s, defines));
-                    else if (Regex.IsMatch(s, @"[\t ]DS[\t ]"))
-                        statements.Add(new RESBStatement(s));
-                    else if (Char.IsLetter(s.First()))
-                        statements.Add(new GlobalLabel(s));
-                    else
-                        statements.Add(new ExecutableStatement(s,globalLabels));
-
-                    //put the label back on the statement
-                    if (label != "")
-                        statements.Last().Label = label;
-                    //could also have EQU or include     
                 }
-                catch (Exception ex)
-                {
-                    throw new Exception("Line " + i + ": Unable to parse:" + str, ex );
-                }                    
+            }
+            catch (Exception x)
+            {
+                throw new Exception("Error creating statements.", x);
             }
         }
 

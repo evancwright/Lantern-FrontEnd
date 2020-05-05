@@ -8,17 +8,24 @@ namespace LASM
       
         void ValidateOpCodes()
         {
-            foreach (Statement s in statements)
+            try
             {
-                if (s is ExecutableStatement)
+                foreach (Statement s in statements)
                 {
-                    ExecutableStatement ex = s as ExecutableStatement;
-                    if (!LangDef.LangDef.HasOpCode(ex.OpCode))
+                    if (s is ExecutableStatement)
                     {
-                        throw new Exception("Error on line: " + ex.LineNumber + ". Invalid opcode " + ex.OpCode);
-                    }
+                        ExecutableStatement ex = s as ExecutableStatement;
+                        if (!LangDef.LangDef.HasOpCode(ex.OpCode))
+                        {
+                            throw new Exception("Error on line: " + ex.LineNumber + ". Invalid opcode " + ex.OpCode);
+                        }
 
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error validating op codes.", ex);
             }
         }
 

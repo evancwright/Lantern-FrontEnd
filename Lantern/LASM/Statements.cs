@@ -99,7 +99,7 @@ namespace LASM
             */
             bool ignore = false;
 
-            for (int i=0; i < Text.Length; i++)
+            for (int i = 0; i < Text.Length; i++)
             {
                 if (Text[i] == '\"')
                 {
@@ -111,7 +111,7 @@ namespace LASM
                     Text = Text.Substring(0, i).Trim();
                     try
                     {
-                        
+
                     }
                     catch
                     {
@@ -130,7 +130,7 @@ namespace LASM
                 bw.Write(b);
             }
         }
-        
+
 
     }
 
@@ -173,7 +173,11 @@ namespace LASM
 
             Value = pieces[0].Trim();
             Replacement = pieces[1].Trim();
-
+            /*
+            if (Replacement.Contains("+") || Replacement.Contains("-"))
+            {
+                throw new Exception("Error in define: " + str + ". +/- not allowed");
+            }*/
         }
 
 
@@ -195,9 +199,16 @@ namespace LASM
             {
                 if (labelOffsets.Keys.Contains(tokens[i]))
                 {
-                    string temp = tokens[i];
-                    tokens.RemoveAt(i);
-                    tokens.Insert(i, "" + labelOffsets[temp]);
+                    try
+                    {
+                        string temp = tokens[i];
+                        tokens.RemoveAt(i);
+                        tokens.Insert(i, "" + labelOffsets[temp]);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error replacing label with address");
+                    }
                 }
             }
         }
@@ -254,7 +265,7 @@ namespace LASM
 
                     tokens.Add(temp);
                 }
-                 
+
             }//end foreach
 
         }
@@ -265,7 +276,7 @@ namespace LASM
         /// <param name="s"></param>
         /// <returns></returns>
         protected string GetNextValue(StringBuilder s)
-        {  
+        {
             int i = 0;
             bool completed = false;
             string val = "";
@@ -298,7 +309,7 @@ namespace LASM
                     s.Clear();
                 else if (rest.First() == ',')
                 {
-                    rest = rest.Substring(1,rest.Length-1);
+                    rest = rest.Substring(1, rest.Length - 1);
                     s.Clear();
                     s.Insert(0, rest);
                 }
@@ -319,7 +330,7 @@ namespace LASM
 
                 if (completed) //hit a comma 
                 {
-                    string rest = s.ToString().Substring(i+1).Trim();
+                    string rest = s.ToString().Substring(i + 1).Trim();
                     s.Clear();
                     s.Insert(0, rest);
                 }
@@ -330,10 +341,10 @@ namespace LASM
                 }
 
             }
-            
+
             return val;
         }
-        
+
     }
 
     class DBStatement : SpaceAllocation
@@ -366,7 +377,7 @@ namespace LASM
         {
             string s = "";
 
-             
+
 
             foreach (string b in tokens)
             {
@@ -383,7 +394,7 @@ namespace LASM
                 else
                     throw new Exception("DB statement: Unable to handle " + s);
 
-                if (s.Length %2 != 0)
+                if (s.Length % 2 != 0)
                 {
                     s += "";
                 }
@@ -401,7 +412,7 @@ namespace LASM
                 if (s.StartsWith("\""))
                     sum += s.Length - 2; //don't count "" chars
                 else
-                    sum ++;
+                    sum++;
             }
 
             return (ushort)sum;
@@ -492,5 +503,31 @@ namespace LASM
             }
             return s;
         }
-    } 
+    }
+
+    class OrgStatement : Statement
+    {
+
+        public OrgStatement(string s)
+        {
+            s = s.Trim();
+            //remove any comment
+            if (s.Contains(";"))
+            {
+                s = s.Substring(0, s.IndexOf(";")).Trim();
+            }
+            s = s.Substring(s.IndexOfAny(new char[] { ' ', '\t' }));
+
+            if (s.IsHexLiteral())
+            {
+                Address = s.HexToDecimal();
+            }
+            else if (s.IsDecimalNumber())
+            {
+                Address = Convert.ToUInt16(s);
+            }
+            else throw new Exception("Unable to proccess org address:" + s);
+
+        }
+    }
 }
