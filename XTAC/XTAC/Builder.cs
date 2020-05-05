@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using LASM;
+using System.Runtime.InteropServices;
 
 namespace XTAC
 {
@@ -44,35 +45,9 @@ namespace XTAC
                     binName = projName.Replace(" ", "_");
                 }
 
-                try
-                {
-                    if (File.Exists(binName))
-                        File.Delete(binName);
+                RenameBinary("main.bin", binName);
+                MoveOutputFiles();
 
-                    File.Copy("main.bin", binName);
-                    File.Delete("main.bin");
-
-                    if (!Directory.Exists("src"))
-                        Directory.CreateDirectory("src");
-    
-                    //delete any existing files or move will fail
-                    string[] files = Directory.GetFiles("src");
-                    foreach (string f in files)
-                    {
-                        File.Delete(f);
-                    }
-
-                    files = Directory.GetFiles(".");
-                    foreach (string f in files)
-                    {
-                        if (f.EndsWith(".asm") || f.EndsWith(".lst") || f.EndsWith(".txt"))
-                            File.Move(f, "src\\" + f);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Unable to rename output file", ex);
-                }
                 //return name of file created to the caller                
                 name = binName;
             }
@@ -85,6 +60,73 @@ namespace XTAC
                 Environment.CurrentDirectory = oldDir;
             }
             
+        }
+
+        /// <summary>
+        ///Assemble the files produced by the converter 
+        /// </summary>
+        /// <param name="xmlFileName"></param>
+        public static string BuildSpeccy(string xmlFileName)
+        {
+            string oldDir = Environment.CurrentDirectory;
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(xmlFileName);
+                XmlNodeList list = doc.SelectNodes("//project/projname");
+
+                if (list.Count == 0)
+                {
+                    throw new Exception("Project XML does not have a name element!");
+                }
+
+                string projName = doc.SelectNodes("//project/projname")[0].InnerText.Trim();
+                string outputName = doc.SelectNodes("//project/output")[0].InnerText.Trim();
+
+                Environment.CurrentDirectory = projName + "_Spectrum";
+
+                try
+                {
+                    File.Delete("data");
+
+                    Assembly lasm = new Assembly("main.asm");
+                    lasm.Assemble();
+                    //rename output to 'data'
+                    File.Move("main.bin", "data");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error assembling main.asm", ex);
+                }
+
+                //try to run the mctrd script    
+                Process.Start("build.bat").WaitForExit();
+
+                if (File.Exists("game.tap"))
+                {
+                    RenameBinary("game.tap", outputName + ".tap");
+                }
+                else
+                {
+                    throw new Exception("Couldn't find game.tap. Must be on Windows to run mctrd?");
+                }
+
+                File.Delete("loader.tap");
+                File.Delete("sloader.tap");
+                File.Delete("build.bat");
+
+                MoveOutputFiles();
+                return outputName + ".tap";
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Spectrum build failed.", ex);
+            }
+            finally
+            {
+                Environment.CurrentDirectory = oldDir;
+            }
         }
         
 
@@ -179,6 +221,43 @@ namespace XTAC
             File.WriteAllText(outFile, sb.ToString());
         }
 
-    
+            
+        static void RenameBinary(string oldName, string newName)
+        {
+            if (File.Exists(newName))
+                File.Delete(newName);
+
+            File.Copy(oldName, newName);
+            File.Delete(oldName);
+        }
+
+        static void MoveOutputFiles()
+        {
+            try
+            {
+
+                if (!Directory.Exists("src"))
+                    Directory.CreateDirectory("src");
+
+                //delete any existing files or move will fail
+                string[] files = Directory.GetFiles("src");
+                foreach (string f in files)
+                {
+                    File.Delete(f);
+                }
+
+                files = Directory.GetFiles(".");
+                foreach (string f in files)
+                {
+                    if (f.EndsWith(".asm") || f.EndsWith(".lst") || f.EndsWith(".txt"))
+                        File.Move(f, "src\\" + f);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unable to rename output file", ex);
+            }
+        }
+        
     }
 }

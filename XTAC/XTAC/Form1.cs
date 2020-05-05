@@ -1908,8 +1908,18 @@ namespace XTAC
                 XmlToTables converter = XmlToTables.GetInstance();
                 try
                 {
-                    converter.ConvertSpectrum(fileName);  //"f3xml.xml"
-                    MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " and run build.sh or build.bat");
+                    //write the files
+                    converter.ConvertSpectrum(fileName);
+                    //assemble them
+                    string tapeName = Builder.BuildSpeccy(fileName);
+
+                    MessageBox.Show(
+                        String.Format(
+                            "Export complete. {0} created in {1}",
+                                tapeName,
+                                converter.buildDir
+                        )
+                    );
                 }
                 catch (Exception ex)
                 {
