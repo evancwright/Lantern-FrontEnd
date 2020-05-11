@@ -296,7 +296,17 @@
             public User User { get; set; }
         }
 
-        [XmlRoot(ElementName = "project")]
+    [XmlRoot(ElementName = "buildsettings")]
+    public class BuildSettings
+    {
+        [XmlElement(ElementName = "SprectrumLoadScreen")]
+        public string SpectrumLoadScreen{ get; set; }
+
+        [XmlElement(ElementName = "AppleLoadScreen")]
+        public string AppleLoadScreen { get; set; }
+    }
+
+    [XmlRoot(ElementName = "project")]
         public class Project
         {
             [XmlElement(ElementName = "projname")]
@@ -333,6 +343,8 @@
             public string walkthrough { get; set; }
         [XmlElement(ElementName = "filename")]
         public string filename { get; set; }
+        [XmlElement(ElementName = "BuildSettings")]
+        public BuildSettings BuildSettings { get; set; }
     }
 
     [XmlRoot(ElementName = "xml")]

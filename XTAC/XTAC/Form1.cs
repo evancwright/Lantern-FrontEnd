@@ -25,7 +25,7 @@ namespace XTAC
         string homeDir;
 
         List<Tuple<string, string>> recentFiles = new List<Tuple<string, string>>();
-
+        Dictionary<string, string> prefs = new Dictionary<string, string>();
 
         //the list of verbs checks
         string[] allChecks = new string[]
@@ -38,6 +38,9 @@ namespace XTAC
         static Lantern()
         {
             xproject = new Xml();
+
+           
+
         }
 
         public Lantern()
@@ -58,6 +61,9 @@ namespace XTAC
             {
                 allChecksListBox.Items.Add(s);
             }
+
+            //load prefs
+            LoadPrefs();
 
             NewProject();
             ShowProject();
@@ -123,7 +129,7 @@ namespace XTAC
             {
                 // Deserialize the content of the file into a project object.
                 xproject = (Xml)reader.Deserialize(file);
-
+                
                 FixVariableNames();
                 FixPrintedNames();
                 FixFunctions();
@@ -132,8 +138,9 @@ namespace XTAC
                 FixVerbs();
                 FixEmptyObjects();
                 FixChecks();
-                FixDoors();
+                FixDoors();              
                 FixEnter();
+                FixBuildSettings();
                 ShowProject();
                 Text = "Lantern (" + fileName + ")";
             }
@@ -173,7 +180,7 @@ namespace XTAC
             PopulateSentences();
             PopulatePrepositions();
             PopulateVars();
-
+            PopulateBuildSettings();
             sentenceIndirectObjComboBox.SelectedIndex = 0;
         }
 
@@ -1118,6 +1125,7 @@ namespace XTAC
             xproject.Project.Events.Event = new List<Event>();
             xproject.Project.Sentences = new Sentences();
             xproject.Project.Sentences.Sentence = new List<Sentence>();
+            xproject.Project.BuildSettings = new BuildSettings();
             xproject.Project.Output = "adventure";
             AddDefaultObjects();
             AddDefaultVerbs();
@@ -1126,6 +1134,7 @@ namespace XTAC
             AddDefaultVars();
             AddDefaultFunctions();
             AddDefaultSentences();
+            
             //ShowProject();
         }
 
@@ -1493,6 +1502,12 @@ namespace XTAC
             }
         }
 
+        void PopulateBuildSettings()
+        {
+            spectrumImageTextBox.Text = xproject.Project.BuildSettings.SpectrumLoadScreen;
+            appleImageTextBox.Text = xproject.Project.BuildSettings.AppleLoadScreen;
+        }
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -1750,7 +1765,7 @@ namespace XTAC
                     XmlToTables converter = XmlToTables.GetInstance();
                     converter.ConvertTRS80(fileName);  //"f3xml.xml"
 
-                    string cmdFile = Builder.BuildTRS80(fileName);
+                    string cmdFile = Builder.BuildTRS80(xproject);
                     MessageBox.Show(
                            string.Format("TRS-80 build complete.\r\n{0} written to {1}.{2}.\r\n\r\n",
                            cmdFile,
@@ -1915,7 +1930,7 @@ namespace XTAC
                     //write the files
                     converter.ConvertSpectrum(fileName);
                     //assemble them
-                    string tapeName = Builder.BuildSpeccy(fileName);
+                    string tapeName = Builder.BuildSpeccy(xproject);
 
                     MessageBox.Show(
                         String.Format(
@@ -1994,7 +2009,7 @@ namespace XTAC
                 {
                     XmlToTables converter = XmlToTables.GetInstance();
                     converter.ConvertCPC464(fileName);  //"f3xml.xml"
-                    string outputName = Builder.BuildCPC464(fileName);
+                    string outputName = Builder.BuildCPC464(xproject, prefs["CPCDiskXP"]);
                     MessageBox.Show(
                         String.Format(
                             "Export complete.  File {0}.dsk written to {1}.\r\n{2}{3}{4}",
@@ -3000,10 +3015,10 @@ namespace XTAC
                     XmlToTables converter = XmlToTables.GetInstance();
                     converter.ConvertCPM(fileName);  //"f3xml.xml"
 
-                    if (Builder.Build(fileName, "_CPM", xproject.Project.Output, "com"))
-                    {
-                        MessageBox.Show("Export complete.  Open the directory " + converter.buildDir + " and run either build.bat or build.sh");
-                    }
+                    // if (Builder.Build(fileName, "_CPM", xproject.Project.Output, "com"))
+                    string outputName = Builder.BuildCPM(xproject);
+
+                    MessageBox.Show("Export complete.\r\n" +outputName+" written to " + converter.buildDir);
                 }
                 catch (Exception ex)
                 {
@@ -3684,6 +3699,141 @@ namespace XTAC
                 "Example: import2\"main.cmd game / cmd\"";
             ex.ShowDialog();
             
+        }
+
+        private void textBox11_TextChanged_1(object sender, EventArgs e)
+        {
+            HandleAutoComplete(verbSearchTextBox, verbComboBox);
+        }
+
+        private void verbComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void noun1TextBox_TextChanged(object sender, EventArgs e)
+        {
+            HandleAutoComplete(noun1TextBox, sentenceObjectComboBox);
+        }
+
+        void HandleAutoComplete(TextBox tb, ComboBox cb)
+        {
+            List<string> verbs = new List<string>();
+            foreach (object o in cb.Items)
+            {
+                verbs.Add(o.ToString());
+            }
+
+            var results = from v in verbs
+                          where v.ToUpper().StartsWith(tb.Text.ToUpper())
+                          select v;
+
+            if (results.Count() > 0)
+            {
+                int i = cb.Items.IndexOf(results.First());
+                cb.SelectedIndex = i;
+            }
+        }
+
+        private void noun2TextBox_TextChanged(object sender, EventArgs e)
+        {
+            HandleAutoComplete(noun2TextBox, sentenceIndirectObjComboBox);
+        }
+
+        private void appleImageButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void spectrumImageButton_Click(object sender, EventArgs e)
+        {//All files (*.*)|*.*
+            GetFilePath("Spectrum screen files (*.scr)|*.scr", spectrumImageTextBox);
+            xproject.Project.BuildSettings.SpectrumLoadScreen = spectrumImageTextBox.Text;
+        }
+
+        /// <summary>
+        /// Asks the user to pick and image file
+        /// </summary>
+        /// <param name="filterStr"></param>
+        /// <param name="tb"></param>
+        void GetFilePath(string filterStr, TextBox tb)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = filterStr;
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                tb.Text = ofd.FileName;
+            }
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dISKToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ExceptionForm ex = new ExceptionForm();
+                ex.ErrText= File.ReadAllText(@"notes\kaypro.txt");
+                ex.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(@"Unable to load notes\kaypro.txt", ex);
+            }
+        }
+
+        private void locataCPCDiskButton_Click(object sender, EventArgs e)
+        {
+            GetFilePath("CPCDiskXP.exe|CPCDiskXP.exe", cpcDiskXPTextBox);
+
+            if (prefs.ContainsKey("CPCDiskXP"))
+                prefs.Remove("CPCDiskXP");
+
+            prefs["CPCDiskXP"] = cpcDiskXPTextBox.Text;
+            SavePrefs();
+        }
+
+        private void tabPage11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        void SavePrefs()
+        {
+            using (StreamWriter sw = new StreamWriter(File.Open("prefs.txt", FileMode.OpenOrCreate)))
+            {
+                foreach (var p in prefs)
+                {
+                    sw.WriteLine(p.Key + ":" + p.Value);
+                }
+            }
+        }
+
+        void LoadPrefs()
+        {
+            if (File.Exists("prefs.txt"))
+            {
+                string[] pairs = File.ReadAllLines("prefs.txt");
+
+                foreach (string s in pairs)
+                {
+                    int ix = s.IndexOf(":");
+
+                    string[] parts = new string[2];
+
+                    parts[0] = s.Substring(0, ix);
+                    parts[1] = s.Substring(ix+1);
+
+                    prefs.Add(parts[0], parts[1]);
+
+                    if (parts[0] == "CPCDiskXP")
+                        cpcDiskXPTextBox.Text = parts[1];
+
+                }
+            }
         }
     }
 }

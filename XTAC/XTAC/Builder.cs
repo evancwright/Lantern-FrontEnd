@@ -67,25 +67,17 @@ namespace XTAC
         /// Writes out a cmd file with a 01 02 loadLo loadHi header
         /// </summary>
         /// <param name="fileName"></param>
-        public static string BuildTRS80(string xmlFileName)
+        public static string BuildTRS80(Xml xproject)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(xmlFileName);
-            XmlNodeList list = doc.SelectNodes("//project/projname");
-
-            if (list.Count == 0)
-            {
-                throw new Exception("Project XML does not have a name element!");
-            }
-
+ 
             string oldDir = Environment.CurrentDirectory;
-            string projName = doc.SelectNodes("//project/projname")[0].InnerText.Trim();
-            string outputName = doc.SelectNodes("//project/output")[0].InnerText.Trim();
+            string projName = xproject.Project.ProjName;
+            string outputName = xproject.Project.Output;
             string binFile = outputName + ".cmd";
 
             try
             {
-                string workingDirectory = list[0].InnerText + "_TRS80";
+                string workingDirectory = projName + "_TRS80";
 
                 Environment.CurrentDirectory = workingDirectory;
                 Assembly asm = new Assembly("main.asm");
@@ -156,22 +148,14 @@ namespace XTAC
         /// </summary>
         /// <param name="xmlFileName"></param>
         /// <returns></returns>
-        public static string BuildCPC464(string xmlFileName)
+        public static string BuildCPC464(Xml xproject, string cpcDiskXPPath)
         {
             string oldDir = Environment.CurrentDirectory;
             try
             {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(xmlFileName);
-                XmlNodeList list = doc.SelectNodes("//project/projname");
 
-                if (list.Count == 0)
-                {
-                    throw new Exception("Project XML does not have a name element!");
-                }
-
-                string projName = doc.SelectNodes("//project/projname")[0].InnerText.Trim();
-                string outputName = doc.SelectNodes("//project/output")[0].InnerText.Trim();
+                string projName = xproject.Project.ProjName;
+                string outputName = xproject.Project.Output;
 
                 Environment.CurrentDirectory = projName + "_CPC464";
 
@@ -193,17 +177,26 @@ namespace XTAC
                 }
 
                 //try to run the CPCDiskXP 
+                
+                if (cpcDiskXPPath == "" || cpcDiskXPPath == null)
+                {
+                    throw new Exception(fileName + " was assembled in " + Environment.CurrentDirectory + "\r\nbut the file was not attached to a disk image." +
+                        "Install CPCDiskXP and set the path to it in the 'Build Settings' tab.");
+                }
 
+                ProcessStartInfo startInfo = new ProcessStartInfo(cpcDiskXPPath);
+                
                 string diskCmd = string.Format(
-                        "{0} -File {1} -AddAmsdosHeader 4000 -AddToNewDsk {2} -NewDSKFormat 1",
-                        @"..\bin\CPCDiskXP",
+                        " -File {0} -AddAmsdosHeader 4000 -AddToNewDsk {1} -NewDSKFormat 1",
                         fileName,
                         diskName
                         );
 
-                File.WriteAllText("build.bat", diskCmd);
+                startInfo.Arguments = diskCmd;
 
-                Process.Start("build.bat").WaitForExit();
+              //  File.WriteAllText("build.bat", diskCmd);
+
+                Process.Start(startInfo).WaitForExit();
 
                 if (!File.Exists(diskName))
                 {
@@ -225,31 +218,60 @@ namespace XTAC
         }
 
         /// <summary>
-        ///Assemble the files produced by the converter 
+        /// Assemble code and output a COM file
         /// </summary>
         /// <param name="xmlFileName"></param>
-        public static string BuildSpeccy(string xmlFileName)
+        /// <returns></returns>
+        public static string BuildCPM(Xml xproject)
         {
             string oldDir = Environment.CurrentDirectory;
             try
             {
-                XmlDocument doc = new XmlDocument();
-                doc.Load(xmlFileName);
-                XmlNodeList list = doc.SelectNodes("//project/projname");
+                string projName = xproject.Project.ProjName;
+                string outputName = xproject.Project.Output;
 
-                if (list.Count == 0)
-                {
-                    throw new Exception("Project XML does not have a name element!");
-                }
+                Environment.CurrentDirectory = projName + "_CPM";
 
-                string projName = doc.SelectNodes("//project/projname")[0].InnerText.Trim();
-                string outputName = doc.SelectNodes("//project/output")[0].InnerText.Trim();
+                outputName += ".com";
+
+                if (File.Exists(outputName)) File.Delete(outputName);
+
+                Assembly lasm = new Assembly("main.asm");
+                lasm.Assemble();
+                File.Move("main.bin", outputName);
+
+                MoveOutputFiles();
+
+                return outputName;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error assembling main.asm", ex);
+            }
+            finally
+            {
+                Environment.CurrentDirectory = oldDir;
+            }
+        }
+
+        /// <summary>
+        ///Assemble the files produced by the converter 
+        /// </summary>
+        /// <param name="xmlFileName"></param>
+        public static string BuildSpeccy(Xml xproject)
+        {
+            string oldDir = Environment.CurrentDirectory;
+            try
+            { 
+                string projName = xproject.Project.ProjName;
+                string outputName = xproject.Project.Output;
 
                 Environment.CurrentDirectory = projName + "_Spectrum";
 
                 try
                 {
-                    File.Delete("data");
+                    if (File.Exists("data")) File.Delete("data");
+                    if (File.Exists("game.tap")) File.Delete("game.tap");
 
                     Assembly lasm = new Assembly("main.asm");
                     lasm.Assemble();
@@ -262,15 +284,43 @@ namespace XTAC
                 }
 
                 //try to run the mctrd script    
-                Process.Start("build.bat").WaitForExit();
+                //Process.Start("build.bat").WaitForExit()
+                ProcessStartInfo startInfo = new ProcessStartInfo(@"..\bin\zxbin2tap.exe");
+
+                string loadScreen = xproject.Project.BuildSettings.SpectrumLoadScreen;
+
+                if (loadScreen == "" || loadScreen == null)
+                {//use the blank tape
+                    File.Copy("loader.tap", "game.tap");
+                }
+                else
+                {//add the loadscreen                 
+
+                    if (!File.Exists(loadScreen))
+                        throw new Exception("Couldn't find " + loadScreen);
+
+                    string localFile = Path.GetFileName(loadScreen);
+
+                    if (localFile != loadScreen)
+                    {
+                        if (File.Exists(localFile))
+                            File.Delete(localFile);
+
+                        File.Copy(loadScreen, localFile);
+                    }
+                    
+
+                    File.Copy("sloader.tap", "game.tap");
+                    //zxbin2tap tape loadscreen
+                    startInfo.Arguments = "game.tap " + localFile;
+                    Process.Start(startInfo).WaitForExit();
+                }
+                startInfo.Arguments = "game.tap data";
+                Process.Start(startInfo).WaitForExit();
 
                 if (File.Exists("game.tap"))
                 {
                     RenameBinary("game.tap", outputName + ".tap");
-                }
-                else
-                {
-                    throw new Exception("Couldn't find game.tap. Must be on Windows to run mctrd?");
                 }
 
                 File.Delete("loader.tap");
@@ -291,6 +341,8 @@ namespace XTAC
             }
         }
         
+
+
 
         public static bool Build(string xmlFileName, string platform, string outputName, string extension)
         {
@@ -412,14 +464,15 @@ namespace XTAC
                 foreach (string f in files)
                 {
                     if (f.EndsWith(".asm") || f.EndsWith(".lst") || f.EndsWith(".txt"))
-                        File.Move(f, "src\\" + f);
+                        File.Move(f, "src" + Path.PathSeparator + f);
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Unable to rename output file", ex);
+                throw new Exception("Unable to move output files", ex);
             }
         }
-        
+ 
     }
+
 }

@@ -493,6 +493,16 @@ namespace XTAC
             AddMissingCheck("out", "check_move");
         }
 
+        void FixBuildSettings()
+        {
+            if (xproject.Project.BuildSettings == null)
+            {
+                xproject.Project.BuildSettings = new BuildSettings();
+                xproject.Project.BuildSettings.SpectrumLoadScreen = "";
+                xproject.Project.BuildSettings.AppleLoadScreen = "";
+            }
+        }
+
         /// <summary>
         /// Adds a check if not already assigned
         /// </summary>

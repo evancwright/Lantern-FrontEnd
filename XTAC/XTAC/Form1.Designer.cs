@@ -58,6 +58,8 @@
             this.raspberryPiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsx64ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tRS80DeployCmdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tRS80FreHDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.textBox5 = new System.Windows.Forms.TextBox();
@@ -94,10 +96,12 @@
             this.label40 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
-            this.ruleCodeTextBox = new XTAC.CodeEditor();
             this.rulesListBox = new System.Windows.Forms.ListBox();
             this.addRuleButton = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.noun2TextBox = new System.Windows.Forms.TextBox();
+            this.noun1TextBox = new System.Windows.Forms.TextBox();
+            this.verbSearchTextBox = new System.Windows.Forms.TextBox();
             this.label53 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label36 = new System.Windows.Forms.Label();
@@ -127,7 +131,6 @@
             this.label44 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
             this.syntaxHelpButton = new System.Windows.Forms.Button();
-            this.codeTextBox = new XTAC.CodeEditor();
             this.functionsListBox = new System.Windows.Forms.ListBox();
             this.label22 = new System.Windows.Forms.Label();
             this.funcNameTextBox = new System.Windows.Forms.TextBox();
@@ -260,6 +263,13 @@
             this.label83 = new System.Windows.Forms.Label();
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.walkThroughTextBox = new System.Windows.Forms.TextBox();
+            this.tabPage11 = new System.Windows.Forms.TabPage();
+            this.label96 = new System.Windows.Forms.Label();
+            this.spectrumImageButton = new System.Windows.Forms.Button();
+            this.spectrumImageTextBox = new System.Windows.Forms.TextBox();
+            this.label95 = new System.Windows.Forms.Label();
+            this.appleImageButton = new System.Windows.Forms.Button();
+            this.appleImageTextBox = new System.Windows.Forms.TextBox();
             this.eventContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.Rename = new System.Windows.Forms.ToolStripMenuItem();
             this.Delete = new System.Windows.Forms.ToolStripMenuItem();
@@ -304,8 +314,12 @@
             this.blockAnExitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.runDownBatteriesInAFlashlightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.killThePlayerIfInDarknessTooLongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tRS80DeployCmdsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tRS80FreHDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dISKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.codeTextBox = new XTAC.CodeEditor();
+            this.ruleCodeTextBox = new XTAC.CodeEditor();
+            this.cpcDiskButton = new System.Windows.Forms.Button();
+            this.cpcDiskXPTextBox = new System.Windows.Forms.TextBox();
+            this.label97 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -320,6 +334,7 @@
             this.tabControl1.SuspendLayout();
             this.tabPage9.SuspendLayout();
             this.tabPage10.SuspendLayout();
+            this.tabPage11.SuspendLayout();
             this.eventContextMenuStrip.SuspendLayout();
             this.verbContextMenuStrip.SuspendLayout();
             this.codeContextMenuStrip.SuspendLayout();
@@ -460,75 +475,75 @@
             // amstradCPC464ToolStripMenuItem
             // 
             this.amstradCPC464ToolStripMenuItem.Name = "amstradCPC464ToolStripMenuItem";
-            this.amstradCPC464ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.amstradCPC464ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.amstradCPC464ToolStripMenuItem.Text = "Amstrad CPC 464";
             this.amstradCPC464ToolStripMenuItem.Click += new System.EventHandler(this.amstradCPC464ToolStripMenuItem_Click);
             // 
             // appleToolStripMenuItem
             // 
             this.appleToolStripMenuItem.Name = "appleToolStripMenuItem";
-            this.appleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.appleToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.appleToolStripMenuItem.Text = "Apple ][";
             this.appleToolStripMenuItem.Click += new System.EventHandler(this.appleToolStripMenuItem_Click);
             // 
             // bBCMicroToolStripMenuItem
             // 
             this.bBCMicroToolStripMenuItem.Name = "bBCMicroToolStripMenuItem";
-            this.bBCMicroToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bBCMicroToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.bBCMicroToolStripMenuItem.Text = "BBC Micro";
             this.bBCMicroToolStripMenuItem.Click += new System.EventHandler(this.bBCMicroToolStripMenuItem_Click);
             // 
             // coCoToolStripMenuItem
             // 
             this.coCoToolStripMenuItem.Name = "coCoToolStripMenuItem";
-            this.coCoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.coCoToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.coCoToolStripMenuItem.Text = "CoCo 2,3";
             this.coCoToolStripMenuItem.Click += new System.EventHandler(this.coCoToolStripMenuItem_Click);
             // 
             // commodore64ToolStripMenuItem
             // 
             this.commodore64ToolStripMenuItem.Name = "commodore64ToolStripMenuItem";
-            this.commodore64ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.commodore64ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.commodore64ToolStripMenuItem.Text = "Commodore 64";
             this.commodore64ToolStripMenuItem.Click += new System.EventHandler(this.commodore64ToolStripMenuItem_Click);
             // 
             // cPMZ80ToolStripMenuItem
             // 
             this.cPMZ80ToolStripMenuItem.Name = "cPMZ80ToolStripMenuItem";
-            this.cPMZ80ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cPMZ80ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.cPMZ80ToolStripMenuItem.Text = "CP/M (Z80)";
             this.cPMZ80ToolStripMenuItem.Click += new System.EventHandler(this.cPMZ80ToolStripMenuItem_Click);
             // 
             // iBMPCXTToolStripMenuItem
             // 
             this.iBMPCXTToolStripMenuItem.Name = "iBMPCXTToolStripMenuItem";
-            this.iBMPCXTToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.iBMPCXTToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.iBMPCXTToolStripMenuItem.Text = "IBM PC/XT";
             this.iBMPCXTToolStripMenuItem.Click += new System.EventHandler(this.iBMPCXTToolStripMenuItem_Click);
             // 
             // tRS80ToolStripMenuItem
             // 
             this.tRS80ToolStripMenuItem.Name = "tRS80ToolStripMenuItem";
-            this.tRS80ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tRS80ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.tRS80ToolStripMenuItem.Text = "TRS-80 I, III, IV";
             this.tRS80ToolStripMenuItem.Click += new System.EventHandler(this.tRS80ToolStripMenuItem_Click);
             // 
             // zXSpectrumToolStripMenuItem
             // 
             this.zXSpectrumToolStripMenuItem.Name = "zXSpectrumToolStripMenuItem";
-            this.zXSpectrumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zXSpectrumToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.zXSpectrumToolStripMenuItem.Text = "ZX Spectrum";
             this.zXSpectrumToolStripMenuItem.Click += new System.EventHandler(this.zXSpectrumToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(163, 6);
             // 
             // portableBinaryToolStripMenuItem
             // 
             this.portableBinaryToolStripMenuItem.Name = "portableBinaryToolStripMenuItem";
-            this.portableBinaryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.portableBinaryToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.portableBinaryToolStripMenuItem.Text = "Portable Binary";
             this.portableBinaryToolStripMenuItem.Click += new System.EventHandler(this.portableBinaryToolStripMenuItem_Click);
             // 
@@ -536,7 +551,7 @@
             // 
             this.raspberryPiToolStripMenuItem.Enabled = false;
             this.raspberryPiToolStripMenuItem.Name = "raspberryPiToolStripMenuItem";
-            this.raspberryPiToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.raspberryPiToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.raspberryPiToolStripMenuItem.Text = "Raspberry Pi";
             this.raspberryPiToolStripMenuItem.Click += new System.EventHandler(this.raspberryPiToolStripMenuItem_Click);
             // 
@@ -544,7 +559,7 @@
             // 
             this.windowsx64ToolStripMenuItem.Enabled = false;
             this.windowsx64ToolStripMenuItem.Name = "windowsx64ToolStripMenuItem";
-            this.windowsx64ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.windowsx64ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.windowsx64ToolStripMenuItem.Text = "Windows (x64)";
             this.windowsx64ToolStripMenuItem.Click += new System.EventHandler(this.windowsx64ToolStripMenuItem_Click);
             // 
@@ -556,6 +571,23 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
+            // 
+            // tRS80DeployCmdsToolStripMenuItem
+            // 
+            this.tRS80DeployCmdsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dISKToolStripMenuItem,
+            this.tRS80FreHDToolStripMenuItem});
+            this.tRS80DeployCmdsToolStripMenuItem.Name = "tRS80DeployCmdsToolStripMenuItem";
+            this.tRS80DeployCmdsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tRS80DeployCmdsToolStripMenuItem.Text = "Commands I forget";
+            // 
+            // tRS80FreHDToolStripMenuItem
+            // 
+            this.tRS80FreHDToolStripMenuItem.Name = "tRS80FreHDToolStripMenuItem";
+            this.tRS80FreHDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tRS80FreHDToolStripMenuItem.Text = "TRS-80 FreHD";
+            this.tRS80FreHDToolStripMenuItem.Click += new System.EventHandler(this.tRS80FreHDToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -945,22 +977,6 @@
             this.label38.TabIndex = 11;
             this.label38.Text = "Event Name:";
             // 
-            // ruleCodeTextBox
-            // 
-            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ruleCodeTextBox.BackColor = System.Drawing.Color.White;
-            this.ruleCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 47);
-            this.ruleCodeTextBox.Multiline = true;
-            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
-            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ruleCodeTextBox.Size = new System.Drawing.Size(665, 292);
-            this.ruleCodeTextBox.TabIndex = 30;
-            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
-            this.ruleCodeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ruleCodeTextBox_MouseDown);
-            // 
             // rulesListBox
             // 
             this.rulesListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -985,6 +1001,9 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.noun2TextBox);
+            this.tabPage5.Controls.Add(this.noun1TextBox);
+            this.tabPage5.Controls.Add(this.verbSearchTextBox);
             this.tabPage5.Controls.Add(this.label53);
             this.tabPage5.Controls.Add(this.textBox3);
             this.tabPage5.Controls.Add(this.label36);
@@ -1010,10 +1029,34 @@
             this.tabPage5.Text = "Sentences";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // noun2TextBox
+            // 
+            this.noun2TextBox.Location = new System.Drawing.Point(100, 228);
+            this.noun2TextBox.Name = "noun2TextBox";
+            this.noun2TextBox.Size = new System.Drawing.Size(121, 20);
+            this.noun2TextBox.TabIndex = 22;
+            this.noun2TextBox.TextChanged += new System.EventHandler(this.noun2TextBox_TextChanged);
+            // 
+            // noun1TextBox
+            // 
+            this.noun1TextBox.Location = new System.Drawing.Point(100, 128);
+            this.noun1TextBox.Name = "noun1TextBox";
+            this.noun1TextBox.Size = new System.Drawing.Size(121, 20);
+            this.noun1TextBox.TabIndex = 21;
+            this.noun1TextBox.TextChanged += new System.EventHandler(this.noun1TextBox_TextChanged);
+            // 
+            // verbSearchTextBox
+            // 
+            this.verbSearchTextBox.Location = new System.Drawing.Point(100, 70);
+            this.verbSearchTextBox.Name = "verbSearchTextBox";
+            this.verbSearchTextBox.Size = new System.Drawing.Size(121, 20);
+            this.verbSearchTextBox.TabIndex = 20;
+            this.verbSearchTextBox.TextChanged += new System.EventHandler(this.textBox11_TextChanged_1);
+            // 
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(3, 264);
+            this.label53.Location = new System.Drawing.Point(235, 396);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(224, 13);
             this.label53.TabIndex = 19;
@@ -1038,7 +1081,7 @@
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(12, 34);
+            this.label36.Location = new System.Drawing.Point(9, 34);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(78, 13);
             this.label36.TabIndex = 17;
@@ -1062,7 +1105,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(9, 207);
+            this.label29.Location = new System.Drawing.Point(9, 337);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(31, 13);
             this.label29.TabIndex = 15;
@@ -1072,7 +1115,7 @@
             // 
             this.sentenceTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.sentenceTypeComboBox.FormattingEnabled = true;
-            this.sentenceTypeComboBox.Location = new System.Drawing.Point(100, 199);
+            this.sentenceTypeComboBox.Location = new System.Drawing.Point(100, 334);
             this.sentenceTypeComboBox.Name = "sentenceTypeComboBox";
             this.sentenceTypeComboBox.Size = new System.Drawing.Size(121, 21);
             this.sentenceTypeComboBox.TabIndex = 14;
@@ -1081,7 +1124,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(9, 175);
+            this.label28.Location = new System.Drawing.Point(9, 297);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(48, 13);
             this.label28.TabIndex = 13;
@@ -1090,7 +1133,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(9, 148);
+            this.label27.Location = new System.Drawing.Point(9, 225);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(59, 13);
             this.label27.TabIndex = 12;
@@ -1099,7 +1142,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(9, 121);
+            this.label26.Location = new System.Drawing.Point(9, 193);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(59, 13);
             this.label26.TabIndex = 11;
@@ -1108,7 +1151,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(8, 91);
+            this.label25.Location = new System.Drawing.Point(8, 128);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(55, 13);
             this.label25.TabIndex = 10;
@@ -1117,7 +1160,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(9, 64);
+            this.label24.Location = new System.Drawing.Point(9, 70);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(29, 13);
             this.label24.TabIndex = 9;
@@ -1125,7 +1168,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(146, 224);
+            this.button3.Location = new System.Drawing.Point(146, 370);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 8;
@@ -1137,7 +1180,7 @@
             // 
             this.sentenceFuncComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.sentenceFuncComboBox.FormattingEnabled = true;
-            this.sentenceFuncComboBox.Location = new System.Drawing.Point(100, 172);
+            this.sentenceFuncComboBox.Location = new System.Drawing.Point(100, 294);
             this.sentenceFuncComboBox.Name = "sentenceFuncComboBox";
             this.sentenceFuncComboBox.Size = new System.Drawing.Size(121, 21);
             this.sentenceFuncComboBox.TabIndex = 6;
@@ -1146,7 +1189,7 @@
             // 
             this.sentenceIndirectObjComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.sentenceIndirectObjComboBox.FormattingEnabled = true;
-            this.sentenceIndirectObjComboBox.Location = new System.Drawing.Point(100, 145);
+            this.sentenceIndirectObjComboBox.Location = new System.Drawing.Point(100, 254);
             this.sentenceIndirectObjComboBox.Name = "sentenceIndirectObjComboBox";
             this.sentenceIndirectObjComboBox.Size = new System.Drawing.Size(121, 21);
             this.sentenceIndirectObjComboBox.TabIndex = 5;
@@ -1156,7 +1199,7 @@
             // 
             this.prepositionsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.prepositionsComboBox.FormattingEnabled = true;
-            this.prepositionsComboBox.Location = new System.Drawing.Point(100, 118);
+            this.prepositionsComboBox.Location = new System.Drawing.Point(100, 190);
             this.prepositionsComboBox.Name = "prepositionsComboBox";
             this.prepositionsComboBox.Size = new System.Drawing.Size(121, 21);
             this.prepositionsComboBox.TabIndex = 4;
@@ -1166,7 +1209,7 @@
             // 
             this.sentenceObjectComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.sentenceObjectComboBox.FormattingEnabled = true;
-            this.sentenceObjectComboBox.Location = new System.Drawing.Point(100, 91);
+            this.sentenceObjectComboBox.Location = new System.Drawing.Point(100, 154);
             this.sentenceObjectComboBox.Name = "sentenceObjectComboBox";
             this.sentenceObjectComboBox.Size = new System.Drawing.Size(121, 21);
             this.sentenceObjectComboBox.TabIndex = 3;
@@ -1175,10 +1218,11 @@
             // 
             this.verbComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.verbComboBox.FormattingEnabled = true;
-            this.verbComboBox.Location = new System.Drawing.Point(100, 64);
+            this.verbComboBox.Location = new System.Drawing.Point(100, 96);
             this.verbComboBox.Name = "verbComboBox";
             this.verbComboBox.Size = new System.Drawing.Size(121, 21);
             this.verbComboBox.TabIndex = 2;
+            this.verbComboBox.SelectedIndexChanged += new System.EventHandler(this.verbComboBox_SelectedIndexChanged);
             // 
             // label23
             // 
@@ -1316,23 +1360,6 @@
             this.syntaxHelpButton.Text = "Syntax Help";
             this.syntaxHelpButton.UseVisualStyleBackColor = true;
             this.syntaxHelpButton.Click += new System.EventHandler(this.syntaxHelpButton_Click);
-            // 
-            // codeTextBox
-            // 
-            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.codeTextBox.BackColor = System.Drawing.Color.White;
-            this.codeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
-            this.codeTextBox.Multiline = true;
-            this.codeTextBox.Name = "codeTextBox";
-            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.codeTextBox.Size = new System.Drawing.Size(824, 237);
-            this.codeTextBox.TabIndex = 17;
-            this.codeTextBox.WordWrap = false;
-            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
-            this.codeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.codeTextBox_MouseDown);
             // 
             // functionsListBox
             // 
@@ -2448,18 +2475,18 @@
             this.label78.AutoSize = true;
             this.label78.Location = new System.Drawing.Point(710, 90);
             this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(273, 13);
+            this.label78.Size = new System.Drawing.Size(269, 13);
             this.label78.TabIndex = 10;
-            this.label78.Text = "Choose a plot (Treasure hunt, escape, kill the monster...)";
+            this.label78.Text = "Choose a plot (treasure hunt, escape, kill the monster...)";
             // 
             // label77
             // 
             this.label77.AutoSize = true;
             this.label77.Location = new System.Drawing.Point(710, 68);
             this.label77.Name = "label77";
-            this.label77.Size = new System.Drawing.Size(264, 13);
+            this.label77.Size = new System.Drawing.Size(177, 13);
             this.label77.TabIndex = 9;
-            this.label77.Text = "Choose a genre (Deep Space, Wild West, Medieval...)";
+            this.label77.Text = "Choose a genre (Sci/Fi,  Fantasy,...)";
             // 
             // label76
             // 
@@ -2519,7 +2546,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(297, 203);
+            this.label20.Location = new System.Drawing.Point(297, 207);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(42, 13);
             this.label20.TabIndex = 5;
@@ -2528,7 +2555,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(40, 203);
+            this.label19.Location = new System.Drawing.Point(40, 207);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(38, 13);
             this.label19.TabIndex = 4;
@@ -2558,6 +2585,7 @@
             this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage9);
             this.tabControl1.Controls.Add(this.tabPage10);
+            this.tabControl1.Controls.Add(this.tabPage11);
             this.tabControl1.Location = new System.Drawing.Point(0, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -2763,7 +2791,7 @@
             // label85
             // 
             this.label85.AutoSize = true;
-            this.label85.Location = new System.Drawing.Point(350, 100);
+            this.label85.Location = new System.Drawing.Point(350, 104);
             this.label85.Name = "label85";
             this.label85.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.label85.Size = new System.Drawing.Size(291, 13);
@@ -2800,6 +2828,80 @@
             this.walkThroughTextBox.Size = new System.Drawing.Size(543, 40);
             this.walkThroughTextBox.TabIndex = 0;
             this.walkThroughTextBox.TextChanged += new System.EventHandler(this.textBox11_TextChanged);
+            // 
+            // tabPage11
+            // 
+            this.tabPage11.Controls.Add(this.label97);
+            this.tabPage11.Controls.Add(this.cpcDiskXPTextBox);
+            this.tabPage11.Controls.Add(this.cpcDiskButton);
+            this.tabPage11.Controls.Add(this.label96);
+            this.tabPage11.Controls.Add(this.spectrumImageButton);
+            this.tabPage11.Controls.Add(this.spectrumImageTextBox);
+            this.tabPage11.Controls.Add(this.label95);
+            this.tabPage11.Controls.Add(this.appleImageButton);
+            this.tabPage11.Controls.Add(this.appleImageTextBox);
+            this.tabPage11.Location = new System.Drawing.Point(4, 22);
+            this.tabPage11.Name = "tabPage11";
+            this.tabPage11.Size = new System.Drawing.Size(1097, 450);
+            this.tabPage11.TabIndex = 10;
+            this.tabPage11.Text = "Build Settings";
+            this.tabPage11.UseVisualStyleBackColor = true;
+            this.tabPage11.Click += new System.EventHandler(this.tabPage11_Click);
+            // 
+            // label96
+            // 
+            this.label96.AutoSize = true;
+            this.label96.Location = new System.Drawing.Point(39, 95);
+            this.label96.Name = "label96";
+            this.label96.Size = new System.Drawing.Size(244, 13);
+            this.label96.TabIndex = 5;
+            this.label96.Text = "Loading screen for Spectrum tape image (optional)";
+            // 
+            // spectrumImageButton
+            // 
+            this.spectrumImageButton.Location = new System.Drawing.Point(630, 112);
+            this.spectrumImageButton.Name = "spectrumImageButton";
+            this.spectrumImageButton.Size = new System.Drawing.Size(75, 23);
+            this.spectrumImageButton.TabIndex = 4;
+            this.spectrumImageButton.Text = "Select file...";
+            this.spectrumImageButton.UseVisualStyleBackColor = true;
+            this.spectrumImageButton.Click += new System.EventHandler(this.spectrumImageButton_Click);
+            // 
+            // spectrumImageTextBox
+            // 
+            this.spectrumImageTextBox.Location = new System.Drawing.Point(39, 114);
+            this.spectrumImageTextBox.Name = "spectrumImageTextBox";
+            this.spectrumImageTextBox.ReadOnly = true;
+            this.spectrumImageTextBox.Size = new System.Drawing.Size(585, 20);
+            this.spectrumImageTextBox.TabIndex = 3;
+            // 
+            // label95
+            // 
+            this.label95.AutoSize = true;
+            this.label95.Location = new System.Drawing.Point(39, 43);
+            this.label95.Name = "label95";
+            this.label95.Size = new System.Drawing.Size(184, 13);
+            this.label95.TabIndex = 2;
+            this.label95.Text = "Loading screen for Apple // (optional)";
+            // 
+            // appleImageButton
+            // 
+            this.appleImageButton.Enabled = false;
+            this.appleImageButton.Location = new System.Drawing.Point(630, 59);
+            this.appleImageButton.Name = "appleImageButton";
+            this.appleImageButton.Size = new System.Drawing.Size(75, 23);
+            this.appleImageButton.TabIndex = 1;
+            this.appleImageButton.Text = "Select file...";
+            this.appleImageButton.UseVisualStyleBackColor = true;
+            this.appleImageButton.Click += new System.EventHandler(this.appleImageButton_Click);
+            // 
+            // appleImageTextBox
+            // 
+            this.appleImageTextBox.Location = new System.Drawing.Point(39, 62);
+            this.appleImageTextBox.Name = "appleImageTextBox";
+            this.appleImageTextBox.ReadOnly = true;
+            this.appleImageTextBox.Size = new System.Drawing.Size(585, 20);
+            this.appleImageTextBox.TabIndex = 0;
             // 
             // eventContextMenuStrip
             // 
@@ -3146,20 +3248,73 @@
             this.killThePlayerIfInDarknessTooLongToolStripMenuItem.Text = "Kill the player if in darkness too long";
             this.killThePlayerIfInDarknessTooLongToolStripMenuItem.Click += new System.EventHandler(this.killThePlayerIfInDarknessTooLongToolStripMenuItem_Click);
             // 
-            // tRS80DeployCmdsToolStripMenuItem
+            // dISKToolStripMenuItem
             // 
-            this.tRS80DeployCmdsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tRS80FreHDToolStripMenuItem});
-            this.tRS80DeployCmdsToolStripMenuItem.Name = "tRS80DeployCmdsToolStripMenuItem";
-            this.tRS80DeployCmdsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.tRS80DeployCmdsToolStripMenuItem.Text = "Commands I forget";
+            this.dISKToolStripMenuItem.Name = "dISKToolStripMenuItem";
+            this.dISKToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dISKToolStripMenuItem.Text = "Kermit";
+            this.dISKToolStripMenuItem.Click += new System.EventHandler(this.dISKToolStripMenuItem_Click);
             // 
-            // tRS80FreHDToolStripMenuItem
+            // codeTextBox
             // 
-            this.tRS80FreHDToolStripMenuItem.Name = "tRS80FreHDToolStripMenuItem";
-            this.tRS80FreHDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.tRS80FreHDToolStripMenuItem.Text = "TRS-80 FreHD";
-            this.tRS80FreHDToolStripMenuItem.Click += new System.EventHandler(this.tRS80FreHDToolStripMenuItem_Click);
+            this.codeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.codeTextBox.BackColor = System.Drawing.Color.White;
+            this.codeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.codeTextBox.Location = new System.Drawing.Point(263, 30);
+            this.codeTextBox.Multiline = true;
+            this.codeTextBox.Name = "codeTextBox";
+            this.codeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.codeTextBox.Size = new System.Drawing.Size(824, 237);
+            this.codeTextBox.TabIndex = 17;
+            this.codeTextBox.WordWrap = false;
+            this.codeTextBox.TextChanged += new System.EventHandler(this.codeTextBox_TextChanged);
+            this.codeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.codeTextBox_MouseDown);
+            // 
+            // ruleCodeTextBox
+            // 
+            this.ruleCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ruleCodeTextBox.BackColor = System.Drawing.Color.White;
+            this.ruleCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ruleCodeTextBox.Location = new System.Drawing.Point(426, 47);
+            this.ruleCodeTextBox.Multiline = true;
+            this.ruleCodeTextBox.Name = "ruleCodeTextBox";
+            this.ruleCodeTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.ruleCodeTextBox.Size = new System.Drawing.Size(665, 292);
+            this.ruleCodeTextBox.TabIndex = 30;
+            this.ruleCodeTextBox.TextChanged += new System.EventHandler(this.ruleCodeTextBox_TextChanged);
+            this.ruleCodeTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ruleCodeTextBox_MouseDown);
+            // 
+            // cpcDiskButton
+            // 
+            this.cpcDiskButton.Location = new System.Drawing.Point(630, 164);
+            this.cpcDiskButton.Name = "cpcDiskButton";
+            this.cpcDiskButton.Size = new System.Drawing.Size(75, 23);
+            this.cpcDiskButton.TabIndex = 6;
+            this.cpcDiskButton.Text = "Locate";
+            this.cpcDiskButton.UseVisualStyleBackColor = true;
+            this.cpcDiskButton.Click += new System.EventHandler(this.locataCPCDiskButton_Click);
+            // 
+            // cpcDiskXPTextBox
+            // 
+            this.cpcDiskXPTextBox.Location = new System.Drawing.Point(39, 167);
+            this.cpcDiskXPTextBox.Name = "cpcDiskXPTextBox";
+            this.cpcDiskXPTextBox.ReadOnly = true;
+            this.cpcDiskXPTextBox.Size = new System.Drawing.Size(585, 20);
+            this.cpcDiskXPTextBox.TabIndex = 7;
+            // 
+            // label97
+            // 
+            this.label97.AutoSize = true;
+            this.label97.Location = new System.Drawing.Point(39, 151);
+            this.label97.Name = "label97";
+            this.label97.Size = new System.Drawing.Size(576, 13);
+            this.label97.TabIndex = 8;
+            this.label97.Text = "Location of CPCDiskXP (for Amstrad CPC464 builds) - Available at: http://www.cpcm" +
+    "ania.com/cpcdiskxp/cpcdiskxp.htm";
             // 
             // Lantern
             // 
@@ -3168,6 +3323,7 @@
             this.ClientSize = new System.Drawing.Size(1107, 484);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Lantern";
             this.Text = " Lantern";
@@ -3200,6 +3356,8 @@
             this.tabPage9.PerformLayout();
             this.tabPage10.ResumeLayout(false);
             this.tabPage10.PerformLayout();
+            this.tabPage11.ResumeLayout(false);
+            this.tabPage11.PerformLayout();
             this.eventContextMenuStrip.ResumeLayout(false);
             this.verbContextMenuStrip.ResumeLayout(false);
             this.codeContextMenuStrip.ResumeLayout(false);
@@ -3488,6 +3646,20 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem tRS80DeployCmdsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tRS80FreHDToolStripMenuItem;
+        private System.Windows.Forms.TextBox verbSearchTextBox;
+        private System.Windows.Forms.TextBox noun1TextBox;
+        private System.Windows.Forms.TextBox noun2TextBox;
+        private System.Windows.Forms.TabPage tabPage11;
+        private System.Windows.Forms.Label label96;
+        private System.Windows.Forms.Button spectrumImageButton;
+        private System.Windows.Forms.TextBox spectrumImageTextBox;
+        private System.Windows.Forms.Label label95;
+        private System.Windows.Forms.Button appleImageButton;
+        private System.Windows.Forms.TextBox appleImageTextBox;
+        private System.Windows.Forms.ToolStripMenuItem dISKToolStripMenuItem;
+        private System.Windows.Forms.Label label97;
+        private System.Windows.Forms.TextBox cpcDiskXPTextBox;
+        private System.Windows.Forms.Button cpcDiskButton;
     }
 }
 
