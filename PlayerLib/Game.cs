@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using System.Xml;
 using XTAC;
 using XMLtoAdv;
@@ -39,7 +39,8 @@ namespace PlayerLib
         List<string> functionNames = new List<string>();
         List<CLL.Function> events = new List<CLL.Function>();
         Dictionary<string, Variable> vars = new Dictionary<string, Variable>();
-        TextBox outputWindow;
+        ///TextBox outputWindow;
+        ITextWindow outputWindow;
         NameTable nameTable = new NameTable();
         string welcome;
         string author;
@@ -65,7 +66,7 @@ namespace PlayerLib
 
         string[] dirs = { "n", "s", "e", "w", "ne", "se", "nw", "sw", "up", "down", "in", "out" };
 
-        public new bool Asking { get { return asking; } set { asking = value; } }
+        public bool Asking { get { return asking; } set { asking = value; } }
 
         private Game() {
 
@@ -130,6 +131,9 @@ namespace PlayerLib
 
                 BuildStringTable(doc);
 
+                //TODO - implement callback for errors
+                
+                /*
                 for (int i = 0; i < stringTable.GetNumEntries(); i++)
                 {
                     string s = stringTable.GetEntry(i);
@@ -146,10 +150,10 @@ namespace PlayerLib
                     {
                         MessageBox.Show("Warning: string \"" + s + "\" contains a newline.  Please remove it.");
                     }
-
+                    
 
                 }
-
+                */
 
                 BuildNogoTable(doc);
 
@@ -177,7 +181,8 @@ namespace PlayerLib
             }
         }
 
-        public void SetOutputWindow(TextBox tb)
+        //        public void SetOutputWindow(TextBox tb)
+        public void SetOutputWindow(ITextWindow tb)
         {
             outputWindow = tb;
         }
@@ -246,9 +251,9 @@ namespace PlayerLib
                 }
                 i++;
             }
-
-            throw new Exception("Unable to find an object named " + name + " in the object table");
- //           return -1;
+            //TODO - LOG A WARNING!!!!
+ //           throw new Exception("Unable to find an object named " + name + " in the object table");
+            return -1;
         }
 
         public override void SetObjectAttr(int id, string name, int val)
@@ -312,7 +317,16 @@ namespace PlayerLib
                 int r = GetPlayerRoom();
                 PrintObjectName(r);
                 PrintCr();
-                PrintStringCr(objTable.GetObjAttr(r, "DESCRIPTION"));
+
+                if (objTable.GetObjAttr(r, "INITIAL_DESCRIPTION") == -1)
+                {
+                    PrintStringCr(objTable.GetObjAttr(r, "DESCRIPTION"));
+                }
+                else
+                {
+                    PrintStringCr(objTable.GetObjAttr(r, "INITIAL_DESCRIPTION"));
+                    objTable.SetObjAttr(r, "INITIAL_DESCRIPTION", -1);
+                }
                 ListRoomObjects();
 
             }
@@ -1345,7 +1359,8 @@ namespace PlayerLib
                         ex = ex.InnerException;
                     }
 
-                    MessageBox.Show("Error in event" + f.name + "\r\n" + message);
+                    //TODO: implement a callback
+                    //MessageBox.Show("Error in event" + f.name + "\r\n" + message);
                 }
             }
 
@@ -1788,7 +1803,8 @@ namespace PlayerLib
                 PrintStringCr(sout);
             }
         }
-
     }
+    
+
 
 }
